@@ -1,0 +1,52 @@
+<md-dialog aria-label="Label"  class="label-dialog">
+    <md-dialog-content>
+
+<div  class="labels" style="width:400px;height:300px;">
+  
+<Strong style="margin-top: 10px;">Edit Label</Strong>
+<br>
+     <md-button class="md-icon-button" style="margin-top: -8px;">
+<md-icon ><img style="margin-top: 10px;" src="images/baseline-close-24px.svg" /></md-icon>
+<md-tooltip>Cancel</md-tooltip>
+</md-button>
+<span>
+<md-input-container>
+        <input type="text" name="label" ng-model="labelname" placeholder="Create new label">
+        </md-input-container></span>
+   <md-button class="md-icon-button" style="margin-top: -8px;">
+<md-icon ><img style="margin-top: 10px;" src="images/baseline-done-24px.svg" /></md-icon>
+<md-tooltip>Create label</md-tooltip>
+</md-button>     
+<div ng-init="getallLabels()">
+ <div  layout="row" layout-align="start"  ng-repeat="label in getlabels">
+               <md-button   ng-click="deletelabel(label)"  style=" margin: -9px 2px 45px -1px; ;padding: 0px" class="md-icon-button md-icon md-icon-left">
+                    <md-icon style="margin-top: 15px;">
+                    <i class="material-icons">delete</i></md-icon>
+                    <md-tooltip>Delete</md-tooltip>
+                </md-button>
+                <md-button style="margin-top: 18px;padding: 0px 0px" class="md-icon-button md-icon md-icon-left">
+                   <img src="images/label.svg"/>
+                </md-button>
+                <input type="text" class="form-control" data-ng-model="label.labelname">
+                
+                <md-button   style="margin: 0px auto;padding: 0px;" ng-click="updatelabel(label)" class="md-icon-button md-icon md-icon-right">
+                    <md-icon style="margin-top: 4px"><i class="material-icons">create</i></md-icon>
+                    <md-tooltip>Rename label</md-tooltip>
+                </md-button>
+
+            </div>
+            <md-divider></md-divider>
+            <div layout="row" layout-align="end end">
+                <md-button class="label-btn" ng-click="cancel();createlabel()">
+                    <strong>Done</strong>
+                </md-button>
+            </div>
+
+</div>
+
+ </div>
+</md-dialog-content>
+</md-dialog>
+      
+
+ 

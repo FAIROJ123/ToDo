@@ -1,0 +1,52 @@
+
+<div layout="row" layout-align="center center">
+	<div md-whiteframe="5"  flex-lg="25" flex-sm="15" flex-gt-sm="35" flex-gt-md="25" layout="row"
+    layout-align="center center" style="margin-top:1%;border: 2px solid grey;">
+
+		<form name="userForm" id="register">
+             <br>
+			<h2 id="myid">
+				<center>REGISTRATION</center>
+			</h2>
+             
+			<md-input-container id="myregister"> <label>Name:</label>
+			<input type="text" name='name' ng-model="name" required>
+			<div ng-messages="userForm.name.$error"></div>
+			</md-input-container>
+
+			<md-input-container id="myregister"> <label>Email:</label>
+			<input type="text" name="email" ng-model="email"
+				ng-pattern="/^\w[^_]+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/"
+				required>
+			<div ng-messages="userForm.email.$error">
+				<div ng-message="required">emailid required</div>
+			</div>
+
+			</md-input-container>
+
+			<md-input-container id="myregister"> <label>Password:</label>
+			<input type="password" name='password' ng-model="password" required>
+			<div ng-messages="userForm.password.$error">
+				<div ng-message="required">password required</div>
+			</div>
+			</md-input-container>
+
+			<md-input-container id="myregister"> <label>Mobile
+				No:</label> <input type="text" name='mobileNumber' ng-model="mobileNumber"
+				required>
+			<div ng-messages="userForm.mobilenumber.$error">
+				<div ng-message="required">MobileNumber is required</div>
+			</div>
+			</md-input-container>
+			<md-input-container id="myregister"> <input
+				aria-label="register" type="submit" value="Register" id="btncolor"
+				ng-disabled="userForm.$invalid" ng-click="register()">
+			<p class="message">
+				AlreadyRegistered?<a href="#!/login"> Signin</a>
+			</p>
+			</md-input-container>
+
+		</form>
+
+	</div>
+</div>

@@ -1,0 +1,41 @@
+
+<div layout="row" layout-align="center center">
+	<div md-whiteframe="5" flex-lg="25" flex-sm="45" flex-gt-sm="35"
+		flex-gt-md="25" layout="row" layout-align="center center"
+		style="margin-top: 10%; border: 2px solid grey;">
+
+		<form name="userForm" id="reset">
+			<h2 id="myid">
+				<center>RESET PASSWORD</center>
+			</h2>
+			<br>
+			<br>
+
+			<md-input-container id="myreset"> <label>New
+				Password:</label> <input type="text" name='newpassword'
+				ng-model="newpassword" required>
+			<div ng-messages="userForm.newpassword.$error">
+				<div ng-message="required">password required</div>
+			</div>
+			</md-input-container>
+			<br>
+
+
+			<md-input-container id="myregister"> <label>Re-Enter:</label>
+			<input type="text" name='reenterpassword' ng-model="reenterpassword"
+				required>
+			<div ng-messages="userForm.reenterpassword.$error">
+				<div ng-message="required">password required</div>
+			</div>
+			</md-input-container>
+            <br></br>
+			<md-input-container>
+			
+			 <input aria-label="reset"
+				type="submit" value="SUBMIT" id="btncolor"
+				ng-disabled="userForm.$invalid" ng-click="reset()"> </md-input-container>
+
+		</form>
+
+	</div>
+</div>

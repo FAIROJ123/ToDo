@@ -1,0 +1,134 @@
+ #btncolor {
+     font-family: "Roboto",sans-serif;
+     text-transform: uppercase;
+     background-color: green;
+     color: white;
+     border: none;
+     border-radius: 4px;
+     padding: #fffff;
+     font-size: 14px;
+     cursor: pointer;
+}
+
+lable,input{
+  font-family: "Roboto",sans-serif;
+  outline: 1;
+  background: #f2f2f2;
+  width: 100%;
+  border: 0;
+  margin: 0 0 15px;
+  padding: 15px;
+  box-sizing: border-box;
+  font-size: 14px;
+}gbnbnh
+input,textarea  {width:250px;}
+
+#register{
+  background-color: inherit;
+  width:inherit;
+  margin: -25px;
+}
+#login{
+  background-color: 50%;
+  width: inherit;
+  padding: 25px;
+  margin: 25px;
+}
+#mylogin{
+  margin-top: -2px;
+}
+#forgetpassword{
+  background-color: 50%;
+  width: inherit;
+  padding: 25px;
+  margin: 25px;
+}
+#reset{
+  background-color: 50%;
+  width: inherit;
+  padding: 25px;
+  margin: 25px;
+}
+#myid{
+  color:green;
+}
+#toolbar{
+  background-color: #fb0;
+  color:inherit;
+  /* position: fixed; */
+
+}
+
+#userForm
+{
+  position: relative;
+  z-index: 1;
+  /* background: rgba(7,40,195,0.8) */
+  /* margin: 0 auto 100px; */
+  padding: 20px;
+  text-align: center;
+}
+.md-button.md-icon-button md-icon{
+display: block;
+    margin: -31px 0px 0px 0px;
+}
+.label {
+  display: inline-block;
+  vertical-align: top;
+  margin-right: 40px;
+}
+ .card{
+  color:inherit;
+    transition: 0.8s;
+    width: 105%;
+   margin: 9px -811px -13px 0px;
+
+box-sizing: content-box;
+
+}
+.google{
+  margin: 21px 0px 4px 7px;
+}
+input[type=search] {
+    width: 30%;
+    padding: 12px 20px;
+    margin: 11px 68px 13px 36px;
+
+}
+#btn{
+  min-width: 50px;
+margin: 13px 0px;
+}
+.search {
+  background: white ;
+  padding-left: 10px;
+  position: relative;
+  color: #aaa;
+  font-size: 16px;
+  width: 712px;
+  border-radius: 25px;
+}
+#sideBar {
+  position:fixed;
+  margin-top:67px;
+  width : 25px;
+
+}
+.search input {
+  border: none;
+  text-indent: 10px;
+  width: 600px;
+  height: 30px;
+
+  outline: none;
+background-color: white;
+}
+.iconDiv{
+  margin-top: -60px;
+    margin-left: 750px;
+}
+
+.userForm{
+	overflow-y: hidden;
+}
+

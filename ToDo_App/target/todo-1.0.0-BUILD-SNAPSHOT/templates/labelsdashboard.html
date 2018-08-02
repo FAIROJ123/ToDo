@@ -1,0 +1,63 @@
+<div id="myDiv">
+	<div style="margin-left: 400px; margin-top: 20px;">
+		<md-card class="container" ng-show="!Shownote">
+		<div layout="row" style="height: 30px; width: 489px;" >
+
+			<input type="text" class="input" placeholder="Take a note..."
+				ng-click="Shownote=true"></input>
+
+
+		</div>
+		</md-card>
+	</div>
+
+	<div layout="row" layout-align="center center">
+		<md-card class="container" ng-show="Shownote">
+		<div layout="row" style="width: 489px;">
+			<div contenteditable="true" ng-model="title" only-text="true"
+				convert-new-lines="true" style="width: 420px" /></div>
+			<md-button class="md-icon-button"> <md-icon
+				style="margin-top: -10px;"> <img src="images/pin.svg" /></md-icon>
+			<md-tooltip>pin note</md-tooltip> </md-button>
+		</div>
+
+		<div contenteditable="true" ng-model="description" only-text="true"
+			convert-new-lines="true" style="width: 420px" /></div>
+		<div>
+			<md-button class="md-icon-button"> <md-icon> <img
+				style="margin-top: 19px;" src="images/baseline-touch_app-24px.svg" /></md-icon>
+			<md-tooltip>Remaind me</md-tooltip> </md-button>
+
+			<md-button class="md-icon-button"> <md-icon> <img
+				style="margin-top: 19px;" src="images/outline-person_add-24px.svg" /></md-icon>
+			<md-tooltip>Collaborator</md-tooltip> </md-button>
+
+			<md-button class="md-icon-button"> <md-icon> <img
+				style="margin-top: 19px;" src="images/outline-color_lens-24px.svg" /></md-icon>
+			<md-tooltip>Change color</md-tooltip> </md-button>
+
+			<md-button class="md-icon-button"> <md-icon> <img
+				style="margin-top: 19px;" src="images/outline-insert_photo-24px.svg" /></md-icon>
+			<md-tooltip>Add image</md-tooltip> </md-button>
+
+			<md-button class="md-icon-button"> <md-icon> <img
+				style="margin-top: 19px;" src="images/baseline-archive-24px.svg" /></md-icon>
+			<md-tooltip>Archive</md-tooltip> </md-button>
+
+			<md-button class="md-icon-button"> <md-icon> <img
+				style="margin-top: 19px;" src="images/outline-more_vert-24px.svg" /></md-icon>
+			<md-tooltip>More</md-tooltip> </md-button>
+			<md-button style="margin: -55px 0px 3px 401px;"
+				ng-click="Shownote=false;createNote();">Close</md-button>
+		</div>
+		</md-card>
+	</div>
+
+
+
+
+
+</div>
+
+
+

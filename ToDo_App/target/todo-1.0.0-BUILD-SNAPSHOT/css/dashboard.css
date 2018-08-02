@@ -1,0 +1,58 @@
+.container{
+  margin: 25px -218px 0px 0px;
+    padding: 6px 118px 3px 6px;
+    width: 500px;
+}
+.logout{
+	margin: 190px -465px 0px 0px;;
+    width: 433px;
+}
+.color{
+    width: 100%;
+    
+    padding-right: 6px;
+}
+.input{
+  margin: 0px 0px 0px 0px;
+  background-color: white;
+}
+.menu{
+	user-select: none;
+    opacity: 1;
+    left: 608.5px;
+    top: 178px;
+}
+.value-data{
+	
+    font-size: x-large;
+    font-family: -webkit-pictograph;
+}
+
+.md-button.md-icon-button{
+margin: 0 6px;
+    height: 40px;
+    min-width: 0;
+    line-height: 24px;
+    padding: 8px;
+    width: 40px;
+    border-radius: 50%;
+    margin-top: 31px;
+    
+    
+    
+}
+.md-button.md-icon-button md-icon{
+	
+	display: block;
+}
+.grid{
+	width: 50%; 
+}
+.test[placeholder]:empty::before {
+    content: attr(placeholder);
+    color: #555; 
+}
+
+.test[placeholder]:empty:focus::before {
+    content: "";
+}

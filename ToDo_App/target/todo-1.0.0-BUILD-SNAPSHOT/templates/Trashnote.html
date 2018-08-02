@@ -1,0 +1,29 @@
+
+<div  ng-init="getallnotes()">
+<div layout="row" layout-wrap layout-fill style="padding-bottom: 32px;padding-left: 310px;">
+<md-card  class="dashboard" ng-repeat="x in getnotes | filter:{trash:true} " style="height: 160px;background-color:{{x.color}};width:30%" ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)">
+
+            <div  class="value-data" >{{x.title}}</div>
+           <div  class="value" >{{x.description}}</div>
+           
+           <div ng-show="hoverEdit">
+            <md-menu>
+          <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
+            <img src="images/outline-more_vert-24px.svg" />
+            <md-tooltip>More</md-tooltip>
+          </md-button>
+          <md-menu-content direction="down" layout="column" flex class="md-padding">
+          <md-menu-item>
+            <md-button ng-click="deletenote(x)">Delete Forever</md-button>
+            </md-menu-item>
+            <md-menu-item>
+            <md-button ng-click="isTrash(x);">Restore</md-button>
+            </md-menu-item>
+          </md-menu-content>
+          </md-menu>
+        </div>
+         </md-card>
+         
+         </div>
+         </div>
+  

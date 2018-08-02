@@ -1,0 +1,12 @@
+.md-button1{
+  min-width: 280px;
+  margin:7px 0px 0px 0px;
+  line-height: 47px;
+
+}
+.panel{
+  overflow-y: scroll;
+    height: 700px;
+    
+    width: 350px;
+}

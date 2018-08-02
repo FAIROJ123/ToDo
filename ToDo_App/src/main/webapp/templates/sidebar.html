@@ -1,0 +1,55 @@
+
+<md-sidenav  style="position:fixed;   margin-top: 67px;" class="md-sidenav-left" md-component-id='left'  md-disable-backdrop >
+     <div class="panel">
+    <div style="background-color: #e8e8e8;">
+
+<md-list-item style="margin-top:5px;" ng-click="redirecthome()" >
+    <img  src="images/bulb.svg"/><span flex="10"></span>Notes
+</md-list-item>
+<md-list-item style="margin-top:5px" ng-click="remainder()">
+<img  src="images/baseline-touch_app-24px.svg"/>
+<span flex="10"></span>Remainders
+</md-list-item>
+<md-divider></md-divider>
+      <md-list-item style="margin-top:5px">
+  Lables<span><md-button style="margin:-1px 2px 1px 107px;" ng-click="showAlert($event)">Edit</md-button>
+ </md-list-item>
+  <div   ng-init="getallLabels()"> 
+      <md-list-item  ng-repeat="label in getlabels" >
+           <md-button ng-click="gotolabel()" class="md-icon-button md-icon md-icon-left" layout="row" >
+                    <md-icon ><i style="margin-top: 10px;" class="material-icons">label</i></md-icon>
+                </md-button>
+                <span style="margin-top:17px">{{label.labelname }}
+                        </span>
+              
+             </div> 
+             </md-list-item> 
+            
+ <md-list-item  style="margin-top:5px" ng-click="showAlert($event)">
+    <img  src="images/plus.svg"/><span flex="10"></span>Create new lable
+</md-list-item>
+<md-divider></md-divider>
+<md-list-item style="margin-top:5px" ng-click="archive()">
+    <img  src="images/baseline-archive-24px.svg"/><span flex="10"></span>Archive
+</md-list-item>
+
+<md-list-item style="margin-top:5px" ng-click="trash()" >
+    <img src="images/baseline-delete-24px.svg"/><span flex="10"></span>Trash
+</md-list-item>
+
+<md-divider></md-divider>
+<md-list-item style="margin-top:5px" ng-click="null">
+    <img  src="images/baseline-settings-20px.svg"/><span flex="10"></span>settings
+</md-list-item>
+<md-list-item style="margin-top:5px" ng-click="null">
+    <img  src="images/Help.svg"/><span flex="10"></span>Help
+</md-list-item>
+<md-list-item style="margin-top:5px" ng-click="null">
+    <img  src="images/Appdownloads.svg"/><span flex="10"></span>App downloads
+</md-list-item>
+<md-list-item style="margin-top:5px" ng-click="null">
+    <img  src="images/Keyboard.svg"/><span flex="10"></span>Keyboard shortcuts
+</md-list-item>
+    </div>
+  </div>
+</md-sidenav>

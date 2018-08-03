@@ -8,6 +8,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -34,7 +35,7 @@ public class Label {
 	private String labelname;
 
 	
-	@OneToMany
+	@ManyToMany
 	@NotFound(action=NotFoundAction.IGNORE)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JsonIgnore

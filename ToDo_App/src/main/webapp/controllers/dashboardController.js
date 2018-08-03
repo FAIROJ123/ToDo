@@ -1,4 +1,4 @@
-app.controller('dashboardController', function($scope, $state, userservice,$mdDialog,labelservice) {
+app.controller('dashboardController', function($scope, $state, userservice,$mdDialog,labelservice,$rootScope) {
 	$scope.name='grid';
 	$scope.hoverIn = function(ev) {
 	    this.hoverEdit = true;
@@ -241,7 +241,32 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 		
 	}
 	 
-	
+	 $scope.removelabelonNote=function(label,note){
+			console.log("Label  in dashboard:",label);
+			console.log("note  in dashboard:",note);
+			console.log("noteid  in dashboard:",note.id);
+		  var index=note.labelslist.findIndex(x => x.labelname===label.labelname);
+	 if (index > -1) {
+		 
+		 note.labelslist.splice(index, 1);
+	 }
+	 else {
+		 note.labelslist.push(label);
+	 }
+			 var url = commonUrl + "deletelabel/"+note.id+"/"+label.id;
+			 console.log(url);
+			labelservice.labelpostmethod(url).then(
+					function successCallback(response) {
+						
+						console.log("success", response);
+						return response;
+
+					}, function errorCallback(response) {
+						console.log("Error occur", response);
+						return response;
+
+					});
+		}
 	
 	
 	
@@ -295,14 +320,6 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 		    this.updatenote(note);
 		  }  
     		
- 
-    $scope.afterdate = function(){
-    	$scope.showdate=true;
-    	console.log($scope.showdate);
-    }
-    
-   
-    
     $scope.toggle = function(){
        	console.log("hai");
        	$scope.showremainder=true;
@@ -349,25 +366,21 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
   					return response;
 
   				});
-  		
-  		$scope.addandremovelabelonNote=function(label){
+   	 }
+  		$scope.addlabelonNote=function(label){
   			console.log("Label  in dashboard:",label);
 			console.log("note  in dashboard:",noteobject);
 			console.log("noteid  in dashboard:",noteobject.id);
-  		  /*var index=note.labelslist.findIndex(x => x.labelname===label.labelname);
-  		console.log("Label  in dashboard:",label);
-			console.log("note  in dashboard:",noteobject);
-			console.log("noteid  in dashboard:",noteobject.id);
-			
-          if (index > -1) {
-              note.labelslist.splice(index, 1);
-          }
-          else {
-              note.labelslist.push(label);
-          }*/
+ 		  var index=noteobject.labelslist.findIndex(x => x.labelname===label.labelname);
+		 if (index > -1) {
+       	  noteobject.labelslist.splice(index, 1);
+         }
+         else {
+       	  noteobject.labelslist.push(label);
+         }
   			 var url = commonUrl + "noteandlabel/"+noteobject.id+"/"+label.id;
   			 console.log(url);
-  			labelservice.labelpostmethod(url).then(
+  			labelservice.labelputmethod(url).then(
   					function successCallback(response) {
   						
   						console.log("success", response);
@@ -379,10 +392,10 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 
   					});
   		}
-  		}
+  		 
    	 $scope.selected = [];
 
-     $scope.toggle = function (item, list) {
+    $scope.toggle = function (item, list) {
        var idx = list.indexOf(item);
        if (idx > -1) {
          list.splice(idx, 1);
@@ -395,11 +408,13 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
      $scope.exists = function (item, list) {
        return list.indexOf(item) > -1;
      };
-  		
+     
+     
   
    
    }
-   	 
+  
+		
    	$scope.LaterToday=function(note){
    		console.log("In Later Today");
    		console.log(note);
@@ -442,15 +457,24 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 	   	this.updatenote(note);
    	}
 	
-	$scope.pickDate=function(note)
-    {
-		
-		
-		console.log($scope.myDate);
-       note.remainder=$scope.myDate;
-       this.updatenote(note);
-    }
-	
+	    $scope.pickdate=function(note)
+	    {
+          console.log(note.pickerdate);
+	      var noteDate = new Date(note.pickerdate);
+
+	        if($scope.date.getHours() > 12){
+	            console.log("entering into if....");
+	            noteDate.setHours(8);
+	   			noteDate.setMinutes(00);
+	        }else if($scope.date.getHours() < 12) {
+	            console.log("entering into else...");
+	            noteDate.setHours('20');
+	            noteDate.setMinutes('00');
+	        }
+	        note.remainder=noteDate;
+	   		console.log('Note in pickerdate',note.remainder);
+	   		this.updatenote(note);
+	    }
   $scope.remove=function(note){
 	  console.log("entering in to remove");
 	  if(note.remainder){
@@ -460,37 +484,29 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 	  }
 	  
   }
-  /*$scope.today=new Date();
-  console.log("today",$scope.today);
+  $scope.gotolabelpage=function(label)
+  {
+     console.log("Label in send to label:",label);
+     var labelid=label.id;
+      $state.go('home.label',{labelid:labelid});
 
-   $scope.ReminderDate=function(note)
-   {
+      $scope.getlabelonnotes(label);
 
-     var myDate = new Date(note.remainder);
+  };
+  $scope.getlabelonnotes = function(label)
+  {
+      console.log("Label id in getlabelnotes:",label.id);
+      var url = commonUrl + "labelnote/"+label.id;
+      labelservice.labelgetmethod(url).then(
+				function successCallback(response) {
+					
+					console.log("success", response);
+					return response;
 
-       if($scope.today.getHours() > 12){
-           console.log("in date picker");
-           myDate.setHours(note.remindertime.split(':')[0]);
-           myDate.setMinutes(note.remindertime.split(':')[1].split(' ')[0]);
-       }else if($scope.today.getHours() < 12) {
-          
-           myDate.setHours('20');
-           myDate.setMinutes('00');
-       }
+				}, function errorCallback(response) {
+					console.log("Error occur", response);
+					return response;
 
-
-
-           myDate.setHours(note.remindertime.split(':')[0]);
-     myDate.setMinutes(note.remindertime.split(':')[1].split(' ')[0]);
-
-
-
-           console.log("myDate with time",myDate+note.remindertime.split(':')[1].split(' ')[1]);
-
-     note.reminderDate=myDate;
-
-     updatenote(note)
-
-   };*/
-
+				});
+  }
 });

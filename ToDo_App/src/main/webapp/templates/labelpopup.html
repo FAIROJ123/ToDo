@@ -10,7 +10,7 @@
             </div>
            <div ng-init="getallLabels()">
  <div  layout="row" layout-align="start"  ng-repeat="label in getlabels">
-               <md-checkbox ng-checked="exists(label, selected);" ng-click="toggle(label,selected);addandremovelabelonNote(label)">
+               <md-checkbox ng-checked="exists(label, selected);" ng-click="toggle(label,selected);addlabelonNote(label)">
                             {{ label.labelname }}
                         </md-checkbox> 
                

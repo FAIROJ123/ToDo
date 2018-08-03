@@ -101,4 +101,21 @@ public class MynoteController {
 		return new ResponseEntity<CustomRes>(res, HttpStatus.OK);
 
 	}
+  @RequestMapping(value = "/deletelabel/{id}/{id1}", method = RequestMethod.POST)
+	public ResponseEntity<?> deletelabel(@PathVariable("id") int noteid,
+			@PathVariable("id1") int labelid) {
+		System.out.println("noteId : " + noteid);
+		System.out.println("labelId : " + labelid);
+   if(noteservices.labeldelete(noteid,labelid))
+   {
+		CustomRes res = new CustomRes(labelid, null);
+		res.setMsg(" deletion is Done");
+		res.setStatus(200);
+		return new ResponseEntity<CustomRes>(res, HttpStatus.OK);
+   }
+return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
+
+	}
+
+  
 }

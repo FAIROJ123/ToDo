@@ -1,5 +1,5 @@
 <div id="myDiv">
-	<div style="margin-left: 400px; margin-top: 20px;">
+	<div style="margin-left: 400px; margin-top: 25px;padding:5%;">
 		<md-card class="container" ng-show="!Shownote">
 		<div layout="row" style="height: 30px; width: 489px;" >
 
@@ -77,9 +77,17 @@
                         <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
                         </md-button > 
                         </md-chip>
-                    </md-chips>
-                 </div>
-
+  </md-chips>
+  </div>
+  <div  layout="row" ng-if="x.labelslist" layout-wrap layout-align="start space-around">             
+<md-chips   ng-repeat="label in x.labelslist">
+  <md-chip  style="margin:0px auto;padding: 0px;">{{label.labelname}}
+  <md-button  class="md-icon-button" ng-click="removelabelonNote(label)"  style="margin: 0px auto;padding: 0px;">
+  <md-icon><i style="margin-top: 17px;" class="material-icons">close</i></md-icon>
+  </md-button>
+  </md-chip>
+  </md-chips>
+    </div>
 			<div layout="row"  
 				style="background-color: white; color: rgba(0, 0, 0, .54);margin-top: 26px; background-color: {{x.color}}">
 
@@ -99,8 +107,23 @@
                   <md-menu-item ng-click="NextWeek(x)" class="pointer mdmenu">Next week
                     <span>Mon, 8.00 AM </span>
                   </md-menu-item>
-                  <md-menu-item ng-click="toggle()" class="pointer mdmenu">
+                 <md-menu>
+                  <md-button ng-click="$mdMenu.open()" class="pointer mdmenu">
                     <md-icon><i class="material-icons">access_time</i></md-icon>Pick Up date & time</md-menu-item>
+                    </md-button>
+                    <md-menu-item ng-click="null" class="pointer mdmenu">
+                   <md-button ng-click="null" class="pointer mdmenu">                    
+                   <img style="margin: 0px 0px -6px -7px;" src="images/baseline-keyboard_backspace-24px.svg"/>
+                   <span>Pickup date&time </span>
+                   </md-button>
+                  <div>
+                  <md-datepicker style="margin-right: -267px;background-color:white;" ng-model="x.pickerdate" md-placeholder="Enter date"></md-datepicker>
+                  </div> 
+                   <md-menu-item ng-click="pickdate(x)" class="pointer mdmenu">
+                    Save
+                  </md-menu-item>
+                    </md-menu-item>
+                    </md-menu>
                 </md-menu-content>
                  </md-menu>
 
@@ -138,7 +161,12 @@
 					aria-label="Open some menu"> <img
 					src="images/outline-more_vert-24px.svg" /> <md-tooltip>More</md-tooltip>
 				</md-button> <md-menu-content> <md-menu-item> <md-button
-					ng-click="isTrash(x)">Delete note</md-button> </md-menu-item> </md-menu-content> </md-menu>
+					ng-click="isTrash(x)">Delete note</md-button> </md-menu-item>
+					<md-menu-item>
+					<md-button ng-click="showAlertlabel($event,x)">Add Label</md-button>
+					 </md-menu-item>
+					  </md-menu-content> 
+					  </md-menu>
 			</div>
 		
 		</md-card>
@@ -165,14 +193,20 @@
                         <md-button ng-click="remove(x)"  class="md-icon-button" style="margin: 0px auto;padding: 0px;" >
                         <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
                         </md-button > 
-                       <!--  <button md-chip-remove class = "md-primary closeButton">
-               <md-icon md-svg-icon = "md-close"></md-icon>
-            </button> -->
                         </md-chip>
-                    </md-chips>
+                        </md-chips>
                  </div>
-
-	
+ <div  layout="row" ng-if="x.labelslist" layout-wrap layout-align="start space-around"> 
+<md-chips    ng-repeat="label in x.labelslist"">
+  <md-chip  style="margin:0px auto;padding: 0px;">
+  
+  {{label.labelname}}
+  <md-button  class="md-icon-button" ng-click="removelabelonNote(label,x)" style="margin: 0px auto;padding: 0px;">
+  <md-icon><i style="margin-top: 17px;" class="material-icons">close</i></md-icon>
+  </md-button>
+  </md-chip>
+  </md-chips>
+	</div>
 		<div layout="row" style=" color: rgba(0, 0, 0, .54);background-color:{{x.color}}">
 
 				 <md-menu >
@@ -200,10 +234,10 @@
                    <img style="margin: 0px 0px -6px -7px;" src="images/baseline-keyboard_backspace-24px.svg"/>
                    <span>Pickup date&time </span>
                    </md-button>
-                   <div>
-                  <md-datepicker style="margin-right: -267px;background-color:white;" ng-model="myDate" md-placeholder="Enter date"></md-datepicker>
-                  </div>
-                   <md-menu-item ng-click="pickDate(x)" class="pointer mdmenu">
+                  <div>
+                  <md-datepicker style="margin-right: -267px;background-color:white;" ng-model="x.pickerdate" md-placeholder="Enter date"></md-datepicker>
+                  </div> 
+                   <md-menu-item ng-click="pickdate(x)" class="pointer mdmenu">
                     Save
                   </md-menu-item>
                     </md-menu-item>

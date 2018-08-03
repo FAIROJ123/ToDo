@@ -84,12 +84,10 @@ public class LabelServiceImpl implements LabelService{
 	@Override
 	public List<Notes> getlabelNotes(int id, String token)
 	{
-		List<Notes> labelNotes = null;
 		
-
 		Label label=labeldao.getlabelById(id);
 		
-		labelNotes=label.getNotes();
+		List<Notes> labelNotes=label.getNotes();
 		
     	return labelNotes;
 	}

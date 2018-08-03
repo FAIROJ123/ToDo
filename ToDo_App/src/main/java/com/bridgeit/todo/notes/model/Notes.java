@@ -18,6 +18,7 @@ import org.hibernate.annotations.LazyCollectionOption;
 
 import com.bridgeit.todo.labels.model.Label;
 import com.bridgeit.todo.user.model.User;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
 @Entity
@@ -64,7 +65,7 @@ public class Notes {
 	private User user;
 	
 	@ManyToMany
-	@JoinColumn(name="Label_id")
+	@JoinColumn(name="Label_id",unique=false)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Label> labelslist;
 	

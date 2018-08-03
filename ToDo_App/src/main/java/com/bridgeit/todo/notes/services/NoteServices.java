@@ -91,26 +91,6 @@ public class NoteServices {
 		}
 	}
 
-	@Transactional
-	public void addLabelOnNote(Notes note, Label label) {
-
-		note.getLabelslist().add(label);
-		//label.getNotes().add(note);
-
-		labeldao.update(label);
-		//notedao.update(note);
-
-	}
-
-	@Transactional
-	public void removeLabelOnNote(Notes note, Label label) {
-
-		note.getLabelslist().remove(label);
-		//label.getNotes().remove(note);
-
-		//notedao.update(note);
-		labeldao.update(label);
-	}
 
 	@Transactional
 	public void noteandlabel(int noteid, int labelid) {
@@ -119,13 +99,26 @@ public class NoteServices {
 
 		Label label = labeldao.getlabelById(labelid);
 
-		if (note.getLabelslist().contains(label)) {
-			System.out.println("remove label on note");
-			removeLabelOnNote(note, label);
-		} else {
-			System.out.println("add label on note");
-			addLabelOnNote(note, label);
-		}
+		note.getLabelslist().add(label);
+		label.getNotes().add(note);
+
+		labeldao.update(label);
+		notedao.update(note);
+	}
+
+	@Transactional
+	public boolean labeldelete(int noteid, int labelid) {
+		System.out.println("Entering in to the delete label service");
+		Notes note = notedao.getNoteById(noteid);
+
+		Label label = labeldao.getlabelById(labelid);
+		note.getLabelslist().remove(label);
+		label.getNotes().remove(note);
+
+		labeldao.update(label);
+		notedao.update(note);
+		return true;
+
 	}
 
 }

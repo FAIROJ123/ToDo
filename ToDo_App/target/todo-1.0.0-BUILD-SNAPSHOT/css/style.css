@@ -131,4 +131,7 @@ background-color: white;
 .userForm{
 	overflow-y: hidden;
 }
-
+#toolbar
+{
+ position: fixed;
+}

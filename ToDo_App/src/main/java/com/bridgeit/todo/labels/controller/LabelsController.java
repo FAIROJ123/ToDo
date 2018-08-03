@@ -70,23 +70,12 @@ public class LabelsController {
 		  
 	  }
 	
-	@RequestMapping(value = "/labelNote/{id}", method = RequestMethod.GET)
-	public ResponseEntity<List<Notes>> listAllLabelNotes(@PathVariable("id") int id,HttpServletRequest req)
+	@RequestMapping(value = "/labelnote/{id}", method = RequestMethod.GET)
+	public ResponseEntity<List<Notes>> listAllLabelNotes(@PathVariable("id") int id,Label label,HttpServletRequest req)
 	{
+		System.out.println("Inside labelnote controller");
 		String token = req.getHeader("ID");
 			List<Notes> notes = labelservice.getlabelNotes(id, token);
-			
-			if(notes.isEmpty())
-			{
-			 return new ResponseEntity<List<Notes>>(HttpStatus.NO_CONTENT); 
-			}
-			
-
-			  for(Notes note : notes)
-			  {
-			   System.out.println("List of Label Notes : "+note.getTitle()); 	  
-			  }
-				
 			
 			return new ResponseEntity<List<Notes>>(notes, HttpStatus.OK); 
 			

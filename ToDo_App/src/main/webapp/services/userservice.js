@@ -57,7 +57,16 @@ app.service('userservice', function($http, $state) {
 		
 		});	
 	}
-	
+	    
+	    service.uploadFileToUrl=function(url,data){
+			return $http({
+			method:'POST',
+			url   :url,
+			headers: {'Content-Type': undefined},
+			data:data
+			
+			});	
+		}
 	
 	return service;
 	

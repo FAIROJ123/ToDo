@@ -1,7 +1,6 @@
 package com.bridgeit.todo.user.dao;
 
 import com.bridgeit.todo.user.model.User;
-import com.bridgeit.todo.user.model.UserDto;
 
 public interface UserDao {
 	

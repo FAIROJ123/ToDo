@@ -10,7 +10,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.LazyCollection;
@@ -23,7 +22,7 @@ import com.bridgeit.todo.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "LABEL_TABLE")
+@Table
 public class Label {
 
 	@Id
@@ -35,7 +34,7 @@ public class Label {
 	private String labelname;
 
 	
-	@ManyToMany
+	@ManyToMany(cascade = CascadeType.REMOVE)
 	@NotFound(action=NotFoundAction.IGNORE)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JsonIgnore

@@ -1,24 +1,35 @@
 package com.bridgeit.todo.notes.services;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.bridgeit.todo.collaborator.dao.Collaboratordao;
+import com.bridgeit.todo.collaborator.model.Collaborator;
 import com.bridgeit.todo.labels.dao.Labeldao;
 import com.bridgeit.todo.labels.model.Label;
 import com.bridgeit.todo.notes.dao.NoteDao;
 import com.bridgeit.todo.notes.model.Notes;
-import com.bridgeit.todo.notes.model.NotesDto;
 import com.bridgeit.todo.user.dao.UserDao;
 import com.bridgeit.todo.user.model.User;
 import com.bridgeit.todo.user.utility.Jwt;
 import com.bridgeit.todo.user.utility.RedisUtil;
 
 @Service
+@PropertySource("classpath:image.properties")
 public class NoteServices {
 
 	@Autowired
@@ -32,6 +43,17 @@ public class NoteServices {
 
 	@Autowired
 	private Labeldao labeldao;
+	
+	
+	@Autowired
+	private Collaboratordao collaboratordao;
+
+	
+	@Value("${image.path}")
+	private String path;
+
+	@Value("${response.path}")
+	private String responsePath;
 
 	@Transactional
 	public int createNote(Notes note, String token) {
@@ -111,14 +133,103 @@ public class NoteServices {
 		System.out.println("Entering in to the delete label service");
 		Notes note = notedao.getNoteById(noteid);
 
+		List<Label> listOfLabels=new ArrayList<Label>();
+		List<Notes> listOfNotes=new ArrayList<Notes>();
+		
 		Label label = labeldao.getlabelById(labelid);
-		note.getLabelslist().remove(label);
-		label.getNotes().remove(note);
-
+//		note.getLabelslist().remove(label);
+//		label.getNotes().remove(note);
+		
+		System.out.println(""+listOfLabels);
+		listOfLabels=note.getLabelslist();
+		listOfLabels.remove(label);
+		note.setLabelslist(listOfLabels);
+		
+		listOfNotes=label.getNotes();
+		listOfNotes.remove(note);
+		label.setNotes(listOfNotes);
+		
 		labeldao.update(label);
 		notedao.update(note);
 		return true;
 
+	}
+	
+	
+	 @Transactional
+  public boolean deleteLabel(int labelid, String token) {
+		
+		 boolean status=false;
+		int id = Jwt.parseJWT(token);	
+		System.out.println("UserId:" + id);
+	
+		 Label label=notedao.getlabelById(labelid);
+		 System.out.println("Label:"+label);
+		 System.out.println("label: "+label.getUser());
+		 int userid = label.getUser().getId();
+		System.out.println("uSHJ:"+userid);
+		if (userid == id)
+		{
+			System.out.println("inside if....");
+			//label.getNotes();
+			status=labeldao.deleteLabel(label);
+			System.out.println("status:"+status);
+		 return status;
+		}
+		return status;
+	}
+
+	@Transactional
+	public void addCollaboratorOnNote(int noteid, int collaboratorid) {
+		
+		System.out.println("Entering in to the note label service");
+		Notes note = notedao.getNoteById(noteid);
+
+		Collaborator collaborator = collaboratordao.getCollaboratorById(collaboratorid);
+
+		note.getListofCollaborator().add(collaborator);
+		collaborator.getNotes().add(note);
+
+		collaboratordao.update(collaborator);
+		notedao.update(note);	
+	}
+	
+
+	@Transactional
+	public String serverImage(MultipartFile file) {
+
+		try {
+
+			byte[] bytes = file.getBytes();
+			System.out.println("path : " + path + File.separator + file.getOriginalFilename());
+
+			BufferedOutputStream stream = new BufferedOutputStream(
+					new FileOutputStream(path + File.separator + file.getOriginalFilename()));
+			stream.write(bytes);
+			stream.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		return responsePath+file.getOriginalFilename();
+	}
+
+	public byte[] gettingImage(String name) 
+	{
+		File file = new File(path+File.separator+name);
+		
+		if (file.exists()) {
+            
+		 System.out.println("r1");
+		try {
+		 return Files.readAllBytes(file.toPath());
+			
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+
+		return null;
 	}
 
 }

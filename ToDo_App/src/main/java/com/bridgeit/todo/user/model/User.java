@@ -9,11 +9,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.JoinColumn;
 import javax.validation.constraints.Email;
 
-import com.bridgeit.todo.labels.model.Label;
+import com.bridgeit.todo.collaborator.model.Collaborator;
 import com.bridgeit.todo.notes.model.Notes;
 
 @Entity
@@ -41,11 +44,17 @@ public class User {
 	@Column(name = "IsVerified")
 	private boolean isVerified;
 
-	@OneToMany(cascade = CascadeType.PERSIST)
+	/*@OneToMany(cascade = CascadeType.PERSIST)*/
+	@OneToMany
 	private List<Notes> notes = new ArrayList<Notes>();
 
 	/*@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
 	private List<Label> label;*/
+	
+	
+	@OneToMany
+	 @JoinTable(name="User_Collaborator",joinColumns = @JoinColumn( name="USER_Id"),inverseJoinColumns = @JoinColumn( name="collaborator_id"))
+	private List<Collaborator> collaborator;
 
 	public int getId() {
 		return id;

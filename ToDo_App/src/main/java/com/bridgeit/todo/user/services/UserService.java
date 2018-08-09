@@ -7,7 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bridgeit.todo.user.dao.UserDao;
 import com.bridgeit.todo.user.model.User;
-import com.bridgeit.todo.user.model.UserDto;
 import com.bridgeit.todo.user.utility.Email;
 import com.bridgeit.todo.user.utility.Jwt;
 import com.bridgeit.todo.user.utility.RedisUtil;

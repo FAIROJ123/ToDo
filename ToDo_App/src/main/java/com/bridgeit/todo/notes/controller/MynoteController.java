@@ -5,18 +5,18 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
 
-import com.bridgeit.todo.labels.model.Label;
+import com.bridgeit.todo.labels.service.LabelService;
 import com.bridgeit.todo.notes.model.Notes;
-import com.bridgeit.todo.notes.model.NotesDto;
 import com.bridgeit.todo.notes.services.NoteServices;
 import com.bridgeit.todo.user.utility.CustomRes;
 
@@ -26,6 +26,10 @@ public class MynoteController {
 
   @Autowired
   private NoteServices noteservices;
+  
+  
+  @Autowired
+  private LabelService labelservice;
   
   @RequestMapping(value="/createNote" ,method = RequestMethod.POST)
   public ResponseEntity<?>createNote(@RequestBody Notes note,HttpServletRequest req)
@@ -117,5 +121,71 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
 
 	}
 
+  
+  
+  @RequestMapping(value = "/noteandcollaborator/{id}/{id1}", method = RequestMethod.PUT)
+ 	public ResponseEntity<?> addCollaboratorOnNote(@PathVariable("id") int noteid,
+ 			@PathVariable("id1") int collaboratorid) {
+ 		System.out.println("noteId : " + noteid);
+ 		System.out.println("CollaboratorId : " + collaboratorid);
+
+ 		noteservices.addCollaboratorOnNote(noteid,collaboratorid);
+ 		CustomRes res = new CustomRes(collaboratorid, null);
+ 		res.setMsg("label update is Done");
+ 		res.setStatus(200);
+ 		return new ResponseEntity<CustomRes>(res, HttpStatus.OK);
+
+ 	}
+  
+  @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
+	public ResponseEntity<?> uploadFile(@RequestBody MultipartFile file)
+	{
+		String name = file.getOriginalFilename();
+	
+		if (!file.isEmpty()) 
+		{
+ 		 String path=noteservices.serverImage(file);
+ 		 System.out.println("path : "+path);
+	 	 //logger.info("Server File Location with Name=" + path);
+ 		CustomRes res = new CustomRes(0, path);
+ 		res.setMsg("image update is Done");
+ 		res.setStatus(200);
+    	 return new ResponseEntity<CustomRes>(res,HttpStatus.OK);
+		} 
+		else 
+		{
+		 return new ResponseEntity<String>("You failed to upload " + name + " because the file was empty.",HttpStatus.CONFLICT);
+  	}
+	}
+
+  @RequestMapping(value = "/image/{imagename:.+}", method = RequestMethod.GET)
+	public ResponseEntity<?> showFile(@PathVariable("imagename") String name) 
+	{
+		
+		byte[] file=noteservices.gettingImage(name);	
+	
+		for(byte str : file)
+		{
+	     System.out.println("image : "+str);		
+		}
+	
+		System.out.println("file length : "+file.length);
+		CustomRes res = new CustomRes(0, name);
+ 		res.setMsg("You failed to get Image");
+ 		res.setStatus(200);
+		
+		if(file.length==0)
+		{
+			return new ResponseEntity<CustomRes>(res,HttpStatus.CONFLICT);	
+		}
+		
+		return new ResponseEntity<byte[]>(file,HttpStatus.OK);
+		
+	
+		
+
+	}
+
+  
   
 }

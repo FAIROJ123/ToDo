@@ -11,7 +11,7 @@ public interface LabelService {
 
 	public List<Label> getAllLabels(String token);
 
-	public void deleteLabel(int id, String token);
+	public boolean deleteLabel(int id, String token);
 
 	public boolean update(Label label, String token, int id);
 	public List<Notes> getlabelNotes(int id, String token);

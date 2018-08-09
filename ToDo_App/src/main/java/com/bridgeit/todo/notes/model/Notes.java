@@ -16,6 +16,7 @@ import javax.persistence.Table;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
+import com.bridgeit.todo.collaborator.model.Collaborator;
 import com.bridgeit.todo.labels.model.Label;
 import com.bridgeit.todo.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -68,6 +69,11 @@ public class Notes {
 	@JoinColumn(name="Label_id",unique=false)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Label> labelslist;
+	
+	@ManyToMany
+	@JoinColumn(name="collaborator_id")
+	@JsonIgnore
+	private List<Collaborator> listofCollaborator;
 	
 	public List<Label> getLabelslist() {
 		return labelslist;
@@ -162,6 +168,14 @@ public class Notes {
 
 	public void setRemainder(Date remainder) {
 		this.remainder = remainder;
+	}
+
+	public List<Collaborator> getListofCollaborator() {
+		return listofCollaborator;
+	}
+
+	public void setListofCollaborator(List<Collaborator> listofCollaborator) {
+		this.listofCollaborator = listofCollaborator;
 	}
 
 	

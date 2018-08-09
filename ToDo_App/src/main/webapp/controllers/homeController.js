@@ -1,4 +1,4 @@
-app.controller('homeController', function($scope,$mdSidenav,$http,$state, $window ,$rootScope,$mdDialog,userservice) {
+app.controller('homeController', function($scope,$mdSidenav,$http,$state, $window ,$rootScope,$mdDialog,userservice,labelservice) {
   $scope.toggleLeft = buildToggler('left');
   var commonUrl = "http://localhost:8080/todo/";
   $scope.name = "Google Keep";
@@ -212,7 +212,7 @@ function dialogController($scope,$mdDialog,userservice) {
 		 var url = commonUrl + "deletelabel/"+label.id;
 		
 		
-		userservice.postmethod(labelid,url).then(
+		labelservice.labelpostmethod(url).then(
 				function successCallback(response) {
 					
 					console.log("success", response.data);

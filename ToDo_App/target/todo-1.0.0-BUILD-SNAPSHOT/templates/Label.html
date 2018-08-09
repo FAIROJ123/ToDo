@@ -1,7 +1,7 @@
 <md-dialog aria-label="Label"  class="label-dialog">
     <md-dialog-content>
 
-<div  class="labels" style="width:400px;height:300px;">
+<div  class="labels" style="width:400px;height:300px;overflow-y:auto;">
   
 <Strong style="margin-top: 10px;">Edit Label</Strong>
 <br>
@@ -18,13 +18,13 @@
 <md-tooltip>Create label</md-tooltip>
 </md-button>     
 <div ng-init="getallLabels()">
- <div  layout="row" layout-align="start"  ng-repeat="label in getlabels">
-               <md-button   ng-click="deletelabel(label)"  style=" margin: -9px 2px 45px -1px; ;padding: 0px" class="md-icon-button md-icon md-icon-left">
+ <div   layout="row" layout-align="start"  ng-repeat="label in getlabels">
+               <md-button   ng-click="deletelabel(label)"  style=" margin: 7px 2px 45px -1px; ;padding: 0px" class="md-icon-button md-icon md-icon-left">
                     <md-icon style="margin-top: 15px;">
                     <i class="material-icons">delete</i></md-icon>
                     <md-tooltip>Delete</md-tooltip>
                 </md-button>
-                <md-button style="margin-top: 18px;padding: 0px 0px" class="md-icon-button md-icon md-icon-left">
+                <md-button style="margin-top: 18px;padding: 0px 0px" class="md-icon-button md-icon md-icon-left" ng-click="">
                    <img src="images/label.svg"/>
                 </md-button>
                 <input type="text" class="form-control" data-ng-model="label.labelname">

@@ -11,7 +11,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.bridgeit.todo.user.model.User;
-import com.bridgeit.todo.user.model.UserDto;
 
 
 

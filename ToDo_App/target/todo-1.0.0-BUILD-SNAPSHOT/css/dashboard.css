@@ -56,3 +56,69 @@ margin: 0 6px;
 .test[placeholder]:empty:focus::before {
     content: "";
 }
+.collaborator{
+	font-size: 18px;
+    font-weight: 500;
+    height: 40px;
+    padding: 0 0 10px 0;margin-top: 15px;
+}
+.colla{
+	box-sizing: border-box;left: 0;
+	max-height: 400px;
+	min-height: 150px; 
+	overflow-y: auto;
+}
+.mycollaborator{
+	border-radius: 50%;
+	margin: 14px 0px 0px 27px;
+	height: 40px;
+	width: 40px;
+	box-sizing: border-box;
+	border: 1px solid rgba(0,0,0,.5);"> 
+
+}
+.anotherdiv{
+	align-items: center;
+	display: flex;
+	padding: 5px;
+	margin: 0px 0px 0px -220px;" 
+	
+}
+.div3{
+	border-radius: 50%;
+	margin: 14px 0px 0px 27px;
+	height: 40px;
+	width: 40px;
+	box-sizing: border-box;
+	border: 1px solid rgba(0,0,0,.5); 
+}
+.button{
+	background-size: 18px 18px;
+	border: 1px solid transparent;
+	height: 24px; 
+	opacity: .54;
+	width: 24px;
+	margin-top:18px;
+}
+.div4{
+	position: relative;
+	align-items: center;
+	display: flex;
+	padding: 5px;
+	margin: -10px 0px 0px 29px;
+}
+.div5{
+	border-radius: 50%;
+	height: 40px;
+	width: 54px;
+	box-sizing: border-box;
+	border: 1px solid rgba(0,0,0,.5);
+}
+.mybutton{
+	background-size: 18px 18px;
+	border: 1px solid transparent;
+	height: 24px; 
+	opacity: .54;
+	width: 24px;
+	margin-top:18px;
+}

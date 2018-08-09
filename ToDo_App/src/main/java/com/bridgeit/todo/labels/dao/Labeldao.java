@@ -3,7 +3,6 @@ package com.bridgeit.todo.labels.dao;
 import java.util.List;
 
 import com.bridgeit.todo.labels.model.Label;
-import com.bridgeit.todo.notes.model.Notes;
 import com.bridgeit.todo.user.model.User;
 
 public interface Labeldao {
@@ -17,7 +16,9 @@ public interface Labeldao {
 
 	public void update(Label label);
 
-	void deleteLabel(Label label);
+	public boolean deleteLabel(Label label);
+
+	boolean deleteLabelfromNote(Label label);
 
 
 }

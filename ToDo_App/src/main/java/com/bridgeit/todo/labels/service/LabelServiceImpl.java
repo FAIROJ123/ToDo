@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.bridgeit.todo.labels.dao.Labeldao;
 import com.bridgeit.todo.labels.model.Label;
+import com.bridgeit.todo.notes.dao.NoteDao;
 import com.bridgeit.todo.notes.model.Notes;
 import com.bridgeit.todo.user.dao.UserDao;
 import com.bridgeit.todo.user.model.User;
@@ -21,6 +22,9 @@ public class LabelServiceImpl implements LabelService{
 		
 	@Autowired
 	private UserDao userdao;
+	
+	@Autowired
+	private NoteDao notedao;
 			
 		
 		@Transactional
@@ -44,10 +48,11 @@ public class LabelServiceImpl implements LabelService{
 
 	}
 
-	@Transactional
+	/* @Transactional
 	@Override
-  public void deleteLabel(int labelid, String token) {
+  public boolean deleteLabel(int labelid, String token) {
 		
+		 boolean status=false;
 		int id = Jwt.parseJWT(token);	
 		System.out.println("UserId:" + id);
 	
@@ -55,15 +60,50 @@ public class LabelServiceImpl implements LabelService{
 		 System.out.println("Label:"+label);
 		 System.out.println("label: "+label.getUser());
 		 int userid = label.getUser().getId();
-		
+		System.out.println("uSHJ:"+userid);
 		if (userid == id)
 		{
-			
-			labeldao.deleteLabel(label);
-		
+			System.out.println("inside if....");
+			//label.getNotes();
+			status=labeldao.deleteLabel(label);
+			System.out.println("status:"+status);
+		 return status;
 		}
-	}
-	
+		return status;
+	}*/
+	 @Transactional
+		@Override
+		public boolean  deleteLabel(int id, String token) 
+		{
+		 System.out.println("inside service....");
+		    int userid = Jwt.parseJWT(token);	
+		
+		     Label label=labeldao.getlabelById(id);		
+
+			User user=userdao.getUserById(userid);
+				System.out.println("Userid:"+user.getId());	
+			if(user.getId() == label.getUser().getId())
+			{
+				System.out.println("inside if....");
+				
+				List<Notes> notes = label.getNotes();
+				
+				for(Notes note: notes) {
+					List<Label> labels = note.getLabelslist();
+					
+					if(labels.contains(label)) {
+						labels.remove(label);
+						
+					}
+				}
+				labeldao.update(label);
+				
+				
+				labeldao.deleteLabel(label);
+			}
+			return true;
+		}
+	       
 	@Transactional
 	@Override
 	public boolean update(Label label, String token, int labelid) {

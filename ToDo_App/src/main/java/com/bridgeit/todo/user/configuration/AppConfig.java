@@ -12,7 +12,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.core.env.Environment;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -20,13 +19,14 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.servlet.ViewResolver;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-import org.springframework.web.servlet.view.XmlViewResolver;
 
+import com.bridgeit.todo.collaborator.model.Collaborator;
 import com.bridgeit.todo.labels.model.Label;
+import com.bridgeit.todo.notes.dao.NoteDao;
 import com.bridgeit.todo.notes.model.Notes;
 import com.bridgeit.todo.user.model.User;
 
@@ -68,7 +68,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	     /* factoryBean.setAnnotatedPackages("com.bridgeit.todo.notes");
 	      factoryBean.setAnnotatedPackages("com.bridgeit.todo.user");
 	      factoryBean.setAnnotatedPackages("com.bridgeit.todo.labels");*/
-          factoryBean.setAnnotatedClasses(User.class,Notes.class,Label.class);
+          factoryBean.setAnnotatedClasses(User.class,Notes.class,Label.class,Collaborator.class);
 	      return factoryBean;
 	   }
 
@@ -110,6 +110,14 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 		      registry.addResourceHandler("/scripts/**").addResourceLocations("/scripts/");
 		     
 	   }
+	   
+	   @Bean
+	   public CommonsMultipartResolver multipartResolver() {
+	       CommonsMultipartResolver resolver=new CommonsMultipartResolver();
+	       resolver.setDefaultEncoding("utf-8");
+	       return resolver;
+	   }
+
 
 	   
 }

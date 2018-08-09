@@ -509,4 +509,179 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 
 				});
   }
+  
+  var noteobject=null;
+  $scope.alertEvent=function(event,note){
+ 	 console.log("in alert event");
+ 	noteobject=note;
+    console.log("Note:",noteobject);
+ 	 $mdDialog.show({
+          locals:{note : note},
+          controller: dialogController3,
+          templateUrl: 'templates/collaborator.html',
+          parent: angular.element(document.body),
+          targetEvent: event,
+          clickOutsideToClose:true
+          
+
+   });
+ }
+  function dialogController3($scope,$mdDialog) {
+	 
+	  $scope.cancel = function() {
+	      $mdDialog.cancel();
+	     
+	    };
+	    var commonUrl = "http://localhost:8080/todo/";
+		$scope.createCollaborator = function() {
+			console.log("ashds");
+			var collaborator = {
+					email : $scope.email,
+					
+			};
+	         console.log("collaborator:",collaborator);
+			var url = commonUrl + "addCollaborator";
+			if(collaborator.email!=null){
+				console.log("inside if...", collaborator.email)
+
+			userservice.postmethod(collaborator, url).then(
+					function successCallback(response) {
+
+						console.log("success", response.data);
+						$scope.getallCollaborators();
+						return response.data;
+
+					}, function errorCallback(response) {
+						console.log("Error occur", response);
+						return response;
+						
+					});
+		}
+		} 
+		
+
+		$scope.getallCollaborators =function() {
+
+		    var url = commonUrl + "getallCollaborators";
+			
+			userservice.getmethod(url).then(
+					function successCallback(response) {
+						
+						$scope.getCollaborators=response.data;
+						console.log('Collaborators: ', $scope.getCollaborators)
+						//console.log("success", response.data);
+						return response.data;
+
+					}, function errorCallback(response) {
+						console.log("Error occur", response);
+						return response;
+
+					});
+		}
+		
+		$scope.deleteCollaborator =function(collaborator){
+			
+			 console.log("collaborator:"+collaborator);
+			 var collaboratorid=collaborator.id;
+			 console.log("collaboratorid:"+collaboratorid)
+			 
+			 
+			 var url = commonUrl + "deleteCollaborator/"+collaborator.id;
+			
+			
+			userservice.notepostmethod(url).then(
+					function successCallback(response) {
+						
+						console.log("success", response.data);
+						return response.data;
+
+					}, function errorCallback(response) {
+						console.log("Error occur", response);
+						return response;
+
+					});
+		}
+
+  
+  $scope.addCollaboratorOnNote=function(collaborator){
+	  console.log("collaborator:"+collaborator);
+		 var collaboratorid=collaborator.id;
+		 console.log("collaboratorid:"+collaboratorid)
+		console.log("noteid  in dashboard:",noteobject);
+	  var index=noteobject.listofCollaborator.findIndex(x => x.email===collaborator.email);
+	 if (index > -1) {
+ 	  noteobject.listofCollaborator.splice(index, 1);
+   }
+   else {
+ 	  noteobject.listofCollaborator.push(collaborator);
+   }
+		 var url = commonUrl + "noteandcollaborator/"+noteobject.id+"/"+collaborator.id;
+		 console.log(url);
+		labelservice.labelputmethod(url).then(
+				function successCallback(response) {
+					
+					console.log("success", response);
+					return response;
+
+				}, function errorCallback(response) {
+					console.log("Error occur", response);
+					return response;
+
+				});
+	}
+  }
+  
+  
+		
+		 
+	  $scope.addImage=function(event,note)
+	     {
+	         console.log("note information",note);
+	        if(event!=undefined)
+	        {
+	            event.stopPropagation();
+	        }
+
+	        document.addEventListener('change',function (event)
+	        {
+	         console.log("event",event.target.files[0]);
+	            var form = new FormData();
+	            form.append("file",event.target.files[0]);
+
+	            console.log("form",form);
+	            var url=commonUrl+"fileupload";
+	            console.log("url",url);
+	            userservice.imagepost(url,form).then(function successCallback(response) {
+	                console.log("Success",response);
+	                console.log("message",response.data.message);
+	                note.imageUrl=response.data.message;
+
+	                updatenote(note);
+	         }, function errorCallback(response) {
+	                console.log(" Update failed",response);
+	            });
+	        });
+
+	    };
+ 
+	    $scope.uploadFile = function(){
+            var file = $scope.myFile;
+            
+            console.log('file is ' );
+            console.dir(file);
+            var fd = new FormData();
+            fd.append('file', file);
+            
+            var url=commonUrl+ "/uploadFile";
+            userservice.uploadFileToUrl(file, url).then(function successCallback(response) {
+                console.log("Success",response);
+                console.log("message",response.data.message);
+                note.imageUrl=response.data.message;
+
+                updatenote(note);
+         }, function errorCallback(response) {
+                console.log(" Update failed",response);
+            });
+       
+         };
 });

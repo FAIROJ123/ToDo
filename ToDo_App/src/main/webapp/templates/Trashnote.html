@@ -1,12 +1,35 @@
 
-<div  ng-init="getallnotes()">
-<div layout="row" layout-wrap layout-fill style="padding-bottom: 32px;padding-left: 310px;">
-<md-card  class="dashboard" ng-repeat="x in getnotes | filter:{trash:true} " style="height: 160px;background-color:{{x.color}};width:30%" ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)">
 
-            <div  class="value-data" >{{x.title}}</div>
-           <div  class="value" >{{x.description}}</div>
-           
-           <div ng-show="hoverEdit">
+   
+	<div ng-init="getallnotes()">
+		<md-subheader  style="margin-left: 270px;">Pinned </md-subheader>
+		<div layout="row" layout-wrap layout-fill 
+			style="padding-bottom: 32px; padding-left: 310px;">
+			<md-card class="dashboard" ng-repeat="x in getnotes |filter:{trash:true}|filter:searchText"
+				style="background-color:{{x.color}};width:300px;"
+				ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" >
+
+			<div class="value-data" ng-click="showAlert($event,x)">{{x.title}}</div>
+			<div  class="value" ng-click="showAlert($event,x)">{{x.description}}</div>
+<div  layout="row" ng-if="x.remainder" layout-wrap layout-align="start space-around">
+                    <md-chips >
+                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | date : 'MMM dd,HH:mm a'}}</span>
+                        <md-button  ng-click="remove(x)" class="md-icon-button"  style="margin: 0px auto;padding: 0px;" >
+                        <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
+                        </md-button > 
+                        </md-chip>
+  </md-chips>
+  </div>
+  <div  layout="row" ng-if="x.labelslist" layout-wrap layout-align="start space-around">             
+<md-chips   ng-repeat="label in x.labelslist">
+  <md-chip  style="margin:0px auto;padding: 0px;">{{label.labelname}}
+  <md-button  class="md-icon-button" ng-click="removelabelonNote(label,x)"  style="margin: 0px auto;padding: 0px;">
+  <md-icon><i style="margin-top: 17px;" class="material-icons">close</i></md-icon>
+  </md-button>
+  </md-chip>
+  </md-chips>
+    </div>
+			 <div ng-show="hoverEdit">
             <md-menu>
           <md-button class="md-icon-button" ng-click="$mdMenu.open($event)">
             <img src="images/outline-more_vert-24px.svg" />
@@ -21,9 +44,10 @@
             </md-menu-item>
           </md-menu-content>
           </md-menu>
-        </div>
-         </md-card>
-         
-         </div>
-         </div>
-  
+      
+			</div>
+		
+		</md-card>
+	</div>
+</div>
+   

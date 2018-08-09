@@ -2,16 +2,14 @@ package com.bridgeit.todo.notes.dao;
 
 import java.util.List;
 
-import javax.transaction.Transactional;
-
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.bridgeit.todo.labels.model.Label;
 import com.bridgeit.todo.notes.model.Notes;
 import com.bridgeit.todo.user.model.User;
 
@@ -38,7 +36,11 @@ public class NoteDaoImpl implements NoteDao {
 		session.merge(note);
 		
 	}
-
+	@Override
+	public Label getlabelById(int id) {
+		Session session = sessionFactory.getCurrentSession();
+		return session.get(Label.class, id);
+	}
 	@Override
 	public Notes getNoteById(int id) {
 	

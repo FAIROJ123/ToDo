@@ -75,6 +75,10 @@ public class Notes {
 	@JsonIgnore
 	private List<Collaborator> listofCollaborator;
 	
+	
+	
+	private String imageUrl;
+	
 	public List<Label> getLabelslist() {
 		return labelslist;
 	}
@@ -176,6 +180,14 @@ public class Notes {
 
 	public void setListofCollaborator(List<Collaborator> listofCollaborator) {
 		this.listofCollaborator = listofCollaborator;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
 
 	

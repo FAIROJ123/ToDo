@@ -62,17 +62,18 @@
 			<md-card class="dashboard" ng-repeat="x in getnotes | filter:{pin:true,trash:false,archive:false}|filter:searchText"
 				style="background-color:{{x.color}};width:300px;"
 				ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" >
-
-			<md-button class="md-icon-button" ng-show="hoverEdit"
+			<md-button class="md-icon-button" 
 				style="margin: -13px 0px 3px 246px;" 
 				ng-click="ispin(x)"> <md-icon> <img
 				style="margin: 0px 0px -25px 0px;" src="images/bluepin.svg" /></md-icon> <md-tooltip>Unpinnote</md-tooltip>
 			</md-button>
+		 <img  ng-src="{{x.imageUrl}}" style="margin-top: -29px;" ng-click="showAlert($event,x)" class="md-card-image"/>
+			
 			<div class="value-data" ng-click="showAlert($event,x)">{{x.title}}</div>
 			<div  class="value" ng-click="showAlert($event,x)">{{x.description}}</div>
 <div  layout="row" ng-if="x.remainder" layout-wrap layout-align="start space-around">
                     <md-chips >
-                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | date : 'MMM dd,HH:mm a'}}</span>
+                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | date : 'HH:mm a'}}</span>
                         <md-button  ng-click="remove(x)" class="md-icon-button"  style="margin: 0px auto;padding: 0px;" >
                         <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
                         </md-button > 
@@ -180,14 +181,14 @@
 
 	<md-subheader style="margin-left: 270px;">Others</md-subheader>
 <div>
-	<div layout="row" layout-wrap layout-fill style="padding-bottom: 32px; padding-left: 310px;" ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)">
+	<div   layout="row" layout-wrap layout-fill style="padding-bottom: 32px; padding-left: 310px;" ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)">
 		<md-card style="background-color:{{x.color}};width:300px;" class="dashboard" 
 			ng-repeat="x in getnotes | filter:{pin:false,trash:false,archive:false}|orderBy : getnotes : true :comparator|filter:searchText" >
-
-		<md-button ng-click="ispin(x)" class="md-icon-button"
-			style="margin: -13px 0px 3px 246px;" ng-show="hoverEdit">
+        <md-button   ng-click="ispin(x)" class="md-icon-button"
+			style="margin: -13px 0px 3px 246px;" >
 		<md-icon> <img style="margin: 0px 0px -25px 0px;"
 			src="images/pin.svg" /></md-icon> <md-tooltip>pin note</md-tooltip> </md-button>
+			 <img  ng-src="{{x.imageUrl}}" style="margin-top: -29px;" ng-click="showAlert($event,x)" class="md-card-image"/>
 
 		<div class="value-data" ng-click="showAlert($event,x)">{{x.title}}</div>
 		<div contenteditable="true" ng-bind-html="x.description" class="value" ng-click="showAlert($event,x)">{{x.description}}</div>

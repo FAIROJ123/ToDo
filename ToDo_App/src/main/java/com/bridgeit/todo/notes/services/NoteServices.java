@@ -221,7 +221,7 @@ public class NoteServices {
 		
 		if (file.exists()) {
             
-		 System.out.println("r1");
+		
 		try {
 		 return Files.readAllBytes(file.toPath());
 			

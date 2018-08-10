@@ -245,6 +245,20 @@ function dialogController($scope,$mdDialog,userservice) {
  }
 
 
+$scope.showfileEvent=function(event){
+	console.log("inside event...");
+	 $mdDialog.show({
+         //locals:{label : label},
+         controller: dialogController,
+         templateUrl: 'templates/profileCrop.html',
+         parent: angular.element(document.body),
+         targetEvent: event,
+         clickOutsideToClose:true
+         
+
+  });
+}
+
 
   
 });

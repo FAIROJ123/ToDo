@@ -4,7 +4,7 @@
     width: 500px;
 }
 .logout{
-	margin: 190px -465px 0px 0px;;
+	margin: 189px -465px 0px 0px;;
     width: 433px;
 }
 .color{
@@ -132,4 +132,12 @@ margin: 0 6px;
     height: 100%;
     font-size: 24px;
     width: 100%
+}
+.profile{
+	position: absolute;
+    left: 0;
+    right: 0;
+    height: 20px;
+    padding: 17px 20px;
+    top: 0;
 }

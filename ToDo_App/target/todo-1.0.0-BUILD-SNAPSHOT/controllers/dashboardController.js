@@ -273,20 +273,21 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
     $scope.showAlert=function(event,note){
     	 console.log("Event:",event);
     	 $mdDialog.show({
-             locals:{note : note},
+             locals:{note1 : note,sc:$scope},
              controller: dialogController1,
              templateUrl: 'templates/updatenote.html',
              parent: angular.element(document.body),
              targetEvent: event,
-             clickOutsideToClose:true
+             clickOutsideToClose:true,
+             bindToController:true
              
 
       });
     }
     
     
-    function dialogController1($scope,note,$mdDialog) {
-    	  $scope.note=note;
+    function dialogController1($scope,note1,$mdDialog,sc) {
+    	  $scope.note=note1;
     	  $scope.colors = colors;
     	  $scope.cancel = function() {
     	      $mdDialog.cancel();
@@ -298,6 +299,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
     	  				function successCallback(response) {
     	  					
     	  					console.log("success", response.data);
+    	  					
     	  					return response.data;
 
     	  				}, function errorCallback(response) {
@@ -308,7 +310,35 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
     	  		
     	  	}
     	    };
-    	    
+    	    $scope.removeImage=function(note){
+    			  console.log("Note:",note);
+    			  if(note.imageUrl){
+    				  console.log(note.imageUrl);
+    				  note.imageUrl="";
+
+    				  
+    			  }
+    			  $scope.updatenote1 = function(note){
+    	    	  		console.log("from update(): ",note);
+    	    	  		console.log("in update");		
+    	    	  		var url = commonUrl + "updateNote";
+    	    	  		userservice.putmethod(note,url).then(
+    	    	  				function successCallback(response) {
+    	    	  					
+    	    	  					console.log("success", sc);
+    	    	  					sc.getallnotes();
+    	    	  					
+    	    	  					return response.data;
+
+    	    	  				}, function errorCallback(response) {
+    	    	  					console.log("Error occur", response);
+    	    	  					return response;
+
+    	    	  				});
+    	    	  		
+    	    	  	}
+    			  $scope.updatenote1(note); 
+    		  } 
     }
     
     $scope.changeColor = function(note, value) {
@@ -378,8 +408,9 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
          else {
        	  noteobject.labelslist.push(label);
          }
+		 if(label.labelname!=label.labelname){
   			 var url = commonUrl + "noteandlabel/"+noteobject.id+"/"+label.id;
-  			 console.log(url);
+  			 console.log("inside label.....");
   			labelservice.labelputmethod(url).then(
   					function successCallback(response) {
   						
@@ -391,6 +422,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
   						return response;
 
   					});
+  		
   		}
   		 
    	 $scope.selected = [];
@@ -413,6 +445,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
   
    
    }
+   }
   
 		
    	$scope.LaterToday=function(note){
@@ -433,6 +466,12 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
    		this.updatenote(note);
    	 
 	    }
+   	$scope.reminders=[
+        [{'name':'Later today','value':'8:00 PM'}],
+        [{'name':'Tomorrow','value':'8:00 AM'}],
+        [{'name':'Next Week','value':'Mon,8:00 AM'}]
+       
+    ];
 
    	$scope.date = new Date();
    	 
@@ -655,50 +694,14 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 	                console.log("Success",response);
 	                note.imageUrl=response.data.msg;
 	                console.log(response.data.msg);
-	                $scope.updatenote = function(note){
-	            		console.log("from update(): ",note);
-	            		console.log("in update");		
-	            		var url = commonUrl + "updateNote";
-	            		console.log(url);
-	            		userservice.putmethod(note,url).then(
-	            				function successCallback(response) {
-	            					
-	            					console.log("success", response.data);
-	            					return response.data;
-
-	            				}, function errorCallback(response) {
-	            					console.log("Error occur", response);
-	            					return response;
-
-	            				});
-	            		
-	            	}
+	                $scope.updatenote(note);
 	               
 	         }, function errorCallback(response) {
 	                console.log(" Update failed",response);
 	            });
 	            
 	        });
-
 	    }
-	    
-	    $scope.getallImages =function() {
-
-		    var url = commonUrl + "/image";
-			
-			userservice.getmethod(url).then(
-					function successCallback(response) {
-						
-						$scope.getimages=response.data;
-						console.log('Notes: ', $scope.getnotes)
-						//console.log("success", response.data);
-						return response.data;
-
-					}, function errorCallback(response) {
-						console.log("Error occur", response);
-						return response;
-
-					});
-		}
-	 
+	  
+	  
 });

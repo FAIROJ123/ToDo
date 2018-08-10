@@ -158,8 +158,8 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
   	}
 	}
  
-  @RequestMapping(value = "/image/{imagename:.+}", method = RequestMethod.GET)
-	public ResponseEntity<?> showFile(@PathVariable("imagename") String name) 
+  @RequestMapping(value = "/image/{name:.+}", method = RequestMethod.GET)
+	public ResponseEntity<?> showFile(@PathVariable("name") String name) 
 	{
 		
 		byte[] file=noteservices.gettingImage(name);	

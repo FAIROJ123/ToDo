@@ -42,21 +42,26 @@
 </div>
 </md-toolbar>
 
-<div ng-show="Showcard" ng-click="Showcard=false" layout="row" layout-align="center center" style="height:12px;">
-<md-card class="logout" >
-<md-button class="md-icon-button" style="margin:63px 0px -33px 62px;" >
-<md-icon ><img style="margin: 0px 0px 0px -89px;"  src="images/baby.jpeg" /></md-icon>
-</md-button>
-<Strong style="font-size: small;text-align: center;">SHAIK FAIROJ</Strong>
-<span style="font-size: initial;
+<div ng-show="Showcard"  layout="row" layout-align="center center" style="height:12px;">
+
+<md-card class="logout">
+<div  style="background-size: 96px 96px; border: none;vertical-align: top;height: 96px;width: 96px;">
+
+<img  style="border-radius: 77px;height: 94px;margin-top: 51px;" src="images/baby.jpeg" ng-click="showfileEvent($event)" />
+</div>
+<Strong style="font-size: small;text-align: center;margin-top: -20px;">SHAIK FAIROJ</Strong>
+<span style="font-size: initial; 
     text-align: center;">fairojcse@gmail.com</span>
 <div>
 <br>
 <br>
 <md-divider></md-divider>
 <div>
-<md-button  class="md-raised" style="width: 98px;margin-left: 141px;" ng-click="Logout()">
+<md-button  class="md-raised" style="width: 98px;margin-left:6px;" ng-click="Logout()">
 Sign Out
+</md-button>
+<md-button  ng-click="Showcard=false" class="md-raised" style="width: 98px;margin-left: 141px;" ng-click="Logout()">
+Cancel
 </md-button>
 </div>
 </md-card>

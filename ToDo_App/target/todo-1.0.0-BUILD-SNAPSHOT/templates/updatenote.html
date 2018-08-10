@@ -1,4 +1,4 @@
-<div class="updateNote" style="width:600px;background-color:{{note.color}};">
+<div class="updateNote" style="width:600px;background-color:{{note.color}};overflow: hidden;">
   <div ng-init="getallnotes()" style="flex-wrap: wrap;padding: 24px 10px;" >
 
  <md-button  class="md-icon-button" style="margin: 0px 0px -33px 537px"; ng-click="ispin(x)" >
@@ -7,9 +7,15 @@
     </md-button>
     
  <!-- <md-card style="height: 150px;background-color:{{note.color}};" class="dashboard"  >  -->
-    
+ <div ng-if="note.imageUrl">
+    <img  style="width:590px;margin-top: -40px;" ng-src="{{note.imageUrl}}"  class="md-card-image" />
       
-      <div contenteditable ng-model="note.title" only-text="true"
+        <md-button class="md-icon-button" ng-click="removeImage(note)" style="margin: -63px 0px 0px 538px;">
+  <img src="images/baseline-delete-24px.svg" />
+  <md-tooltip>Remove</md-tooltip>
+</md-button>
+</div>
+          <div contenteditable ng-model="note.title" only-text="true"
 				convert-new-lines="true" style="width: 420px;outline: none;" /></div>
 
       

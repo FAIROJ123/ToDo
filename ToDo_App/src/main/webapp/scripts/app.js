@@ -24,7 +24,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
            controller :'dashboardController'
 })
 .state('home.labelsdashboard',{
-           url: '/labelsdashboard',
+           url: '/labelsdashboard/:label',
            templateUrl: 'templates/labelsdashboard.html',
            controller :'dashboardController'
 })

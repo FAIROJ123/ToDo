@@ -29,10 +29,10 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $windo
 	 
 	  
 	}
-  $scope.gotolabel=function()
+  $scope.gotolabel=function(label)
   {
 	  console.log("in goto label");
-     $state.go('home.labelsdashboard');
+     $state.go('home.labelsdashboard',{label:label.labelname});
   };
   
   $scope.getallLabels =function() {
@@ -113,8 +113,8 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $windo
 	          'background-color': 'rgb(99, 99, 99)',
 	          'color': 'white'
 	  }
-	  }else if(state == 'http://localhost:8080/todo/#!/home/labelsdashboard'){
-		  $scope.name = "labelname";
+	  }else if(state == 'http://localhost:8080/todo/#!/home/labelsdashboard/:label'){
+		 $scope.name = "label";
 	        $scope.CustomColor = {
 	          'background-color': 'rgb(99, 99, 99)',
 	          'color': 'white'
@@ -159,7 +159,7 @@ function dialogController($scope,$mdDialog,userservice) {
  	      $mdDialog.cancel();
  	      }
  	  $scope.createlabel = function() {
- 			console.log("ashds");
+ 			console.log("inside label.....");
  			var label = {
  					labelname : $scope.labelname
  					
@@ -167,7 +167,7 @@ function dialogController($scope,$mdDialog,userservice) {
  	         console.log("label:",label);
  			var url = commonUrl + "createlabel";
  			console.log("labeldetails", label)
- 			if(label.labelname!=null){
+ 			if(label.labelname!=label.labelname){
  				console.log("labelname", $scope.labelname)
 
  			userservice.postmethod(label, url).then(

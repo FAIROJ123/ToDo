@@ -282,9 +282,10 @@
 				</md-menu-content> 
 				</md-menu>
 
-				<md-button class="md-icon-button" ng-click="uploadFile()"> <img
-					src="images/outline-insert_photo-24px.svg" /> <md-tooltip>Add
-				image</md-tooltip> </md-button>
+				<md-button class="md-icon-button" >
+				  <input type="file"  class="filehiding"  ng-click="addImage($event,x)">
+				  <img src="images/outline-insert_photo-24px.svg" /> 
+				 <md-tooltip>Addimage</md-tooltip> </md-button>
 
 				<md-button class="md-icon-button" ng-click="isArchive(x)">
 				<img src="images/baseline-archive-24px.svg" /> <md-tooltip>Archive</md-tooltip>

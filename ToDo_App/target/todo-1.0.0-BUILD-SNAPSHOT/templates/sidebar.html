@@ -15,8 +15,8 @@
   Lables<span><md-button style="margin:-1px 2px 1px 107px;" ng-click="showAlert($event)">Edit</md-button>
  </md-list-item>
   <div   ng-init="getallLabels()"> 
-      <md-list-item  ng-repeat="label in getlabels" >
-           <md-button ng-click="gotolabel()" class="md-icon-button md-icon md-icon-left" layout="row" >
+      <md-list-item  ng-repeat="label in getlabels" ng-click="gotolabel(label)"  >
+           <md-button class="md-icon-button md-icon md-icon-left" layout="row" >
                     <md-icon ><i style="margin-top: 10px;" class="material-icons">label</i></md-icon>
                 </md-button>
                 <span style="margin-top:17px">{{label.labelname }}

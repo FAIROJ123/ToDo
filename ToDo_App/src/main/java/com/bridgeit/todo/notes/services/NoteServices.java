@@ -214,6 +214,7 @@ public class NoteServices {
 		return responsePath+file.getOriginalFilename();
 	}
 
+	@Transactional
 	public byte[] gettingImage(String name) 
 	{
 		File file = new File(path+File.separator+name);

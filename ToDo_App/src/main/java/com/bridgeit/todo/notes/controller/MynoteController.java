@@ -148,7 +148,7 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
  		 System.out.println("path : "+path);
 	 	 //logger.info("Server File Location with Name=" + path);
  		CustomRes res = new CustomRes(0, path);
- 		res.setMsg("image update is Done");
+ 		res.setMsg(path);
  		res.setStatus(200);
     	 return new ResponseEntity<CustomRes>(res,HttpStatus.OK);
 		} 
@@ -157,7 +157,7 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
 		 return new ResponseEntity<String>("You failed to upload " + name + " because the file was empty.",HttpStatus.CONFLICT);
   	}
 	}
-
+ 
   @RequestMapping(value = "/image/{imagename:.+}", method = RequestMethod.GET)
 	public ResponseEntity<?> showFile(@PathVariable("imagename") String name) 
 	{

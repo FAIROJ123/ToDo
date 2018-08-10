@@ -378,8 +378,9 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
          else {
        	  noteobject.labelslist.push(label);
          }
+		 if(label.labelname!=label.labelname){
   			 var url = commonUrl + "noteandlabel/"+noteobject.id+"/"+label.id;
-  			 console.log(url);
+  			 console.log("inside label.....");
   			labelservice.labelputmethod(url).then(
   					function successCallback(response) {
   						
@@ -391,6 +392,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
   						return response;
 
   					});
+  		
   		}
   		 
    	 $scope.selected = [];
@@ -412,6 +414,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
      
   
    
+   }
    }
   
 		
@@ -649,39 +652,56 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 	            form.append("file",event.target.files[0]);
 
 	            console.log("form",form);
-	            var url=commonUrl+"fileupload";
+	            var url=commonUrl+"uploadFile";
 	            console.log("url",url);
-	            userservice.imagepost(url,form).then(function successCallback(response) {
+	            userservice.uploadFileToUrl(url,form).then(function successCallback(response) {
 	                console.log("Success",response);
-	                console.log("message",response.data.message);
-	                note.imageUrl=response.data.message;
+	                note.imageUrl=response.data.msg;
+	                console.log(response.data.msg);
+	                $scope.updatenote = function(note){
+	            		console.log("from update(): ",note);
+	            		console.log("in update");		
+	            		var url = commonUrl + "updateNote";
+	            		console.log(url);
+	            		userservice.putmethod(note,url).then(
+	            				function successCallback(response) {
+	            					
+	            					console.log("success", response.data);
+	            					return response.data;
 
-	                updatenote(note);
+	            				}, function errorCallback(response) {
+	            					console.log("Error occur", response);
+	            					return response;
+
+	            				});
+	            		
+	            	}
+	               
 	         }, function errorCallback(response) {
 	                console.log(" Update failed",response);
 	            });
+	            
 	        });
 
-	    };
- 
-	    $scope.uploadFile = function(){
-            var file = $scope.myFile;
-            
-            console.log('file is ' );
-            console.dir(file);
-            var fd = new FormData();
-            fd.append('file', file);
-            
-            var url=commonUrl+ "/uploadFile";
-            userservice.uploadFileToUrl(file, url).then(function successCallback(response) {
-                console.log("Success",response);
-                console.log("message",response.data.message);
-                note.imageUrl=response.data.message;
+	    }
+	    
+	    $scope.getallImages =function() {
 
-                updatenote(note);
-         }, function errorCallback(response) {
-                console.log(" Update failed",response);
-            });
-       
-         };
+		    var url = commonUrl + "/image";
+			
+			userservice.getmethod(url).then(
+					function successCallback(response) {
+						
+						$scope.getimages=response.data;
+						console.log('Notes: ', $scope.getnotes)
+						//console.log("success", response.data);
+						return response.data;
+
+					}, function errorCallback(response) {
+						console.log("Error occur", response);
+						return response;
+
+					});
+		}
+	 
 });

@@ -7,6 +7,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Projections;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -63,6 +64,16 @@ System.out.println("Inside UPDATE::"+collaborator.getId());
 	@Override
 	public void delete(Collaborator collaborator) {
 		sessionFactory.getCurrentSession().delete(collaborator);
+		
+	}
+
+	@Override
+	public List<User> getallusers() {
+		Session session=sessionFactory.getCurrentSession();
+		Query q = session.createQuery("select email from User ");
+		List<User> list = q.list();
+		return list;
+		
 		
 	}
 

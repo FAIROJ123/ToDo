@@ -34,7 +34,7 @@ public class Label {
 	private String labelname;
 
 	
-	@ManyToMany(cascade = CascadeType.REMOVE)
+	@ManyToMany(mappedBy="labelslist")
 	@NotFound(action=NotFoundAction.IGNORE)
 	@LazyCollection(LazyCollectionOption.FALSE)
 	@JsonIgnore
@@ -78,7 +78,20 @@ public class Label {
 	}
 
 	
+	@Override
+	public int hashCode() {		
+		return Integer.valueOf(id).hashCode();
+	}
 	
+	@Override
+	public boolean equals(Object obj) 
+	{
+		if( obj == null) return false;
+		if( obj instanceof Label == false)
+			return false;
+		
+		return this.id == ((Label)obj).id;
+	}
 	
 	
 

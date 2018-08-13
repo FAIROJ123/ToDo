@@ -78,4 +78,13 @@ public class CollaboratorserviceImpl implements Collaboratorservice{
 		collaboratordao.update(collaborator1);
 		return true;
 	}
+
+	@Transactional
+	@Override
+	public List<User> getAllUsers() {
+		List<User> list=collaboratordao.getallusers();
+		return list;
+	}
+
+	
 }

@@ -12,6 +12,11 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+
 import com.bridgeit.todo.notes.model.Notes;
 import com.bridgeit.todo.user.model.User;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,8 +33,7 @@ public class Collaborator {
 	@Column
 	private String email;
 	
-	@ManyToMany
-	@JoinColumn(name="NoteId")
+	@ManyToMany(mappedBy="listofCollaborator")
 	@JsonIgnore
     private List<Notes> notes;
 	
@@ -68,6 +72,9 @@ public class Collaborator {
 	public void setUser(User user) {
 		this.user = user;
 	}
+
+	
+	
 	
 	
 	

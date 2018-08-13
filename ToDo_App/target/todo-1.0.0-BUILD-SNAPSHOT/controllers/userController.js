@@ -85,11 +85,9 @@ return response.data;
 			reenterpassword : $scope.reenterpassword
 		};
 		var url=commonUrl+"resetpassword";
-		var object=$location.search();
-		console.log(object.token,"token")
 		console.log("resetdetails:",resetdetails)
 		
-		userservice.postmethod(resetdetails,url,object.token).then(function successCallback(response) {
+		userservice.postmethod(resetdetails,url).then(function successCallback(response) {
 			$window.alert("Reset password is Done.");
             $state.go('login');
 			console.log("success", response.data);

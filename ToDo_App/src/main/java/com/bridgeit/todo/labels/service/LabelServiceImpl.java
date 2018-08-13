@@ -81,7 +81,8 @@ public class LabelServiceImpl implements LabelService{
 		     Label label=labeldao.getlabelById(id);		
 
 			User user=userdao.getUserById(userid);
-				System.out.println("Userid:"+user.getId());	
+				System.out.println("Userid:"+user.getId());
+				
 			if(user.getId() == label.getUser().getId())
 			{
 				System.out.println("inside if....");
@@ -95,8 +96,11 @@ public class LabelServiceImpl implements LabelService{
 						labels.remove(label);
 						
 					}
+					notedao.update(note);
+					System.out.println("After update..");
 				}
-				labeldao.update(label);
+				
+				//labeldao.update(label);
 				
 				
 				labeldao.deleteLabel(label);

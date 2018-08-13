@@ -56,16 +56,14 @@
 <div ng-init="getallnotes()">
 		
 		<div layout="row" layout-wrap layout-fill 
-			style="padding-bottom: 32px; padding-left: 310px;">
-			<md-card class="dashboard" ng-repeat="x in getnotes|filter:{trash:false,archive:false}|labelslist:'!!'|filter:searchText"
-				style="background-color:{{x.color}};width:300px;"
-				ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" >
+			style="padding-bottom: 32px; padding-left: 310px;" ng-repeat="x in getnotes|filter:{trash:false,archive:false}">
+			<md-card class="dashboard" style="background-color:{{x.color}};width:300px;" ng-repeat="label in x.labelslist" ng-if="label.labelname==parameter" >
 
 			<div class="value-data" ng-click="showAlert($event,x)">{{x.title}}</div>
 			<div  class="value" ng-click="showAlert($event,x)">{{x.description}}</div>
 <div  layout="row" ng-if="x.remainder" layout-wrap layout-align="start space-around">
                     <md-chips >
-                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | date : 'MMM dd,HH:mm a'}}</span>
+                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | dateformat}}</span>
                         <md-button  ng-click="remove(x)" class="md-icon-button"  style="margin: 0px auto;padding: 0px;" >
                         <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
                         </md-button > 
@@ -81,12 +79,12 @@
   </md-chip>
   </md-chips>
     </div>
-			<div layout="row" style=" color: rgba(0, 0, 0, .54);background-color:{{x.color}}">
+    <div layout="row" style=" color: rgba(0, 0, 0, .54);background-color:{{x.color}}">
 
 				 <md-menu >
                 <md-button class="md-icon-button" ng-click="$mdMenu.open()">
-                  <img src="images/baseline-done-24px.svg" />
-                  <md-tooltip>Mark as DOne</md-tooltip>
+                  <img src="images/baseline-touch_app-24px.svg" />
+                  <md-tooltip>Remind Me</md-tooltip>
                 </md-button>
                 <md-menu-content direction="down" layout="column" flex class="md-padding">
                   <p>Reminder: </p>
@@ -144,9 +142,10 @@
 				</md-menu-content> 
 				</md-menu>
 
-				<md-button class="md-icon-button" ng-click="uploadFile()"> <img
-					src="images/outline-insert_photo-24px.svg" /> <md-tooltip>Add
-				image</md-tooltip> </md-button>
+				<md-button class="md-icon-button" >
+				  <input type="file"  class="filehiding"  ng-click="addImage($event,x)">
+				  <img src="images/outline-insert_photo-24px.svg" /> 
+				 <md-tooltip>Addimage</md-tooltip> </md-button>
 
 				<md-button class="md-icon-button" ng-click="isArchive(x)">
 				<img src="images/baseline-archive-24px.svg" /> <md-tooltip>Archive</md-tooltip>
@@ -169,6 +168,12 @@
 					
 					  </md-menu>
 					</div>
+					
+						
+	
+	</md-card>
+			
+</div>
 					
 						
 

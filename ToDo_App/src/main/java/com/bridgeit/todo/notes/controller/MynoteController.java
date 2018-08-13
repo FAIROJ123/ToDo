@@ -105,7 +105,7 @@ public class MynoteController {
 		return new ResponseEntity<CustomRes>(res, HttpStatus.OK);
 
 	}
-  @RequestMapping(value = "/deletelabel/{id}/{id1}", method = RequestMethod.POST)
+  @RequestMapping(value = "/labeldeleteOnNote/{id}/{id1}", method = RequestMethod.POST)
 	public ResponseEntity<?> deletelabel(@PathVariable("id") int noteid,
 			@PathVariable("id1") int labelid) {
 		System.out.println("noteId : " + noteid);
@@ -136,6 +136,23 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
  		return new ResponseEntity<CustomRes>(res, HttpStatus.OK);
 
  	}
+  
+  @RequestMapping(value = "/collaboratordeleteOnNote/{id}/{id1}", method = RequestMethod.POST)
+	public ResponseEntity<?> deleteCollaborator(@PathVariable("id") int noteid,
+			@PathVariable("id1") int collaboratorid) {
+		System.out.println("noteId : " + noteid);
+		System.out.println("labelId : " + collaboratorid);
+ if(noteservices.collaboratordelete(noteid,collaboratorid))
+ {
+		CustomRes res = new CustomRes(collaboratorid, null);
+		res.setMsg(" deletion is Done");
+		res.setStatus(200);
+		return new ResponseEntity<CustomRes>(res, HttpStatus.OK);
+ }
+return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
+
+	}
+  
   
   @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	public ResponseEntity<?> uploadFile(@RequestBody MultipartFile file)

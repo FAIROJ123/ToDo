@@ -17,4 +17,6 @@ public interface Collaboratordao {
 
 	public void delete(Collaborator collaborator);
 
+	public List<User> getallusers();
+
 }

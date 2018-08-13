@@ -71,8 +71,8 @@ public class Notes {
 	private List<Label> labelslist;
 	
 	@ManyToMany
-	@JoinColumn(name="collaborator_id")
-	@JsonIgnore
+	@JoinColumn(name="collaborator_id",unique=false)
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Collaborator> listofCollaborator;
 	
 	

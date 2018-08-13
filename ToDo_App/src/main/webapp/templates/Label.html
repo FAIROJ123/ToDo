@@ -19,14 +19,16 @@
 </md-button>     
 <div ng-init="getallLabels()">
  <div   layout="row" layout-align="start"  ng-repeat="label in getlabels">
+ <div ng-mouseover="beforeEdit(label)" ng-mouseout="afterEdit(label)">
                <md-button   ng-click="deletelabel(label)"  style=" margin: 7px 2px 45px -1px; ;padding: 0px" class="md-icon-button md-icon md-icon-left">
                     <md-icon style="margin-top: 15px;">
                     <i class="material-icons">delete</i></md-icon>
                     <md-tooltip>Delete</md-tooltip>
                 </md-button>
-                <md-button style="margin-top: 18px;padding: 0px 0px" class="md-icon-button md-icon md-icon-left" ng-click="">
+                <md-button style="margin-top: 18px;padding: 0px 0px" ng-show="label.showLabel" class="md-icon-button md-icon md-icon-left" ng-click="">
                    <img src="images/label.svg"/>
                 </md-button>
+                </div>
                 <input type="text" class="form-control" data-ng-model="label.labelname">
                 
                 <md-button   style="margin: 0px auto;padding: 0px;" ng-click="updatelabel(label)" class="md-icon-button md-icon md-icon-right">
@@ -37,7 +39,7 @@
             </div>
             <md-divider></md-divider>
             <div layout="row" layout-align="end end">
-                <md-button class="label-btn" ng-click="cancel();createlabel()">
+                <md-button class="label-btn" ng-click="createlabel()">
                     <strong>Done</strong>
                 </md-button>
             </div>

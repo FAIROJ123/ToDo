@@ -60,12 +60,13 @@
 			<md-card class="dashboard" ng-repeat="x in getnotes|filter:{trash:false,archive:false} |filter:{remainder:'!!'}|filter:searchText"
 				style="background-color:{{x.color}};width:300px;"
 				ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" >
+			 <img  ng-src="{{x.imageUrl}}" style="margin-top: -29px;" ng-click="showAlert($event,x)" class="md-card-image"/>
 
 			<div class="value-data" ng-click="showAlert($event,x)">{{x.title}}</div>
 			<div  class="value" ng-click="showAlert($event,x)">{{x.description}}</div>
 <div  layout="row" ng-if="x.remainder" layout-wrap layout-align="start space-around">
                     <md-chips >
-                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | date : 'MMM dd,HH:mm a'}}</span>
+                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | dateformat}}</span>
                         <md-button  ng-click="remove(x)" class="md-icon-button"  style="margin: 0px auto;padding: 0px;" >
                         <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
                         </md-button > 

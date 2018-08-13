@@ -131,25 +131,9 @@ public class NoteServices {
 	@Transactional
 	public boolean labeldelete(int noteid, int labelid) {
 		System.out.println("Entering in to the delete label service");
-		Notes note = notedao.getNoteById(noteid);
-
-		List<Label> listOfLabels=new ArrayList<Label>();
-		List<Notes> listOfNotes=new ArrayList<Notes>();
-		
-		Label label = labeldao.getlabelById(labelid);
-//		note.getLabelslist().remove(label);
-//		label.getNotes().remove(note);
-		
-		System.out.println(""+listOfLabels);
-		listOfLabels=note.getLabelslist();
-		listOfLabels.remove(label);
-		note.setLabelslist(listOfLabels);
-		
-		listOfNotes=label.getNotes();
-		listOfNotes.remove(note);
-		label.setNotes(listOfNotes);
-		
-		labeldao.update(label);
+		Notes note = notedao.getNoteById( noteid );
+        Label label = labeldao.getlabelById(labelid);
+		note.getLabelslist().remove(label);
 		notedao.update(note);
 		return true;
 
@@ -171,7 +155,6 @@ public class NoteServices {
 		if (userid == id)
 		{
 			System.out.println("inside if....");
-			//label.getNotes();
 			status=labeldao.deleteLabel(label);
 			System.out.println("status:"+status);
 		 return status;
@@ -192,6 +175,17 @@ public class NoteServices {
 
 		collaboratordao.update(collaborator);
 		notedao.update(note);	
+	}
+	
+	@Transactional
+	public boolean collaboratordelete(int noteid, int collaboratorid) {
+		System.out.println("Entering in to the delete label service");
+		Notes note = notedao.getNoteById( noteid );
+        Collaborator collaborator = collaboratordao.getCollaboratorById(collaboratorid);
+		note.getListofCollaborator().remove(collaborator);
+		notedao.update(note);
+		return true;
+
 	}
 	
 

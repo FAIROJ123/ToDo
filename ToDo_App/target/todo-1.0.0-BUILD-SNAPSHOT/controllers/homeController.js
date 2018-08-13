@@ -1,4 +1,4 @@
-app.controller('homeController', function($scope,$mdSidenav,$http,$state, $window ,$rootScope,$mdDialog,userservice,labelservice) {
+app.controller('homeController', function($scope,$mdSidenav,$http,$state, $location,$window ,$rootScope,$mdDialog,userservice,labelservice) {
   $scope.toggleLeft = buildToggler('left');
   var commonUrl = "http://localhost:8080/todo/";
   $scope.name = "Google Keep";
@@ -33,7 +33,9 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $windo
   {
 	  console.log("in goto label");
      $state.go('home.labelsdashboard',{label:label.labelname});
+    
   };
+ 
   
   $scope.getallLabels =function() {
 
@@ -41,7 +43,6 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $windo
 		
 		userservice.getmethod(url).then(
 				function successCallback(response) {
-					
 					$scope.getlabels=response.data;
                   console.log("Success:",response)
 					return response.data;
@@ -154,10 +155,11 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $windo
  
 function dialogController($scope,$mdDialog,userservice) {
 	console.log("in dailogController");
-	
+	 var commonUrl = "http://localhost:8080/todo/";
  	  $scope.cancel = function() {
  	      $mdDialog.cancel();
  	      }
+ 	 
  	  $scope.createlabel = function() {
  			console.log("inside label.....");
  			var label = {
@@ -166,13 +168,10 @@ function dialogController($scope,$mdDialog,userservice) {
  			};
  	         console.log("label:",label);
  			var url = commonUrl + "createlabel";
- 			console.log("labeldetails", label)
- 			if(label.labelname!=label.labelname){
- 				console.log("labelname", $scope.labelname)
-
+            console.log("URL:",url);
  			userservice.postmethod(label, url).then(
  					function successCallback(response) {
-
+                     console.log("Inside service.....");
  						console.log("success", response.data);
  						$scope.getallLabels();
  						return response.data;
@@ -182,7 +181,7 @@ function dialogController($scope,$mdDialog,userservice) {
  						return response;
  						
  					});
- 			}
+ 			
  		}
  	 $scope.getallLabels =function() {
 

@@ -4,8 +4,17 @@
     width: 500px;
 }
 .logout{
-	margin: 189px -465px 0px 0px;;
+	margin: 207px -465px 0px 0px;
     width: 433px;
+    background: #fff;
+    border: 1px solid #ccc;
+    border-color: rgba(0,0,0,.2);
+}
+.table{
+	background: #f5f5f5;
+    border-top: 1px solid #ccc;
+    border-color: rgba(0,0,0,.2);
+    display: table;
 }
 .color{
     width: 100%;
@@ -110,7 +119,7 @@ margin: 0 6px;
 .div5{
 	border-radius: 50%;
 	height: 40px;
-	width: 54px;
+	width: 40px;
 	box-sizing: border-box;
 	border: 1px solid rgba(0,0,0,.5);
 }
@@ -121,6 +130,13 @@ margin: 0 6px;
 	opacity: .54;
 	width: 24px;
 	margin-top:18px;
+}
+.boximage{
+	    border-radius: 50%;
+    height: 85px;
+    margin-top: 42px;
+    width: 100%;
+    margin-left: 32px;
 }
 .filehiding{
 	 position: absolute;
@@ -140,4 +156,8 @@ margin: 0 6px;
     height: 20px;
     padding: 17px 20px;
     top: 0;
+}
+.sccount{
+	color: #36c;
+    text-decoration: none;
 }

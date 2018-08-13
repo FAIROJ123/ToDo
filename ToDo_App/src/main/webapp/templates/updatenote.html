@@ -8,7 +8,7 @@
     
  <!-- <md-card style="height: 150px;background-color:{{note.color}};" class="dashboard"  >  -->
  <div ng-if="note.imageUrl">
-    <img  style="width:590px;margin-top: -40px;" ng-src="{{note.imageUrl}}"  class="md-card-image" />
+    <img  style="width:590px;margin-top: -40px;" ng-src="{{note.imageUrl}}" ng-click="showimage($event,note)" class="md-card-image" />
       
         <md-button class="md-icon-button" ng-click="removeImage(note)" style="margin: -63px 0px 0px 538px;">
   <img src="images/baseline-delete-24px.svg" />
@@ -21,7 +21,24 @@
       
 		<div class="test" contenteditable="true" placeholder="Take a note"  ng-model="note.description" ng-bind-html="description"
 			 style="width: 420px;outline: none;"/></div>
-       
+       <div  layout="row" ng-if="note.remainder" layout-wrap layout-align="start space-around">
+                    <md-chips >
+                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{note.remainder | dateformat}}</span>
+                        <md-button  ng-click="remove(x)" class="md-icon-button"  style="margin: 0px auto;padding: 0px;" >
+                        <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
+                        </md-button > 
+                        </md-chip>
+  </md-chips>
+  </div>
+  <div  layout="row" ng-if="note.labelslist" layout-wrap layout-align="start space-around">             
+<md-chips   ng-repeat="label in note.labelslist">
+  <md-chip  style="margin:0px auto;padding: 0px;">{{label.labelname}}
+  <md-button  class="md-icon-button" ng-click="removelabelonNote(label,note)"  style="margin: 0px auto;padding: 0px;">
+  <md-icon><i style="margin-top: 17px;" class="material-icons">close</i></md-icon>
+  </md-button>
+  </md-chip>
+  </md-chips>
+    </div>
         <div layout="row" style="margin: -14px 0px 0px 0px;background-color:{{note.color}};" >      
             <md-button class="md-icon-button"  >
   <img src="images/baseline-touch_app-24px.svg" />

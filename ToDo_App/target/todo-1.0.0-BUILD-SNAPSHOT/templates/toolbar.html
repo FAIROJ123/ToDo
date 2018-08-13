@@ -35,10 +35,15 @@
 <md-icon ><img style="margin-bottom:-10px;" src="images/baseline-notification_important-24px.svg" /></md-icon>
 <md-tooltip>Notifications</md-tooltip>
 </md-button>
- <md-button class="md-icon-button" ng-click="Showcard=true">
-<md-icon ><img style="margin-bottom: -10px;" src="images/baseline-account_circle-24px.svg" /></md-icon>
+<div class="mycollaborator" style="margin: -49px 0px 0px 230px;" ng-click="Showcard=true"> 
+<div>
+<img style="border-radius: 50%;height: 39px; width: 37px;box-sizing: border-box;;" src="images/baby.jpeg" /></div>
 <md-tooltip>Sign out</md-tooltip>
-</md-button>
+</div>
+<!--  <md-button class="md-icon-button" ng-click="Showcard=true" style="    margin-top: 10px;">
+<md-icon ><img style="margin: 0px 0px 0px -92px;" src="images/baby.jpeg" /></md-icon>
+<md-tooltip>Sign out</md-tooltip>
+</md-button> -->
 </div>
 </md-toolbar>
 
@@ -47,20 +52,19 @@
 <md-card class="logout">
 <div  style="background-size: 96px 96px; border: none;vertical-align: top;height: 96px;width: 96px;">
 
-<img  style="border-radius: 77px;height: 94px;margin-top: 51px;" src="images/baby.jpeg" ng-click="showfileEvent($event)" />
+<img  class="boximage" src="images/baby.jpeg" ng-click="showfileEvent($event)" />
 </div>
 <Strong style="font-size: small;text-align: center;margin-top: -20px;">SHAIK FAIROJ</Strong>
-<span style="font-size: initial; 
-    text-align: center;">fairojcse@gmail.com</span>
+<span style="color: #666;text-overflow: ellipsis; overflow: hidden;  text-align: center;font-size: small">fairojcse@gmail.com</span>
 <div>
 <br>
 <br>
 <md-divider></md-divider>
-<div>
-<md-button  class="md-raised" style="width: 98px;margin-left:6px;" ng-click="Logout()">
+<div class="table">
+<md-button  class="md-raised" style="width: 98px;margin-left:6px;color: #666" ng-click="Logout()">
 Sign Out
 </md-button>
-<md-button  ng-click="Showcard=false" class="md-raised" style="width: 98px;margin-left: 141px;" ng-click="Logout()">
+<md-button  ng-click="Showcard=false" class="md-raised" style="width: 98px;margin-left: 141px;color: #666" ng-click="Logout()">
 Cancel
 </md-button>
 </div>

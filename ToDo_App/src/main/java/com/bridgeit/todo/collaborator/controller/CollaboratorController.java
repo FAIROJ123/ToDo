@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bridgeit.todo.collaborator.model.Collaborator;
 import com.bridgeit.todo.collaborator.services.Collaboratorservice;
 import com.bridgeit.todo.labels.model.Label;
+import com.bridgeit.todo.user.model.User;
 import com.bridgeit.todo.user.utility.CustomRes;
 
 @RestController
@@ -69,5 +70,12 @@ public class CollaboratorController {
 		return new ResponseEntity<CustomRes>(res,HttpStatus.CREATED);
 	  }  
 	
+	 @RequestMapping(value="/getallUsers" ,method = RequestMethod.GET)
+	  public ResponseEntity<List<User>> getAllUsers(HttpServletRequest req)
+	  {
+		  List<User> list=collaboratorservice.getAllUsers();  
+		 return new ResponseEntity<List<User>>( list,HttpStatus.CREATED); 
+		  
+	  }
 
 }

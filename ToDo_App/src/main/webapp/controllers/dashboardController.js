@@ -1,4 +1,4 @@
-app.controller('dashboardController', function($scope, $state, userservice,$mdDialog,labelservice,$rootScope) {
+app.controller('dashboardController', function($scope, $state, userservice,$mdDialog,labelservice,$rootScope,$location) {
 	$scope.name='grid';
 	$scope.hoverIn = function(ev) {
 	    this.hoverEdit = true;
@@ -8,6 +8,15 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 	    this.hoverEdit = false;
 	  };
 	
+	  var path=$location.path();
+	  console.log("path:",path);
+ 	  $scope.parameter=path.split('/')[3];
+ 	  console.log("url:" +   $scope.parameter);
+	  
+ 	 window.onpopstate = function () {
+         history.go(1);
+     };
+	  
 	var commonUrl = "http://localhost:8080/todo/";
 	$scope.createNote = function() {
 		console.log("ashds");
@@ -253,7 +262,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 	 else {
 		 note.labelslist.push(label);
 	 }
-			 var url = commonUrl + "deletelabel/"+note.id+"/"+label.id;
+			 var url = commonUrl + "labeldeleteOnNote/"+note.id+"/"+label.id;
 			 console.log(url);
 			labelservice.labelpostmethod(url).then(
 					function successCallback(response) {
@@ -287,6 +296,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
     
     
     function dialogController1($scope,note1,$mdDialog,sc) {
+    	
     	  $scope.note=note1;
     	  $scope.colors = colors;
     	  $scope.cancel = function() {
@@ -338,7 +348,12 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
     	    	  		
     	    	  	}
     			  $scope.updatenote1(note); 
-    		  } 
+    		  }
+    	    
+
+       	
+    	    
+    	    
     }
     
     $scope.changeColor = function(note, value) {
@@ -400,7 +415,6 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
   		$scope.addlabelonNote=function(label){
   			console.log("Label  in dashboard:",label);
 			console.log("note  in dashboard:",noteobject);
-			console.log("noteid  in dashboard:",noteobject.id);
  		  var index=noteobject.labelslist.findIndex(x => x.labelname===label.labelname);
 		 if (index > -1) {
        	  noteobject.labelslist.splice(index, 1);
@@ -408,7 +422,9 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
          else {
        	  noteobject.labelslist.push(label);
          }
-		 if(label.labelname!=label.labelname){
+		
+			 console.log("inside if....");
+			 var commonUrl = "http://localhost:8080/todo/";
   			 var url = commonUrl + "noteandlabel/"+noteobject.id+"/"+label.id;
   			 console.log("inside label.....");
   			labelservice.labelputmethod(url).then(
@@ -423,7 +439,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 
   					});
   		
-  		}
+  		
   		 
    	 $scope.selected = [];
 
@@ -447,59 +463,65 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
    }
    }
   
-		
+   $scope.reminders =["Today, 8:00 PM","Tomorrow, 8:00 AM","Next Week, Mon,8:00 AM "];
+   
    	$scope.LaterToday=function(note){
    		console.log("In Later Today");
    		console.log(note);
    		var noteDate=new Date();
-   		if($scope.date .getHours()>20 && $scope.date.getHours()<8)
+   		
+   		if(noteDate .getHours()>20 && noteDate.getHours()<8)
    		{
    			noteDate.setHours(8);
    			noteDate.setMinutes(00);
-   		}else if($scope.date .getHours()<20 && $scope.date.getHours()>8){
+   		}else if(noteDate .getHours()<20 && noteDate.getHours()>8){
    			noteDate.setHours(8);
    			noteDate.setMinutes(00);
    			}
    		note.remainder=noteDate;
-   	
-   		if(note.remainder==noteDate){
+   	   var list = $scope.reminders[0]; 
    			
-   			note.remainder="Today";
-   		}
+   			console.log("index:",list);
+   		
    		console.log('Note in today later',note.remainder);
    		this.updatenote(note);
    	 
 	    }
    	$scope.list=[];
-   	$scope.reminders=[
-        [{'name':'Later today','value':'8:00 PM'}],
-        [{'name':'Tomorrow','value':'8:00 AM'}],
-        [{'name':'Next Week','value':'Mon,8:00 AM'}]
-       
-    ];
-   	
-   	
 
-   	$scope.date = new Date();
+   	
+   	$scope.formateDate=function(date){
+   		console.log("Date:",date);
+   	}
+
    	 
 	$scope.Tomorrow=function(note){
 		console.log("In Tomorrow");
 		
-		$scope.date.setDate($scope.date.getDate()+1);
-		$scope.date.setHours(8);
-	   	$scope.date.setMinutes(00);
-	   	note.remainder=$scope.date;
+		var date = new Date();
+		date.setDate( date.getDate()+1 );
+		date.setHours(8);
+		date.setMinutes(00);
+	   	note.remainder=date;
+	   	note.remainder=date;
+	   	
 	   	console.log("note",note);
 	   	this.updatenote(note);
    	}
 
 	$scope.NextWeek=function(note){
 		console.log("In nextweek");
-		$scope.date = new Date();
-		$scope.date.setDate($scope.date.getDate()+7);
-		$scope.date.setHours(8);
-	   	$scope.date.setMinutes(00);
-	   	note.remainder=$scope.date;
+		var date = new Date();
+	    var lday = date.getDay();
+		var m = 7-lday + 1; 
+		
+		date.setDate(date.getDate()+ m);
+		
+        date.setHours(8);
+	   	date.setMinutes(00);
+	   	note.remainder=date;
+	   	
+	   	console.log("note",date);
 	   	this.updatenote(note);
    	}
 	
@@ -507,12 +529,13 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 	    {
           console.log(note.pickerdate);
 	      var noteDate = new Date(note.pickerdate);
-
-	        if($scope.date.getHours() > 12){
+	      
+ 
+	        if(noteDate.getHours() > 12){
 	            console.log("entering into if....");
 	            noteDate.setHours(8);
 	   			noteDate.setMinutes(00);
-	        }else if($scope.date.getHours() < 12) {
+	        }else if(noteDate.getHours() < 12) {
 	            console.log("entering into else...");
 	            noteDate.setHours('20');
 	            noteDate.setMinutes('00');
@@ -604,8 +627,29 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 					});
 		}
 		} 
+		$scope.getUsers=[];
 		
+$scope.getallUsers=function(){
+	 var commonUrl = "http://localhost:8080/todo/";
+	var url = commonUrl + "getallUsers";
+	console.log("URL:",url);
+	userservice.getmethod(url).then(
+			function successCallback(response) {
+				
+				$scope.getUsers=response.data;
+				console.log('getUsers: ', $scope.getUsers);
+				//console.log("success", response.data);
+				return response.data;
 
+			}, function errorCallback(response) {
+				console.log("Error occur", response);
+				return response;
+
+			});
+	
+}
+		
+		
 		$scope.getallCollaborators =function() {
 
 		    var url = commonUrl + "getallCollaborators";
@@ -661,6 +705,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
    else {
  	  noteobject.listofCollaborator.push(collaborator);
    }
+	
 		 var url = commonUrl + "noteandcollaborator/"+noteobject.id+"/"+collaborator.id;
 		 console.log(url);
 		labelservice.labelputmethod(url).then(
@@ -674,7 +719,40 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 					return response;
 
 				});
+  
 	}
+  
+  
+  $scope.removeCollaboratoronNote=function(collaborator,note){
+		console.log("collaborator  in dashboard:",collaborator);
+		console.log("note  in dashboard:",note);
+		console.log("noteid  in dashboard:",note.id);
+	  var index=note.listofCollaborator.findIndex(x => x.email===collaborator.email);
+if (index > -1) {
+	 
+	 note.listofCollaborator.splice(index, 1);
+}
+else {
+	 note.listofCollaborator.push(label);
+}
+		 var url = commonUrl + "collaboratordeleteOnNote/"+note.id+"/"+label.id;
+		 console.log(url);
+		labelservice.labelpostmethod(url).then(
+				function successCallback(response) {
+					
+					console.log("success", response);
+					return response;
+
+				}, function errorCallback(response) {
+					console.log("Error occur", response);
+					return response;
+
+				});
+	}
+
+  
+  
+  
   }
   
   
@@ -710,5 +788,73 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 	        });
 	    }
 	  
-	  
+	  $scope.showCreate = true
+	    //$scope.showLabel = true
+	    $scope.beforeEdit = function(label) {
+	      label.showDelete = true;
+	      label.showLabel = false;
+	    }
+
+
+	    $scope.afterEdit = function(label) {
+	      label.showDelete = false;
+	      label.showLabel = true;
+
+	    }
 });
+
+
+
+
+app.filter('dateformat', function ($filter) {
+	
+	   return function (remiderDate) {
+		   
+		   console.log("inside filter", remiderDate);
+		   if( !remiderDate )
+		   {
+			   	return;
+		   }
+		   
+		   remiderDate = new Date( remiderDate );
+		   
+		   var dt = "";
+		   var todatedate = new Date();
+		   console.log(todatedate.getMonth(), todatedate.getDate() );
+		   var ltempToday = new Date( todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate() );
+		   
+		   var ltempTom = new Date( todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate()+1 );
+		   var ltempYes = new Date( todatedate.getFullYear(), todatedate.getMonth(), todatedate.getDate()-1 );
+		   
+		   var ltempRD = new Date( remiderDate.getFullYear(), remiderDate.getMonth(), remiderDate.getDate() );
+		   
+		   console.log(ltempRD);
+		   console.log(ltempTom);
+		   
+		   if( (ltempToday - ltempRD) == 0  )
+		   {
+			   dt += "Today";
+		   }
+		   else if( (ltempTom - ltempRD) == 0  ) {
+			   dt += "Tomorrow";
+		   }
+		   else if( (ltempYes - ltempRD) == 0  ) {
+			   dt += "Yesterday";
+		   }
+		   else
+		   {
+			   dt = $filter('date')(remiderDate, 'MMM dd, yyyy');
+			   dt = dt.replace(", "+todatedate.getFullYear(),'');
+		   }
+		   
+		   // append time
+		   var time = $filter('date')(remiderDate, 'hh:mm a');
+		   dt += ", "+ time;
+		  
+		   return dt;
+	   };
+	   
+	   
+	   
+	});
+

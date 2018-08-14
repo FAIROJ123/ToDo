@@ -77,7 +77,7 @@
 			<div  class="value" ng-click="showAlert($event,x)">{{x.description}}</div>
 <div  layout="row" ng-if="x.remainder" layout-wrap layout-align="start space-around">
                     <md-chips >
-                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | date : 'HH:mm a'}}</span>
+                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | dateformat}}</span>
                         <md-button  ng-click="remove(x)" class="md-icon-button"  style="margin: 0px auto;padding: 0px;" >
                         <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
                         </md-button > 
@@ -200,7 +200,7 @@
 	<div>	
  	<div ng-if="x.remainder" layout="row" layout-wrap layout-align="start space-around">
                     <md-chips >
-                      <md-chip   style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | date : 'MMM dd,HH:mm a'}}</span>
+                      <md-chip   style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | dateformat}}</span>
                         <md-button ng-click="remove(x)"  class="md-icon-button" style="margin: 0px auto;padding: 0px;" >
                         <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
                         </md-button > 
@@ -218,9 +218,10 @@
   </md-chip>
   </md-chips>
 	</div>
-	<div layout="row" ng-if="x.listofCollaborator">
+<!-- 	ng-click="alertEvent($event,x);getallUsers();"--->
+ 	<div layout="row" ng-if="x.listofCollaborator">
 	<div ng-repeat="collaborator in x.listofCollaborator" class="div3" ng-click="alertEvent($event,x);getallUsers();">
-	<img style="opacity: 0.5;background-size: 28px 24px;width: 100%;" src="images/baseline-account_circle-24px.svg" />
+	<img style="opacity: 1;width: 97%;border-radius: 50%; height: 37px;" src="image/phani2.jpg" />
 	<md-tooltip>{{collaborator.email}}</md-tooltip>
 	</div>
 	</div>

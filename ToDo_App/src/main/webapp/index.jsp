@@ -21,12 +21,11 @@
 <script src="bower_components/angular-material/angular-material.min.js"></script>
 <script src="bower_components/angular-animate/angular-animate.min.js"></script>
 <script src="bower_components/angular-aria/angular-aria.min.js"></script>
-<script
-	src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
 <script src="bower_components/angular-messages/angular-messages.min.js"></script>
 <script src="bower_components/ng-content-editable/dist/ng-content-editable.min.js"></script>
 <script src="bower_components/angular-sanitize/angular-sanitize.min.js"></script>
-
+<script src="bower_components/ng-img-crop/compile/minified/ng-img-crop.js"></script>
 
 <script src="scripts/app.js" charset="utf-8"></script>
 

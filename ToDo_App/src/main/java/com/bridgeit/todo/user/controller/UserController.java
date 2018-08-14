@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bridgeit.todo.notes.model.Notes;
 import com.bridgeit.todo.user.model.ForgotPasswordModel;
 import com.bridgeit.todo.user.model.ResetModel;
 import com.bridgeit.todo.user.model.User;
@@ -157,6 +158,24 @@ public class UserController {
 		
 	}
 
+	
+	@RequestMapping(value="/updateUser" ,method = RequestMethod.PUT)
+	  public ResponseEntity<?> updateNote( @RequestBody User user,HttpServletRequest req)
+	  {
+		  System.out.println("asjdgh");
+		  String token = req.getHeader("ID");
+		  boolean status = userservice.updateUser(user, token);
+		  
+		  if(status)
+		  {
+			  CustomRes res = new CustomRes(0, token);
+				res.setMsg("User updation is Done");
+				res.setStatus(200);
+			  return new ResponseEntity<CustomRes>( res,HttpStatus.CREATED);
+		  }
+		  return new ResponseEntity<String>( "Note is not Updated ",HttpStatus.NOT_FOUND);
+		  
+	  }
 	
 
 }

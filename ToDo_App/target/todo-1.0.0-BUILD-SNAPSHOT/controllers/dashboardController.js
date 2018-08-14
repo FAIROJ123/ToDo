@@ -722,7 +722,6 @@ $scope.getallUsers=function(){
   
 	}
   
-  
   $scope.removeCollaboratoronNote=function(collaborator,note){
 		console.log("collaborator  in dashboard:",collaborator);
 		console.log("note  in dashboard:",note);
@@ -749,6 +748,7 @@ else {
 
 				});
 	}
+ 
 
   
   
@@ -788,19 +788,8 @@ else {
 	        });
 	    }
 	  
-	  $scope.showCreate = true
-	    //$scope.showLabel = true
-	    $scope.beforeEdit = function(label) {
-	      label.showDelete = true;
-	      label.showLabel = false;
-	    }
-
-
-	    $scope.afterEdit = function(label) {
-	      label.showDelete = false;
-	      label.showLabel = true;
-
-	    }
+	  
+	   
 });
 
 

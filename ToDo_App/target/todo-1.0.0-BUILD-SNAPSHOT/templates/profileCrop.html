@@ -1,12 +1,14 @@
 
-<md-dialog aria-label="profileImage" style="position: absolute;width: 100%;height: 100%;">
-    <div style="margin: 19px 0px 0px 20px;font-size: larger;">
-    <Strong>Select profile photo</Strong>
-    </div>
+ <md-dialog >
+ <div>Select an image file: <input type="file" id="fileInput" /></div>
+  <div class="cropArea">
+    <img-crop image="myImage" result-image="myCroppedImage" style="margin-left: 250px;">
     
-        <md-dialog-content class="md-dialog-content" style="overflow-y: hidden;height:100%;padding:25px;">
-        <input type="file" >
-    </md-dialog-content>
- 
+    <canvas id="myCanvas" width="572" height="300" ></canvas>
+    </img-crop>
+  </div>
+  	<md-button class="md-raised"  type="submit" ng-click="uploadProfilePic(myCroppedImage)">submit</md-button>  
 </md-dialog> 
+ 
+ 
 

@@ -8,7 +8,7 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $locat
         console.log($mdSidenav(componentId).isOpen());
         console.log(document.getElementById("myDiv"));
         if($mdSidenav(componentId).isOpen()){
-        	document.getElementById("myDiv").style.marginLeft = "150px";
+        	document.getElementById("myDiv").style.marginLeft = "100px";
         }else{
         	document.getElementById("myDiv").style.marginLeft = "0px";
 
@@ -244,11 +244,11 @@ function dialogController($scope,$mdDialog,userservice) {
  }
 
 
-$scope.showfileEvent=function(event){
+$scope.showfileEvent=function(event,user){
 	console.log("inside event...");
 	 $mdDialog.show({
-         //locals:{label : label},
-         controller: dialogController,
+         locals:{user : user},
+         controller: imageController,
          templateUrl: 'templates/profileCrop.html',
          parent: angular.element(document.body),
          targetEvent: event,
@@ -257,7 +257,116 @@ $scope.showfileEvent=function(event){
 
   });
 }
+function imageController($scope,$timeout,userservice) {
+	console.log("inside ImageController");
+	 $scope.myImage='';
+	    $scope.myCroppedImage='';
+       $scope.file="";
+	    var handleFileSelect=function(evt) {
+	      var file=evt.currentTarget.files[0];
+	      console.log("File:",file);
+	      var reader = new FileReader();
+	      reader.onload = function (evt) {
+	        $scope.$apply(function($scope){
+	          $scope.myImage=evt.target.result;
+	        });
+	      };
+	      reader.readAsDataURL(file);
+	    };
+	    $timeout(function(){
+	    angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
+	    },1000,false);
 
 
-  
+const dataURLtoFile = (dataurl, filename) => {
+    const arr = dataurl.split(',')
+    const mime = arr[0].match(/:(.*?);/)[1]
+    const bstr = atob(arr[1])
+    let n = bstr.length
+    const u8arr = new Uint8Array(n)
+    while (n) {
+      u8arr[n - 1] = bstr.charCodeAt(n - 1)
+      n -= 1 // to make eslint happy
+    }
+    return new File([u8arr], filename, {
+      type: mime
+    });
+  }
+$scope.uploadProfilePic = function functionName(myCroppedImage) {
+    console.log("In upload profile pic...............");
+    var url = commonUrl + 'uploadFile';
+    console.log("MycroppedImage:",myCroppedImage);
+    const file = dataURLtoFile(myCroppedImage, $scope.file);
+    console.log(file);
+    var form1 = new FormData();
+    form1.append("file", file);
+    userservice.uploadFileToUrl( url,form1).then(function successCallback(response) {
+      console.log(response.data);
+      var image = response.data;
+      updateUserpic(image);
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    });
+  }
+function updateUserPofile(image) {
+    var user = getUser();
+    console.log(user);
+    var url = baseurl + 'updateUser';
+    user.profileImage = image;
+    console.log(user);
+    PutService.updateMethod(user, url).then(function successCallback(response) {
+      console.log(response);
+      getUser();
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
+  }
+}  
+
+$scope.getUsers=[];
+
+$scope.getallUsers=function(){
+	 var commonUrl = "http://localhost:8080/todo/";
+	var url = commonUrl + "getallUsers";
+	console.log("URL:",url);
+	userservice.getmethod(url).then(
+			function successCallback(response) {
+				
+				$scope.getUsers=response.data;
+				console.log('getUsers: ', $scope.getUsers);
+				//console.log("success", response.data);
+				return response.data;
+
+			}, function errorCallback(response) {
+				console.log("Error occur", response);
+				return response;
+
+			});
+	
+}
+		
+
+
+
+$scope.updateUserpic = function(){
+	
+	var user= $scope.getallUsers();
+	console.log("from update(): ",user);
+	console.log("in update");		
+	var url = commonUrl + "updateUser";
+	console.log(url);
+	userservice.putmethod(note,url).then(
+			function successCallback(response) {
+				
+				console.log("success", response.data);
+				return response.data;
+
+			}, function errorCallback(response) {
+				console.log("Error occur", response);
+				return response;
+
+			});
+	
+}
+
 });

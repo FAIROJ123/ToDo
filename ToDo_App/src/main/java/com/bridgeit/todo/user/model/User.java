@@ -44,6 +44,9 @@ public class User {
 	@Column(name = "IsVerified")
 	private boolean isVerified;
 
+	@Column(name = "userProfile")
+	private String userProfile;
+	
 	/*@OneToMany(cascade = CascadeType.PERSIST)*/
 	@OneToMany
 	private List<Notes> notes = new ArrayList<Notes>();
@@ -112,4 +115,21 @@ public class User {
 		this.notes = notes;
 	}
 
+	public String getUserProfile() {
+		return userProfile;
+	}
+
+	public void setUserProfile(String userProfile) {
+		this.userProfile = userProfile;
+	}
+
+	public List<Collaborator> getCollaborator() {
+		return collaborator;
+	}
+
+	public void setCollaborator(List<Collaborator> collaborator) {
+		this.collaborator = collaborator;
+	}
+
+	
 }

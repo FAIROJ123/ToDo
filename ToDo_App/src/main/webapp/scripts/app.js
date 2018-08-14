@@ -1,4 +1,4 @@
-var app = angular.module('routerApp', ['ngMaterial', 'ui.router', 'content-editable','ngSanitize']);
+var app = angular.module('routerApp', ['ngMaterial', 'ui.router', 'content-editable','ngSanitize','ngImgCrop']);
 
 app.config(function($stateProvider, $urlRouterProvider) {
   $stateProvider

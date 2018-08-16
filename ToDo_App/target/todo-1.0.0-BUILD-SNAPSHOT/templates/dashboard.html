@@ -18,7 +18,7 @@
 	<div layout="row" layout-align="center center">
 		<md-card class="container" ng-show="Shownote">
 		<div layout="row" style="width: 489px;">
-			<div class="test" contenteditable="true" ng-model="title" 
+			<div class="test" contenteditable="true" ng-model="title" ng-bind-html="x.title"
 				 style="width: 420px;outline: none;" placeholder="Title"/></div>
 			<md-button class="md-icon-button"> <md-icon
 				style="margin-top: -10px;"> <img src="images/pin.svg" /></md-icon>

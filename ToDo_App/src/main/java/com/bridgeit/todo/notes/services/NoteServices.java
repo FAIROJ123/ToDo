@@ -163,29 +163,48 @@ public class NoteServices {
 	}
 
 	@Transactional
-	public void addCollaboratorOnNote(int noteid, int collaboratorid) {
+	public void addCollaboratorOnNote(int userid,int noteid) {
 		
 		System.out.println("Entering in to the note label service");
 		Notes note = notedao.getNoteById(noteid);
+		System.out.println("Note in collaborator:"+note);
 
-		Collaborator collaborator = collaboratordao.getCollaboratorById(collaboratorid);
+		User user = userdao.getUserById(userid);
+		System.out.println("user in collaborator:"+user);
+		
+		List<User> collaboratorUser =  note.getCollaboratedUser();
+		collaboratorUser.add(user);
+		note.setCollaboratedUser(collaboratorUser);
+		
+		List<Notes> collaboratorNotes = user.getCollaboratorNotes();
+		collaboratorNotes.add(note);
+		user.setCollaboratorNotes(collaboratorNotes);
+		
+		userdao.update(user);
+		notedao.update(note);
 
-		note.getListofCollaborator().add(collaborator);
-		collaborator.getNotes().add(note);
-
-		collaboratordao.update(collaborator);
-		notedao.update(note);	
-	}
+}
 	
 	@Transactional
-	public boolean collaboratordelete(int noteid, int collaboratorid) {
-		System.out.println("Entering in to the delete label service");
-		Notes note = notedao.getNoteById( noteid );
-        Collaborator collaborator = collaboratordao.getCollaboratorById(collaboratorid);
-		note.getListofCollaborator().remove(collaborator);
+	public boolean removeCollaboratorOnNote(int userid, int noteid) {
+		System.out.println("Entering in to the note label service");
+		Notes note = notedao.getNoteById(noteid);
+		System.out.println("Note in collaborator:"+note);
+
+		User user = userdao.getUserById(userid);
+		System.out.println("user in collaborator:"+user);
+		
+		List<User> collaboratorUser =  note.getCollaboratedUser();
+		collaboratorUser.remove(user);
+	    note.setCollaboratedUser(collaboratorUser);
+	
+		List<Notes> collaboratorNotes = user.getCollaboratorNotes();
+		collaboratorNotes.remove(note);
+		user.setCollaboratorNotes(collaboratorNotes);
+		
+		userdao.update(user);
 		notedao.update(note);
 		return true;
-
 	}
 	
 

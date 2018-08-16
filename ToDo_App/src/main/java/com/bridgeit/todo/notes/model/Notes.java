@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -63,6 +64,7 @@ public class Notes {
 	
 	@ManyToOne
 	@JoinColumn(name="User_Id")
+	@LazyCollection(LazyCollectionOption.FALSE)
 	private User user;
 	
 	@ManyToMany
@@ -70,10 +72,9 @@ public class Notes {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<Label> labelslist;
 	
-	@ManyToMany
-	@JoinColumn(name="collaborator_id",unique=false)
+	@ManyToMany(mappedBy = "collaboratorNotes")
 	@LazyCollection(LazyCollectionOption.FALSE)
-	private List<Collaborator> listofCollaborator;
+	private List<User> collaboratedUser;
 	
 	
 	
@@ -173,13 +174,14 @@ public class Notes {
 	public void setRemainder(Date remainder) {
 		this.remainder = remainder;
 	}
+	
 
-	public List<Collaborator> getListofCollaborator() {
-		return listofCollaborator;
+	public List<User> getCollaboratedUser() {
+		return collaboratedUser;
 	}
 
-	public void setListofCollaborator(List<Collaborator> listofCollaborator) {
-		this.listofCollaborator = listofCollaborator;
+	public void setCollaboratedUser(List<User> collaboratedUser) {
+		this.collaboratedUser = collaboratedUser;
 	}
 
 	public String getImageUrl() {

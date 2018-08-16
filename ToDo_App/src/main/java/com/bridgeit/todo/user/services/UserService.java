@@ -120,8 +120,22 @@ public boolean isExist(String email) {
 @Transactional
 public boolean updateUser(User user, String token) {
 	
-	return userdao.update(user);
+	int id = Jwt.parseJWT(token);
+	User user2 = userdao.getUserById(id);
+	/*if(user.getId()!=user2.getId()) {
+		return false;
+	}*/
+	user2.setUserProfile(user.getUserProfile());
+	return userdao.update(user2);
 
 	}
+@Transactional
+public User getLoginUser(String token) {
+	
+	int id = Jwt.parseJWT(token);
+	User user2 = userdao.getUserById(id);
+	return user2;
+}
 
+ 
 }

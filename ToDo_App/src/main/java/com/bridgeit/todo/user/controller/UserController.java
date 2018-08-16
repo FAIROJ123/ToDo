@@ -1,6 +1,7 @@
 package com.bridgeit.todo.user.controller;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -63,7 +64,7 @@ public class UserController {
 	//-------------------------------------------------------------------------------------------------\
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST,consumes = "application/json", produces = "application/json")
-	public ResponseEntity<?> login(@RequestBody UserDto user) {
+	public ResponseEntity<?> login(@RequestBody User user) {
 		String userexist = userservice.checkLogin(user.getEmail(), user.getPassword());
 		if (userexist!=null)
 
@@ -157,13 +158,29 @@ public class UserController {
 			return new ResponseEntity<String>("Password Reset Done", HttpStatus.FOUND);
 		
 	}
+	
+	
+	@RequestMapping(value="/getLoginUser" ,method = RequestMethod.GET)
+	  public ResponseEntity<?> getLoginUser( HttpServletRequest req)
+	  {
+		
+		 System.out.println("dsfuh");
+		  String token = req.getHeader("ID");
+		  System.out.println("Token:"+token);
+		  User user=userservice.getLoginUser(token);
+		  
+		  
+		 return new ResponseEntity<User>(user,HttpStatus.CREATED); 
+		  
+	  }
+	
 
 	
 	@RequestMapping(value="/updateUser" ,method = RequestMethod.PUT)
-	  public ResponseEntity<?> updateNote( @RequestBody User user,HttpServletRequest req)
+	  public ResponseEntity<?> updateUser(@RequestBody User user,HttpServletRequest req)
 	  {
-		  System.out.println("asjdgh");
-		  String token = req.getHeader("ID");
+		  System.out.println(user.getUserProfile());
+		  String token= req.getHeader("ID");
 		  boolean status = userservice.updateUser(user, token);
 		  
 		  if(status)

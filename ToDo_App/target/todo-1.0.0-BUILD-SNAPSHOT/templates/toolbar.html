@@ -37,13 +37,10 @@
 </md-button>
 <div class="mycollaborator" style="margin: -49px 0px 0px 230px;" ng-click="Showcard=true"> 
 <div>
-<img style="border-radius: 50%;height: 39px; width: 37px;box-sizing: border-box;;" src="images/baby.jpeg" /></div>
+<img style="border-radius: 50%;height: 39px; width: 37px;box-sizing: border-box;;" ng-src="{{userData.userProfile}}" /></div>
 <md-tooltip>Sign out</md-tooltip>
 </div>
-<!--  <md-button class="md-icon-button" ng-click="Showcard=true" style="    margin-top: 10px;">
-<md-icon ><img style="margin: 0px 0px 0px -92px;" src="images/baby.jpeg" /></md-icon>
-<md-tooltip>Sign out</md-tooltip>
-</md-button> -->
+
 </div>
 </md-toolbar>
 
@@ -52,7 +49,7 @@
 <md-card class="logout">
 <div  style="background-size: 96px 96px; border: none;vertical-align: top;height: 96px;width: 96px;">
 
-<img  class="boximage" src="images/baby.jpeg" ng-click="showfileEvent($event)" />
+<img  class="boximage" ng-src="{{userData.userProfile}}" ng-click="showfileEvent($event)" />
 </div>
 <Strong style="font-size: small;text-align: center;margin-top: -20px;">SHAIK FAIROJ</Strong>
 <span style="color: #666;text-overflow: ellipsis; overflow: hidden;  text-align: center;font-size: small">fairojcse@gmail.com</span>

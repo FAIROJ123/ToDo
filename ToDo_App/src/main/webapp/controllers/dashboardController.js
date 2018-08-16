@@ -80,6 +80,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 					
 					console.log("success", response.data);
 					return response.data;
+					$scope.getallnotes();
 
 				}, function errorCallback(response) {
 					console.log("Error occur", response);
@@ -241,6 +242,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 					
 					console.log("success", response.data);
 					return response.data;
+					$scope.getallnotes();
 
 				}, function errorCallback(response) {
 					console.log("Error occur", response);

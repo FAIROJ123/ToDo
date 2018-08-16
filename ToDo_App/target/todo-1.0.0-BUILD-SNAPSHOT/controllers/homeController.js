@@ -37,6 +37,26 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $locat
   };
  
   
+  var userData = "";
+  $scope.userData ="";
+  function getLoginUser() {
+    console.log("Inside get all Users...");
+    var url = commonUrl + 'getLoginUser';
+    userservice.getmethod(url).then(function successCallback(response) {
+      console.log("success" + response.data);
+      $scope.userData = response.data;
+      userData= $scope.userData;
+    }, function errorCallback(response) {
+      console.log("error" + response.data);
+    })
+
+    return userData;
+  }
+
+  getLoginUser();
+
+  
+  
   $scope.getallLabels =function() {
 
 	    var url = commonUrl + "getallLabels";
@@ -215,6 +235,7 @@ function dialogController($scope,$mdDialog,userservice) {
 				function successCallback(response) {
 					
 					console.log("success", response.data);
+					$scope.getallLabels();
 					return response.data;
 
 				}, function errorCallback(response) {
@@ -232,6 +253,7 @@ function dialogController($scope,$mdDialog,userservice) {
 				function successCallback(response) {
 					
 					console.log("success data", response.data);
+					$scope.getallLabels();
 					return response.data;
 
 				}, function errorCallback(response) {
@@ -259,67 +281,92 @@ $scope.showfileEvent=function(event,user){
 }
 function imageController($scope,$timeout,userservice) {
 	console.log("inside ImageController");
-	 $scope.myImage='';
-	    $scope.myCroppedImage='';
-       $scope.file="";
-	    var handleFileSelect=function(evt) {
-	      var file=evt.currentTarget.files[0];
-	      console.log("File:",file);
+	 $scope.myImage = '';
+	    $scope.myCroppedImage = '';
+	    $scope.filename = "";
+	    var handleFileSelect = function(evt) {
+	      var file = evt.target.files[0];
+	      $scope.filename = evt.target.files[0].name;
+	      console.log(evt);
+	      console.log("filename:",$scope.filename);
 	      var reader = new FileReader();
-	      reader.onload = function (evt) {
-	        $scope.$apply(function($scope){
-	          $scope.myImage=evt.target.result;
+	      reader.onload = function(evt) {
+	        console.log(evt);
+	        $scope.$apply(function($scope) {
+	          $scope.myImage = evt.target.result;
 	        });
 	      };
 	      reader.readAsDataURL(file);
 	    };
-	    $timeout(function(){
-	    angular.element(document.querySelector('#fileInput')).on('change',handleFileSelect);
-	    },1000,false);
-}
+	    $timeout(function() {
+	      angular.element(document.querySelector('#fileInput')).on('change', handleFileSelect);
+	    }, 1000, false);
 
-const dataURLtoFile = (dataurl, filename) => {
-    const arr = dataurl.split(',')
-    const mime = arr[0].match(/:(.*?);/)[1]
-    const bstr = atob(arr[1])
-    let n = bstr.length
-    const u8arr = new Uint8Array(n)
-    while (n) {
-      u8arr[n - 1] = bstr.charCodeAt(n - 1)
-      n -= 1 // to make eslint happy
-    }
-    return new File([u8arr], filename, {
-      type: mime
-    });
-  }
+
+	    const dataURLtoFile = (dataurl, filename) => {
+	        const arr = dataurl.split(',')
+	        const mime = arr[0].match(/:(.*?);/)[1]
+	        const bstr = atob(arr[1])
+	        let n = bstr.length
+	        const u8arr = new Uint8Array(n)
+	        while (n) {
+	          u8arr[n - 1] = bstr.charCodeAt(n - 1)
+	          n -= 1
+	        }
+	        return new File([u8arr], filename, {
+	          type: mime
+	        });
+	      }
+	    
 $scope.uploadProfilePic = function functionName(myCroppedImage) {
     console.log("In upload profile pic...............");
-    var url = baseurl + 'uploadFile';
-    console.log(myCroppedImage);
-    const file = dataURLtoFile(myCroppedImage, $scope.file);
+    var url = commonUrl + 'uploadFile';
+    console.log("MycroppedImage:",myCroppedImage);
+    const file = dataURLtoFile(myCroppedImage, $scope.filename);
     console.log(file);
     var form1 = new FormData();
     form1.append("file", file);
     userservice.uploadFileToUrl( url,form1).then(function successCallback(response) {
-      console.log(response.data);
-     /* var image = response.data;
-      updateUserPofile(image);*/
+      console.log("response data",response.data);
+      var image = response.data.msg;
+      console.log("Image inside profile method:"+image);
+      $scope.updateUserpic(image);
     }, function errorCallback(response) {
       console.log("error" + response.data);
     });
   }
-function updateUserPofile(image) {
-    var user = getUser();
-    console.log(user);
-    var url = baseurl + 'updateUser';
-    user.profileImage = image;
-    console.log(user);
-    PutService.updateMethod(user, url).then(function successCallback(response) {
-      console.log(response);
-      getUser();
-    }, function errorCallback(response) {
-      console.log("error" + response.data);
-    })
-  }
-  
+
+
+
+
+
+		
+
+
+
+$scope.updateUserpic = function(image){
+	
+	console.log("Image:",image);
+	var user= getLoginUser();
+	console.log("from update(): ",user);
+	console.log("in update");	
+	
+	var url = commonUrl + "updateUser";
+	user.userProfile = image;
+	console.log(url);
+	userservice.putmethod(user,url).then(
+			function successCallback(response) {
+				
+				console.log("success", response.data);
+				return response.data;
+
+			}, function errorCallback(response) {
+				console.log("Error occur", response);
+				return response;
+
+			});
+	
+}
+}
+
 });

@@ -68,7 +68,7 @@ public class AppConfig extends WebMvcConfigurerAdapter {
 	     /* factoryBean.setAnnotatedPackages("com.bridgeit.todo.notes");
 	      factoryBean.setAnnotatedPackages("com.bridgeit.todo.user");
 	      factoryBean.setAnnotatedPackages("com.bridgeit.todo.labels");*/
-          factoryBean.setAnnotatedClasses(User.class,Notes.class,Label.class,Collaborator.class);
+          factoryBean.setAnnotatedClasses(User.class,Notes.class,Label.class);
 	      return factoryBean;
 	   }
 

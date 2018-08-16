@@ -3,10 +3,10 @@ package com.bridgeit.todo.user.model;
 public class UserDto {
 	
 
+private int id;
 private String email;
-private String password;
 private String name;
-private String mobileNumber;
+private String userProfile;
 
 public UserDto() {
 	super();
@@ -19,11 +19,13 @@ public String getEmail() {
 public void setEmail(String email) {
 	this.email = email;
 }
-public String getPassword() {
-	return password;
+
+public int getId() {
+	return id;
 }
-public void setPassword(String password) {
-	this.password = password;
+
+public void setId(int id) {
+	this.id = id;
 }
 
 public String getName() {
@@ -34,13 +36,16 @@ public void setName(String name) {
 	this.name = name;
 }
 
-public String getMobileNumber() {
-	return mobileNumber;
+public String getUserProfile() {
+	return userProfile;
 }
 
-public void setMobileNumber(String mobileNumber) {
-	this.mobileNumber = mobileNumber;
+public void setUserProfile(String userProfile) {
+	this.userProfile = userProfile;
 }
+
+
+
 
 
 }

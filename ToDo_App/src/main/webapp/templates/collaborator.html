@@ -30,7 +30,7 @@
 <div style="font-size: 13px;flex: 1 0 auto; margin: 24px 0px 0px 20px;">
 <span style="color: rgba(0,0,0,.54);">{{collaborators.email}}</span>
 </div>
-<md-button class="button" ng-click="deleteCollaborator(collaborators)">
+<md-button class="button" ng-click="removeCollaboratoronNote(collaborators)">
 <img src="images/baseline-close-24px.svg"/>
 <md-tooltip>Delete</md-tooltip>
 </md-button>
@@ -51,20 +51,21 @@
       </md-input-container>
      
      </div>
-      
-<md-button ng-click="createCollaborator()" class="mybutton">
+ <div>     
+<md-button ng-click="addCollaboratorOnNote()" class="mybutton">
 <img src="images/baseline-done-24px.svg"/>
 </md-button>
  </div>
  </div>
- <div ng-init="getallCollaborators()" >
+ </div>
+ <div>
  <div  style="background-color: rgba(0,0,0,0.07);text-align: right;">
  <md-button class="md-button" ng-click="null" style="margin-right: 2px;">
  <Strong style="font-size: 13px;">Cancel</Strong>
  </md-button>
  </div>
- <div ng-repeat="collaborators in getCollaborators">
-  <md-button  class="md-button" ng-click="addCollaboratorOnNote(collaborators)" style="margin: -60px 0px 8px 402px;">
+ <div >
+  <md-button  class="md-button" style="margin: -60px 0px 8px 402px;">
 <Strong style="font-size: 13px;">Save</Strong>
  </md-button>
  </div>

@@ -123,28 +123,28 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
 
   
   
-  @RequestMapping(value = "/noteandcollaborator/{id}/{id1}", method = RequestMethod.PUT)
- 	public ResponseEntity<?> addCollaboratorOnNote(@PathVariable("id") int noteid,
- 			@PathVariable("id1") int collaboratorid) {
+  @RequestMapping(value = "/addCollaboratorOnNote/{id}/{id1}", method = RequestMethod.POST)
+ 	public ResponseEntity<?> addCollaboratorOnNote(@PathVariable("id") int userid,
+ 			@PathVariable("id1") int noteid) {
  		System.out.println("noteId : " + noteid);
- 		System.out.println("CollaboratorId : " + collaboratorid);
+ 		System.out.println("userId : " + userid);
 
- 		noteservices.addCollaboratorOnNote(noteid,collaboratorid);
- 		CustomRes res = new CustomRes(collaboratorid, null);
- 		res.setMsg("label update is Done");
+ 		noteservices.addCollaboratorOnNote(userid,noteid);
+ 		CustomRes res = new CustomRes(noteid, null);
+ 		res.setMsg("Collaborator adding is Done");
  		res.setStatus(200);
  		return new ResponseEntity<CustomRes>(res, HttpStatus.OK);
 
  	}
   
-  @RequestMapping(value = "/collaboratordeleteOnNote/{id}/{id1}", method = RequestMethod.POST)
-	public ResponseEntity<?> deleteCollaborator(@PathVariable("id") int noteid,
-			@PathVariable("id1") int collaboratorid) {
+  @RequestMapping(value = "/removeCollaboratorOnNote/{id}/{id1}", method = RequestMethod.POST)
+	public ResponseEntity<?> deleteCollaborator(@PathVariable("id") int userid,
+			@PathVariable("id1") int noteid) {
 		System.out.println("noteId : " + noteid);
-		System.out.println("labelId : " + collaboratorid);
- if(noteservices.collaboratordelete(noteid,collaboratorid))
+		System.out.println("userid : " + userid);
+ if(noteservices.removeCollaboratorOnNote(userid, noteid))
  {
-		CustomRes res = new CustomRes(collaboratorid, null);
+		CustomRes res = new CustomRes(noteid, null);
 		res.setMsg(" deletion is Done");
 		res.setStatus(200);
 		return new ResponseEntity<CustomRes>(res, HttpStatus.OK);
@@ -181,11 +181,11 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
 		
 		byte[] file=noteservices.gettingImage(name);	
 	
-		for(byte str : file)
+		/*for(byte str : file)
 		{
 	     System.out.println("image : "+str);		
 		}
-	
+	*/
 		System.out.println("file length : "+file.length);
 		CustomRes res = new CustomRes(0, name);
  		res.setMsg("You failed to get Image");

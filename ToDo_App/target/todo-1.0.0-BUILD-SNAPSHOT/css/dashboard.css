@@ -162,6 +162,7 @@ margin: 0 6px;
     text-decoration: none;
 }
 .cropArea {
+	padding-top:150px;
   background: #E4E4E4;
   overflow: hidden;
   width:500px;

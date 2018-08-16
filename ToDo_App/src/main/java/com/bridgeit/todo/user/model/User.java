@@ -16,8 +16,12 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.validation.constraints.Email;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import com.bridgeit.todo.collaborator.model.Collaborator;
 import com.bridgeit.todo.notes.model.Notes;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table
@@ -49,6 +53,7 @@ public class User {
 	
 	/*@OneToMany(cascade = CascadeType.PERSIST)*/
 	@OneToMany
+	@LazyCollection(value = LazyCollectionOption.FALSE)
 	private List<Notes> notes = new ArrayList<Notes>();
 
 	/*@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
@@ -56,8 +61,10 @@ public class User {
 	
 	
 	@OneToMany
-	 @JoinTable(name="User_Collaborator",joinColumns = @JoinColumn( name="USER_Id"),inverseJoinColumns = @JoinColumn( name="collaborator_id"))
-	private List<Collaborator> collaborator;
+	@LazyCollection(value = LazyCollectionOption.FALSE)
+	@JsonIgnore
+	 @JoinTable(name="User_Notes_collaborator",joinColumns = @JoinColumn( name="USER_Id"),inverseJoinColumns = @JoinColumn( name="NoteId"))
+	private List<Notes> collaboratorNotes;
 
 	public int getId() {
 		return id;
@@ -123,13 +130,14 @@ public class User {
 		this.userProfile = userProfile;
 	}
 
-	public List<Collaborator> getCollaborator() {
-		return collaborator;
+	public List<Notes> getCollaboratorNotes() {
+		return collaboratorNotes;
 	}
 
-	public void setCollaborator(List<Collaborator> collaborator) {
-		this.collaborator = collaborator;
+	public void setCollaboratorNotes(List<Notes> collaboratorNotes) {
+		this.collaboratorNotes = collaboratorNotes;
 	}
+
 
 	
 }

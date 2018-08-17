@@ -186,9 +186,10 @@ function dialogController($scope,$mdDialog,userservice) {
  					labelname : $scope.labelname
  					
  			};
- 	         console.log("label:",label);
+ 	         console.log("label:",label.labelname);
  			var url = commonUrl + "createlabel";
             console.log("URL:",url);
+ 
  			userservice.postmethod(label, url).then(
  					function successCallback(response) {
                      console.log("Inside service.....");
@@ -201,7 +202,7 @@ function dialogController($scope,$mdDialog,userservice) {
  						return response;
  						
  					});
- 			
+ 	        
  		}
  	  
  	 

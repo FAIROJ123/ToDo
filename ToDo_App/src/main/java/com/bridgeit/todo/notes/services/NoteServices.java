@@ -195,11 +195,21 @@ public class NoteServices {
 		System.out.println("user in collaborator:"+user);
 		
 		List<User> collaboratorUser =  note.getCollaboratedUser();
-		collaboratorUser.remove(user);
+		for(User user2:collaboratorUser) {
+			if(userid == user2.getId()) {
+				collaboratorUser.remove(user2);
+				break;
+			}
+		}
 	    note.setCollaboratedUser(collaboratorUser);
 	
 		List<Notes> collaboratorNotes = user.getCollaboratorNotes();
-		collaboratorNotes.remove(note);
+		for(Notes note2 :collaboratorNotes) {
+			if(noteid == note2.getId()) {
+				collaboratorNotes.remove(note2);
+				break;
+			}
+		}
 		user.setCollaboratorNotes(collaboratorNotes);
 		
 		userdao.update(user);
@@ -207,6 +217,18 @@ public class NoteServices {
 		return true;
 	}
 	
+	
+	@Transactional
+	public List<Notes> getAllCollaboratedNotes(String token) {
+		System.out.println(token);
+		int id = Jwt.parseJWT(token);
+		User user = userdao.getUserById(id);
+
+		List<Notes> listofCollaboratedNotes = user.getCollaboratorNotes();
+		System.out.println(listofCollaboratedNotes);
+		return listofCollaboratedNotes;
+
+	}
 
 	@Transactional
 	public String serverImage(MultipartFile file) {
@@ -246,4 +268,7 @@ public class NoteServices {
 		return null;
 	}
 
+	
+	
+	
 }

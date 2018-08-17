@@ -194,5 +194,12 @@ public class UserController {
 		  
 	  }
 	
+	@RequestMapping(value="/getallUsers" ,method = RequestMethod.GET)
+	  public ResponseEntity<List<User>> getAllUsers(HttpServletRequest req)
+	  {
+		  List<User> list=userservice.getAllUsers();  
+		 return new ResponseEntity<List<User>>( list,HttpStatus.CREATED); 
+		  
+	  }
 
 }

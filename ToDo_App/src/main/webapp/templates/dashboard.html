@@ -93,6 +93,13 @@
   </md-chip>
   </md-chips>
     </div>
+    
+    <div layout="row" ng-if="x.collaboratedUser">
+	<div ng-repeat="collaborator in x.collaboratedUser" class="div3" ng-click="alertEvent($event,x);getallUsers();" >
+	<img style="opacity: 1;width: 97%;border-radius: 50%; height: 37px;" ng-src="{{collaborator.userProfile}}" />
+	<md-tooltip>{{collaborator.email}}</md-tooltip>
+	</div>
+	</div>
 			<div layout="row"  
 				style="background-color: white; color: rgba(0, 0, 0, .54);margin-top: 26px; background-color: {{x.color}}">
 
@@ -140,7 +147,7 @@
 
 </md-card>
 
-				<md-button class="md-icon-button"> <img
+				<md-button class="md-icon-button" ng-click="alertEvent($event,x);getallUsers();"> <img
 					src="images/outline-person_add-24px.svg" /> <md-tooltip>Collaborator</md-tooltip>
 				</md-button>
 
@@ -218,10 +225,10 @@
   </md-chip>
   </md-chips>
 	</div>
-<!-- 	ng-click="alertEvent($event,x);getallUsers();"--->
- 	<div layout="row" ng-if="x.listofCollaborator">
-	<div ng-repeat="collaborator in x.listofCollaborator" class="div3" ng-click="alertEvent($event,x);getallUsers();">
-	<img style="opacity: 1;width: 97%;border-radius: 50%; height: 37px;" src="image/phani2.jpg" />
+
+ 	<div layout="row" ng-if="x.collaboratedUser">
+	<div ng-repeat="collaborator in x.collaboratedUser" class="div3" ng-click="alertEvent($event,x);getallUsers();">
+	<img style="opacity: 1;width: 97%;border-radius: 50%; height: 37px;" ng-src="{{collaborator.userProfile}}" />
 	<md-tooltip>{{collaborator.email}}</md-tooltip>
 	</div>
 	</div>
@@ -310,7 +317,7 @@
 				 <md-button ng-click="isTrash(x)">Delete note</md-button>
 					 </md-menu-item> 
 					<md-menu-item>
-					<md-button ng-click="showAlertlabel($event,x)">Add Label</md-button>
+					<md-button ng-click="showAlertlabel($event,x)">Add Label</md-button>				
 					 </md-menu-item> 
 					 </md-menu-content>
 					

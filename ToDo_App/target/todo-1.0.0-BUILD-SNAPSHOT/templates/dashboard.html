@@ -18,10 +18,10 @@
 	<div layout="row" layout-align="center center">
 		<md-card class="container" ng-show="Shownote">
 		<div layout="row" style="width: 489px;">
-			<div class="test" contenteditable="true" ng-model="title" ng-bind-html="x.title"
+			<div class="test" contenteditable="true" ng-model="title" 
 				 style="width: 420px;outline: none;" placeholder="Title"/></div>
-			<md-button class="md-icon-button"> <md-icon
-				style="margin-top: -10px;"> <img src="images/pin.svg" /></md-icon>
+			<md-button class="md-icon-button" style="margin-top: -9px;"> <md-icon>
+			 <img src="images/pin.svg" style="margin-top: 20px;" /></md-icon>
 			<md-tooltip>pin note</md-tooltip> </md-button>
 		</div>
 
@@ -93,6 +93,13 @@
   </md-chip>
   </md-chips>
     </div>
+    
+    <div layout="row" ng-if="x.collaboratedUser">
+	<div ng-repeat="collaborator in x.collaboratedUser" class="div3" ng-click="alertEvent($event,x);getallUsers();" >
+	<img style="opacity: 1;width: 97%;border-radius: 50%; height: 37px;" ng-src="{{collaborator.userProfile}}" />
+	<md-tooltip>{{collaborator.email}}</md-tooltip>
+	</div>
+	</div>
 			<div layout="row"  
 				style="background-color: white; color: rgba(0, 0, 0, .54);margin-top: 26px; background-color: {{x.color}}">
 
@@ -140,7 +147,7 @@
 
 </md-card>
 
-				<md-button class="md-icon-button"> <img
+				<md-button class="md-icon-button" ng-click="alertEvent($event,x);getallUsers();"> <img
 					src="images/outline-person_add-24px.svg" /> <md-tooltip>Collaborator</md-tooltip>
 				</md-button>
 
@@ -218,10 +225,10 @@
   </md-chip>
   </md-chips>
 	</div>
-<!-- 	ng-click="alertEvent($event,x);getallUsers();"--->
- 	<div layout="row" ng-if="x.listofCollaborator">
-	<div ng-repeat="collaborator in x.listofCollaborator" class="div3" ng-click="alertEvent($event,x);getallUsers();">
-	<img style="opacity: 1;width: 97%;border-radius: 50%; height: 37px;" src="image/phani2.jpg" />
+
+ 	<div layout="row" ng-if="x.collaboratedUser">
+	<div ng-repeat="collaborator in x.collaboratedUser" class="div3" ng-click="alertEvent($event,x);getallUsers();">
+	<img style="opacity: 1;width: 97%;border-radius: 50%; height: 37px;" ng-src="{{collaborator.userProfile}}" />
 	<md-tooltip>{{collaborator.email}}</md-tooltip>
 	</div>
 	</div>

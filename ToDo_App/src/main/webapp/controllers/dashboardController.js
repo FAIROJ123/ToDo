@@ -54,6 +54,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 				function successCallback(response) {
 					
 					$scope.getnotes=response.data;
+					$scope.getnotes = $scope.getCollaborators.concat($scope.getnotes);
 					console.log('Notes: ', $scope.getnotes)
 					//console.log("success", response.data);
 					return response.data;
@@ -214,8 +215,6 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 		
 	}
 	
-	
-	
 	$scope.isTrash=function(note){
 //		console.log("Before: ",note);
 		console.log(note.trash)
@@ -351,12 +350,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
     	    	  	}
     			  $scope.updatenote1(note); 
     		  }
-    	    
-
-       	
-    	    
-    	    
-    }
+    	    }
     
     $scope.changeColor = function(note, value) {
 		  console.log("Note" + note);
@@ -390,7 +384,24 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
      });
    }
    
-   
+    var userData = "";
+    $scope.userData ="";
+    function getLoginUser() {
+      console.log("Inside get all Users...");
+      var url = commonUrl + 'getLoginUser';
+      userservice.getmethod(url).then(function successCallback(response) {
+        console.log("success" + response.data);
+        $scope.userData = response.data;
+        userData= $scope.userData;
+      }, function errorCallback(response) {
+        console.log("error" + response.data);
+      })
+
+      return userData;
+    }
+
+    getLoginUser(); 
+    
    function dialogController2($scope,$mdDialog) {
    	 
    	  $scope.cancel = function() {
@@ -597,39 +608,40 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 
    });
  }
-  function dialogController3($scope,$mdDialog) {
+  
+  $scope.getCollaborators={};
+  $scope.getAllCollaborators =function() {
+
+	  var commonUrl = "http://localhost:8080/todo/";
+	    var url = commonUrl + "getAllCollaboratedNotes";
+		console.log("URL:",url);
+		userservice.getmethod(url).then(
+				function successCallback(response) {
+					
+					$scope.getCollaborators=response.data;
+					console.log('Collaborators: ', $scope.getCollaborators)
+					//console.log("success", response.data);
+					return response.data;
+
+				}, function errorCallback(response) {
+					console.log("Error occur", response);
+					return response;
+
+				});
+	}
+  $scope.getAllCollaborators();
+  
+  function dialogController3($scope,$mdDialog,note) {
 	 
+	  $scope.note = note;
+	  
 	  $scope.cancel = function() {
 	      $mdDialog.cancel();
 	     
 	    };
 	    var commonUrl = "http://localhost:8080/todo/";
-		$scope.createCollaborator = function() {
-			console.log("ashds");
-			var collaborator = {
-					email : $scope.email,
-					
-			};
-	         console.log("collaborator:",collaborator);
-			var url = commonUrl + "addCollaborator";
-			if(collaborator.email!=null){
-				console.log("inside if...", collaborator.email)
-
-			userservice.postmethod(collaborator, url).then(
-					function successCallback(response) {
-
-						console.log("success", response.data);
-						$scope.getallCollaborators();
-						return response.data;
-
-					}, function errorCallback(response) {
-						console.log("Error occur", response);
-						return response;
-						
-					});
-		}
-		} 
-		$scope.getUsers=[];
+		
+		$scope.getUsers={};
 		
 $scope.getallUsers=function(){
 	 var commonUrl = "http://localhost:8080/todo/";
@@ -650,70 +662,22 @@ $scope.getallUsers=function(){
 			});
 	
 }
-		
-		
-		$scope.getallCollaborators =function() {
 
-		    var url = commonUrl + "getallCollaborators";
-			
-			userservice.getmethod(url).then(
-					function successCallback(response) {
-						
-						$scope.getCollaborators=response.data;
-						console.log('Collaborators: ', $scope.getCollaborators)
-						//console.log("success", response.data);
-						return response.data;
-
-					}, function errorCallback(response) {
-						console.log("Error occur", response);
-						return response;
-
-					});
-		}
-		
-		$scope.deleteCollaborator =function(collaborator){
-			
-			 console.log("collaborator:"+collaborator);
-			 var collaboratorid=collaborator.id;
-			 console.log("collaboratorid:"+collaboratorid)
-			 
-			 
-			 var url = commonUrl + "deleteCollaborator/"+collaborator.id;
-			
-			
-			userservice.notepostmethod(url).then(
-					function successCallback(response) {
-						
-						console.log("success", response.data);
-						return response.data;
-
-					}, function errorCallback(response) {
-						console.log("Error occur", response);
-						return response;
-
-					});
-		}
 
   
-  $scope.addCollaboratorOnNote=function(collaborator){
-	  console.log("collaborator:"+collaborator);
-		 var collaboratorid=collaborator.id;
-		 console.log("collaboratorid:"+collaboratorid)
+  $scope.addCollaboratorOnNote=function(email){
+	  
+	  var userId =email[1];
+		 console.log("userId:",userId);
 		console.log("noteid  in dashboard:",noteobject);
-	  var index=noteobject.listofCollaborator.findIndex(x => x.email===collaborator.email);
-	 if (index > -1) {
- 	  noteobject.listofCollaborator.splice(index, 1);
-   }
-   else {
- 	  noteobject.listofCollaborator.push(collaborator);
-   }
-	
-		 var url = commonUrl + "noteandcollaborator/"+noteobject.id+"/"+collaborator.id;
+	  
+		 var url = commonUrl + "addCollaboratorOnNote/"+userId+"/"+noteobject.id;
 		 console.log(url);
-		labelservice.labelputmethod(url).then(
+		labelservice.labelpostmethod(url).then(
 				function successCallback(response) {
 					
 					console.log("success", response);
+					//$scope.getAllCollaborators();
 					return response;
 
 				}, function errorCallback(response) {
@@ -724,24 +688,17 @@ $scope.getallUsers=function(){
   
 	}
   
-  $scope.removeCollaboratoronNote=function(collaborator,note){
-		console.log("collaborator  in dashboard:",collaborator);
+  $scope.removeCollaboratoronNote=function(user){
+		console.log("User:",user.id);
 		console.log("note  in dashboard:",note);
 		console.log("noteid  in dashboard:",note.id);
-	  var index=note.listofCollaborator.findIndex(x => x.email===collaborator.email);
-if (index > -1) {
-	 
-	 note.listofCollaborator.splice(index, 1);
-}
-else {
-	 note.listofCollaborator.push(label);
-}
-		 var url = commonUrl + "collaboratordeleteOnNote/"+note.id+"/"+label.id;
+	 	 var url = commonUrl + "removeCollaboratorOnNote/"+user.id+"/"+note.id;
 		 console.log(url);
 		labelservice.labelpostmethod(url).then(
 				function successCallback(response) {
 					
 					console.log("success", response);
+					//$scope.getAllCollaborators();
 					return response;
 
 				}, function errorCallback(response) {

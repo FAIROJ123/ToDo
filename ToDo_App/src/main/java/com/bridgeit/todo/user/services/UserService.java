@@ -1,6 +1,7 @@
 package com.bridgeit.todo.user.services;
 
 import java.util.Date;
+import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -137,5 +138,14 @@ public User getLoginUser(String token) {
 	return user2;
 }
 
+@Transactional
+public List<User> getAllUsers() {
+	List<User> listofUsers=userdao.getallusers();
+	
+	return listofUsers;
+	
+	
+	
+}
  
 }

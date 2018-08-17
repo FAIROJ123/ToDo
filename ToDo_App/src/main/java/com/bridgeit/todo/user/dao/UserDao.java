@@ -1,5 +1,7 @@
 package com.bridgeit.todo.user.dao;
 
+import java.util.List;
+
 import com.bridgeit.todo.user.model.User;
 
 public interface UserDao {
@@ -11,6 +13,6 @@ public interface UserDao {
 	public User getUserByEmail(String email);
 	public boolean update(User user);
 	public boolean isExist(String email);
-	 
+	public List<User> getallusers();
 
 }

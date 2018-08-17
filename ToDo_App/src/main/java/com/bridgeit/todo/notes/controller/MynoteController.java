@@ -18,6 +18,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bridgeit.todo.labels.service.LabelService;
 import com.bridgeit.todo.notes.model.Notes;
 import com.bridgeit.todo.notes.services.NoteServices;
+import com.bridgeit.todo.user.model.User;
 import com.bridgeit.todo.user.utility.CustomRes;
 
 
@@ -154,6 +155,21 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
 	}
   
   
+  
+  
+  @RequestMapping(value="/getAllCollaboratedNotes" ,method = RequestMethod.GET)
+  public ResponseEntity<List<Notes>> getAllCollaboratedNotes(HttpServletRequest req)
+  {
+	  System.out.println("dsfuh");
+	  String token = req.getHeader("ID");
+	  System.out.println("Token:"+token);
+	  List<Notes> list=noteservices.getAllCollaboratedNotes(token);
+	  System.out.println("NOTE LIST SIZE::"+list.size());
+	 return new ResponseEntity<List<Notes>>( list,HttpStatus.CREATED); 
+	  
+  }
+  
+  
   @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	public ResponseEntity<?> uploadFile(@RequestBody MultipartFile file)
 	{
@@ -180,13 +196,7 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
 	{
 		
 		byte[] file=noteservices.gettingImage(name);	
-	
-		/*for(byte str : file)
-		{
-	     System.out.println("image : "+str);		
-		}
-	*/
-		System.out.println("file length : "+file.length);
+
 		CustomRes res = new CustomRes(0, name);
  		res.setMsg("You failed to get Image");
  		res.setStatus(200);

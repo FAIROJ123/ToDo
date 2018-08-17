@@ -93,7 +93,14 @@ public class UserDaoImpl implements UserDao {
 	        return user;
 	}
 
-
-	
+	@Override
+	public List<User> getallusers() {
+		Session session=sessionFactory.getCurrentSession();
+		Query q = session.createQuery("select email,id from User ");
+		List<User> list = q.list();
+		return list;
+		
+		
+	}
 	
 }

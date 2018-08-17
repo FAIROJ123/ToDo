@@ -60,7 +60,7 @@ public class User {
 	private List<Label> label;*/
 	
 	
-	@OneToMany
+	@ManyToMany
 	@LazyCollection(value = LazyCollectionOption.FALSE)
 	@JsonIgnore
 	 @JoinTable(name="User_Notes_collaborator",joinColumns = @JoinColumn( name="USER_Id"),inverseJoinColumns = @JoinColumn( name="NoteId"))

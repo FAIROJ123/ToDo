@@ -70,12 +70,12 @@ public class CollaboratorController {
 		return new ResponseEntity<CustomRes>(res,HttpStatus.CREATED);
 	  }  
 	
-	 @RequestMapping(value="/getallUsers" ,method = RequestMethod.GET)
+	 /*@RequestMapping(value="/getallUsers" ,method = RequestMethod.GET)
 	  public ResponseEntity<List<User>> getAllUsers(HttpServletRequest req)
 	  {
 		  List<User> list=collaboratorservice.getAllUsers();  
 		 return new ResponseEntity<List<User>>( list,HttpStatus.CREATED); 
 		  
-	  }
+	  }*/
 
 }

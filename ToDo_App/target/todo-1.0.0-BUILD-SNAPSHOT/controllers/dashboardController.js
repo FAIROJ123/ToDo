@@ -54,6 +54,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 				function successCallback(response) {
 					
 					$scope.getnotes=response.data;
+					$scope.getnotes = $scope.getCollaborators.concat($scope.getnotes);
 					console.log('Notes: ', $scope.getnotes)
 					//console.log("success", response.data);
 					return response.data;
@@ -213,29 +214,6 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 		}
 		
 	}
-	
-	
-
-	 $scope.getCollaborators=[];
-	  
-	  $scope.getAllCollaborators =function() {
-
-		    var url = commonUrl + "getAllCollaboratedNotes";
-			
-			userservice.getmethod(url).then(
-					function successCallback(response) {
-						
-						$scope.getCollaborators=response.data;
-						console.log('Collaborators: ', $scope.getCollaborators)
-						//console.log("success", response.data);
-						return response.data;
-
-					}, function errorCallback(response) {
-						console.log("Error occur", response);
-						return response;
-
-					});
-		}
 	
 	$scope.isTrash=function(note){
 //		console.log("Before: ",note);
@@ -630,6 +608,29 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 
    });
  }
+  
+  $scope.getCollaborators={};
+  $scope.getAllCollaborators =function() {
+
+	  var commonUrl = "http://localhost:8080/todo/";
+	    var url = commonUrl + "getAllCollaboratedNotes";
+		console.log("URL:",url);
+		userservice.getmethod(url).then(
+				function successCallback(response) {
+					
+					$scope.getCollaborators=response.data;
+					console.log('Collaborators: ', $scope.getCollaborators)
+					//console.log("success", response.data);
+					return response.data;
+
+				}, function errorCallback(response) {
+					console.log("Error occur", response);
+					return response;
+
+				});
+	}
+  $scope.getAllCollaborators();
+  
   function dialogController3($scope,$mdDialog,note) {
 	 
 	  $scope.note = note;
@@ -676,7 +677,7 @@ $scope.getallUsers=function(){
 				function successCallback(response) {
 					
 					console.log("success", response);
-					$scope.getAllCollaborators();
+					//$scope.getAllCollaborators();
 					return response;
 
 				}, function errorCallback(response) {
@@ -685,28 +686,6 @@ $scope.getallUsers=function(){
 
 				});
   
-	}
-  
-  $scope.getCollaborators={};
-  
-  $scope.getAllCollaborators =function() {
-
-	  var commonUrl = "http://localhost:8080/todo/";
-	    var url = commonUrl + "getAllCollaboratedNotes";
-		console.log("URL:",url);
-		userservice.getmethod(url).then(
-				function successCallback(response) {
-					
-					$scope.getCollaborators=response.data;
-					console.log('Collaborators: ', $scope.getCollaborators)
-					//console.log("success", response.data);
-					return response.data;
-
-				}, function errorCallback(response) {
-					console.log("Error occur", response);
-					return response;
-
-				});
 	}
   
   $scope.removeCollaboratoronNote=function(user){
@@ -719,7 +698,7 @@ $scope.getallUsers=function(){
 				function successCallback(response) {
 					
 					console.log("success", response);
-					$scope.getAllCollaborators();
+					//$scope.getAllCollaborators();
 					return response;
 
 				}, function errorCallback(response) {

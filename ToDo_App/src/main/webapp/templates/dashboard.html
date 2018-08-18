@@ -62,12 +62,12 @@
 	<div ng-init="getallnotes()">
 		<md-subheader  style="margin-left: 270px;">Pinned </md-subheader>
 		<div layout="row" layout-wrap  layout-align="center center"
-			style="padding-bottom: 32px; padding-left: 30px;">
+			style="width:800px; margin: 0px 0px 0px 240px;">
 			<md-card class="dashboard" ng-repeat="x in getnotes | filter:{pin:true,trash:false,archive:false}|filter:searchText"
-				style="background-color:{{x.color}};width:300px;"
+				style="background-color:{{x.color}};width: 220px;"
 				ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" >
 			<md-button class="md-icon-button" 
-				style="margin: -13px 0px 3px 246px;" 
+				style="margin: -13px 0px 3px 192px;" 
 				ng-click="ispin(x)"> <md-icon> <img
 				style="margin: 0px 0px -25px 0px;" src="images/bluepin.svg" /></md-icon> <md-tooltip>Unpinnote</md-tooltip>
 			</md-button>
@@ -147,11 +147,11 @@
 
 </md-card>
 
-				<md-button class="md-icon-button" ng-click="alertEvent($event,x);getallUsers();"> <img
+				<md-button class="md-icon-button" style="margin-left: -10px;" ng-click="alertEvent($event,x);getallUsers();"> <img
 					src="images/outline-person_add-24px.svg" /> <md-tooltip>Collaborator</md-tooltip>
 				</md-button>
 
-				<md-menu class="menu"> <md-button
+				<md-menu class="menu"> <md-button style="margin-left: -10px;"
 					aria-label="Open menu with custom trigger" class="md-icon-button"
 					ng-mouseenter="$mdMenu.open()"> <img
 					src="images/outline-color_lens-24px.svg" /> <md-tooltip>Change
@@ -164,17 +164,17 @@
 				</div>
 				</md-menu-item> </md-menu-content> </md-menu>
 
-				<md-button class="md-icon-button" >
+				<md-button class="md-icon-button" style="margin-left: -10px;" >
 				  <input type="file"  class="filehiding"  ng-click="addImage($event,x)">
 				  <img src="images/outline-insert_photo-24px.svg" /> 
 				 <md-tooltip>Addimage</md-tooltip> </md-button>
 				 
-				<md-button class="md-icon-button" ng-click="isArchive(x)">
+				<md-button class="md-icon-button" ng-click="isArchive(x)" style="margin-left: -10px;"> 
 				<img src="images/baseline-archive-24px.svg" /> <md-tooltip>Archive</md-tooltip>
 				</md-button>
 
 
-				<md-menu class="menu" style="display: inline-block"> <md-button
+				<md-menu class="menu" style="display: inline-block"> <md-button style="margin-left: -10px;"
 					class="md-icon-button" ng-click="$mdOpenMenu()"
 					aria-label="Open some menu"> <img
 					src="images/outline-more_vert-24px.svg" /> <md-tooltip>More</md-tooltip>
@@ -193,11 +193,11 @@
 
 	<md-subheader style="margin-left: 270px;">Others</md-subheader>
 <div>
-	<div   layout="row" layout-wrap  layout-align="center center" style="padding-bottom: 32px; padding-left: 30px;" >
-		<md-card style="background-color:{{x.color}};width:300px;" class="dashboard" 
+	<div layout="row" layout-wrap  layout-align="center end" style="width:800px; margin: 0px 0px 0px 240px;" >
+		<md-card style="background-color:{{x.color}};width: 220px;" class="dashboard" 
 			ng-repeat="x in getnotes | filter:{pin:false,trash:false,archive:false}|orderBy : getnotes : true :comparator|filter:searchText" >
         <md-button   ng-click="ispin(x)" class="md-icon-button"
-			style="margin: -13px 0px 3px 246px;" >
+			style="margin: -13px 0px 3px 192px;" >
 		<md-icon> <img style="margin: 0px 0px -25px 0px;"
 			src="images/pin.svg" /></md-icon> <md-tooltip>pin note</md-tooltip> </md-button>
 			 <img  ng-src="{{x.imageUrl}}" style="margin-top: -29px;" ng-click="showAlert($event,x)" class="md-card-image"/>
@@ -278,11 +278,11 @@
               </md-menu>
 
 	
-				<md-button class="md-icon-button" ng-click="alertEvent($event,x);getallUsers();"> <img
+				<md-button class="md-icon-button" style="margin-left: -10px;" ng-click="alertEvent($event,x);getallUsers();"> <img
 					src="images/outline-person_add-24px.svg" /> <md-tooltip>Collaborator</md-tooltip>
 				</md-button>
 
-				<md-menu class="menu"> <md-button
+				<md-menu class="menu"> <md-button style="margin-left: -10px;"
 					aria-label="Open menu with custom trigger" class="md-icon-button"
 					ng-mouseenter="$mdMenu.open()"> <img
 					src="images/outline-color_lens-24px.svg" /> <md-tooltip>Change
@@ -297,17 +297,17 @@
 				</md-menu-content> 
 				</md-menu>
 
-				<md-button class="md-icon-button" >
+				<md-button class="md-icon-button" style="margin-left: -10px;">
 				  <input type="file"  class="filehiding"  ng-click="addImage($event,x)">
 				  <img src="images/outline-insert_photo-24px.svg" /> 
 				 <md-tooltip>Addimage</md-tooltip> </md-button>
 
-				<md-button class="md-icon-button" ng-click="isArchive(x)">
+				<md-button class="md-icon-button" ng-click="isArchive(x)" style="margin-left: -10px;">
 				<img src="images/baseline-archive-24px.svg" /> <md-tooltip>Archive</md-tooltip>
 				</md-button>
 
 
-				<md-menu class="menu" style="display: inline-block"> <md-button
+				<md-menu class="menu" style="display: inline-block"> <md-button style="margin-left: -10px;"
 					class="md-icon-button" ng-click="$mdOpenMenu()"
 					aria-label="Open some menu"> <img
 					src="images/outline-more_vert-24px.svg" /> <md-tooltip>More</md-tooltip>

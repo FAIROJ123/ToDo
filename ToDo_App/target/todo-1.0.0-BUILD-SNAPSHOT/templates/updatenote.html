@@ -41,7 +41,7 @@
     </div>
     
     <div layout="row" ng-if="note.collaboratedUser">
-	<div ng-repeat="collaborator in x.collaboratedUser" class="div3" ng-click="alertEvent($event,note);getallUsers();">
+	<div ng-repeat="collaborator in note.collaboratedUser" class="div3" ng-click="alertEvent($event,note);getallUsers();">
 	<img style="opacity: 1;width: 97%;border-radius: 50%; height: 37px;" ng-src="{{collaborator.userProfile}}" />
 	<md-tooltip>{{collaborator.email}}</md-tooltip>
 	</div>

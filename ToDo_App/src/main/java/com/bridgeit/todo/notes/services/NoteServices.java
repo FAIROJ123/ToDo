@@ -111,6 +111,7 @@ public class NoteServices {
 			notedao.deleteNote(note2);
 
 		}
+		
 	}
 
 

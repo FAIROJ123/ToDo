@@ -1,4 +1,4 @@
-app.controller('dashboardController', function($scope, $state, userservice,$mdDialog,labelservice,$rootScope,$location) {
+app.controller('dashboardController', function($scope, $state,$mdPanel, userservice,$mdDialog,labelservice,$rootScope,$location) {
 	$scope.name='grid';
 	$scope.hoverIn = function(ev) {
 	    this.hoverEdit = true;
@@ -44,6 +44,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 				});
 	}
 	}
+	
 	
 	
 	$scope.getallnotes =function() {
@@ -216,7 +217,6 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 	}
 	
 	$scope.isTrash=function(note){
-//		console.log("Before: ",note);
 		console.log(note.trash)
 		if(note.trash==false){
 			note.trash=true;
@@ -368,7 +368,7 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
        }
     
     var noteobject=null;
-    $scope.showAlertlabel=function(event,note){
+   /* $scope.showAlertlabel=function(event,note){
     	noteobject=note;
     	
    	 $mdDialog.show({
@@ -383,31 +383,52 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 
      });
    }
-   
-    var userData = "";
-    $scope.userData ="";
-    function getLoginUser() {
-      console.log("Inside get all Users...");
-      var url = commonUrl + 'getLoginUser';
-      userservice.getmethod(url).then(function successCallback(response) {
-        console.log("success" + response.data);
-        $scope.userData = response.data;
-        userData= $scope.userData;
-      }, function errorCallback(response) {
-        console.log("error" + response.data);
-      })
+   */
+    var noteobject=null;
+    $scope.showAlertlabel = function($event, note) {
+    	noteobject=note;
+    	console.log("Note:",note);
+        var template = this.menuTemplate;
 
-      return userData;
-    }
+        var position = $mdPanel.newPanelPosition()
+            .relativeTo($event.target)
+            .addPanelPosition(
+              $mdPanel.xPosition.ALIGN_START,
+              $mdPanel.yPosition.BELOW
+            );
 
-    getLoginUser(); 
+        var config = {
+          attachTo: angular.element(document.body),
+          controller: dialogController2,
+          templateUrl: 'templates/Logout.html',
+          position: position,
+          panelClass: 'menu-panel-container',
+          locals:{note : note,sc:$scope},
+          openFrom: $event,
+          focusOnOpen: false,
+          zIndex: 100,
+          //propagateContainerEvents: true,
+          targetEvent: event,
+          clickOutsideToClose:true
+        };
+
+        $mdPanel.open(config);
+      };
     
-   function dialogController2($scope,$mdDialog) {
+
+    
+    
+    
+   function dialogController2($scope,$mdDialog,note,sc) {
+	   console.log("Note in controller:",note);
    	 
-   	  $scope.cancel = function() {
+   	 /* $scope.cancel = function() {
    	      $mdDialog.cancel();
    	      
-   	    };
+   	    };*/
+	   $scope.cancel = function() {
+		      mdPanelRef && mdPanelRef.close();
+		    }
    	 $scope.getallLabels =function() {
 
   	    var url = commonUrl + "getallLabels";
@@ -425,20 +446,58 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
 
   				});
    	 }
+   	 
+   	$scope.isTrash=function(){
+   		console.log("Inside panel controller...",note);
+		console.log(note.trash)
+		if(note.trash==false){
+			note.trash=true;
+			console.log(note)
+		
+		}
+		else{
+			note.trash=false;
+		}
+		$scope.updatenote1 = function(note){
+	  		console.log("from update(): ",note);
+	  		console.log("in update");		
+	  		var url = commonUrl + "updateNote";
+	  		userservice.putmethod(note,url).then(
+	  				function successCallback(response) {
+	  					
+	  					console.log("success", sc);
+	  					sc.getallnotes();
+	  					
+	  					return response.data;
+
+	  				}, function errorCallback(response) {
+	  					console.log("Error occur", response);
+	  					return response;
+
+	  				});
+	  		
+	  	}
+	  $scope.updatenote1(note); 
+		
+	}
+   	
   		$scope.addlabelonNote=function(label){
   			console.log("Label  in dashboard:",label);
-			console.log("note  in dashboard:",noteobject);
- 		  var index=noteobject.labelslist.findIndex(x => x.labelname===label.labelname);
+			console.log("note  in dashboard:",note);
+ 		  var index=note.labelslist.findIndex(x => x.labelname===label.labelname);
+ 		  var ac = 1;
 		 if (index > -1) {
-       	  noteobject.labelslist.splice(index, 1);
+       	  note.labelslist.splice(index, 1);
+       	  ac = 0;
          }
          else {
-       	  noteobject.labelslist.push(label);
+       	  note.labelslist.push(label);
+       	  ac = 1;
          }
 		
 			 console.log("inside if....");
 			 var commonUrl = "http://localhost:8080/todo/";
-  			 var url = commonUrl + "noteandlabel/"+noteobject.id+"/"+label.id;
+  			 var url = commonUrl + "noteandlabel/"+note.id+"/"+label.id+"?ac="+ac;
   			 console.log("inside label.....");
   			labelservice.labelputmethod(url).then(
   					function successCallback(response) {
@@ -475,6 +534,24 @@ app.controller('dashboardController', function($scope, $state, userservice,$mdDi
    
    }
    }
+   
+   var userData = "";
+   $scope.userData ="";
+   function getLoginUser() {
+     console.log("Inside get all Users...");
+     var url = commonUrl + 'getLoginUser';
+     userservice.getmethod(url).then(function successCallback(response) {
+       console.log("success" + response.data);
+       $scope.userData = response.data;
+       userData= $scope.userData;
+     }, function errorCallback(response) {
+       console.log("error" + response.data);
+     })
+
+     return userData;
+   }
+
+   getLoginUser(); 
   
    $scope.reminders =["Today, 8:00 PM","Tomorrow, 8:00 AM","Next Week, Mon,8:00 AM "];
    
@@ -662,8 +739,23 @@ $scope.getallUsers=function(){
 			});
 	
 }
+$scope.userData ={};
+$scope.getLoginUser=function(){
+  console.log("Inside get all Users...");
+  var url = commonUrl + 'getLoginUser';
+  console.log("URL:"+url);
+  userservice.getmethod(url).then(function successCallback(response) {
+    $scope.userData = response.data;
+    userData= $scope.userData;
+    console.log("success" + userData);
+  }, function errorCallback(response) {
+    console.log("error" + response.data);
+  })
 
+  return userData;
+}
 
+$scope.getLoginUser();
   
   $scope.addCollaboratorOnNote=function(email){
 	  

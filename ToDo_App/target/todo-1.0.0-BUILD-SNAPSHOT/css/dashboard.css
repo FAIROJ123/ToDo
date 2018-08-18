@@ -1,5 +1,5 @@
 .container{
-  margin: 25px -218px 0px 0px;
+  margin: 11px -216px 0px -82px;
     padding: 6px 118px 3px 6px;
     width: 500px;
 }
@@ -15,6 +15,9 @@
     border-top: 1px solid #ccc;
     border-color: rgba(0,0,0,.2);
     display: table;
+}
+.menu-panel-container {
+  pointer-events: auto;
 }
 .color{
     width: 100%;

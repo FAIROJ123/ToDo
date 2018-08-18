@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.jboss.logging.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -94,7 +96,7 @@ public class MynoteController {
   
   
   @RequestMapping(value = "/noteandlabel/{id}/{id1}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateRelationNoteLabel(@PathVariable("id") int noteid,
+	public ResponseEntity<?> updateRelationNoteLabe(@RequestParam("ac") int action,@PathVariable("id") int noteid,
 			@PathVariable("id1") int labelid) {
 		System.out.println("noteId : " + noteid);
 		System.out.println("labelId : " + labelid);
@@ -107,7 +109,7 @@ public class MynoteController {
 
 	}
   @RequestMapping(value = "/labeldeleteOnNote/{id}/{id1}", method = RequestMethod.POST)
-	public ResponseEntity<?> deletelabel(@PathVariable("id") int noteid,
+	public ResponseEntity<?> deletelabel( @PathVariable("id") int noteid,
 			@PathVariable("id1") int labelid) {
 		System.out.println("noteId : " + noteid);
 		System.out.println("labelId : " + labelid);

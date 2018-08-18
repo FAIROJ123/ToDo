@@ -1,12 +1,33 @@
+<md-card ng-show="!Shownote" >
 
+<md-menu-content> 
+				<md-menu-item>
+				 <md-button ng-click="isTrash(x)">Delete note</md-button>
+					 </md-menu-item> 
+					<md-menu-item ng-click="Shownote=true">
+					
+							<md-button ng-click="showAlertlabel($event,x)">Add Label</md-button>
+					 </md-menu-item> 
+					 </md-menu-content>
+</md-card>
 
-<md-toast>
-<br>
-  <span class="md-toast-text" flex>SHAIK FAIROJ</span>
-  <br>
-  fairojcse@gmail.com
-  
-  <md-button ng-click="Logout()">
-    Logout
-  </md-button>
-</md-toast>
+    <md-card ng-show="Shownote">
+            <Strong>Label notes</Strong>
+            <div layout="row" layout-align="start space-between">
+                <input type="text" style="border: none;outline: none;margin-left: 15px;" placeholder="Enter label name"  ng-maxlength=25>
+                <md-button class="md-icon-button md-icon-right" style="margin: 0 auto;padding: 0px;">
+                    <md-icon><i style="margin-top: 19px;" class="material-icons">search</i></md-icon>
+                </md-button>
+            </div>
+           
+           <div ng-init="getallLabels()">
+ <div  layout="row" layout-align="start"  ng-repeat="label in getlabels">
+               <md-checkbox ng-checked="exists(label, selected)"  ng-click="toggle(label,selected);addlabelonNote(label)">
+                            {{ label.labelname }}
+                        </md-checkbox> 
+               
+
+</div>
+</div>
+ </div>
+ </md-card>

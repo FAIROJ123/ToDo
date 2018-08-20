@@ -73,6 +73,7 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $locat
 
 				});
 	}
+  $scope.getallLabels();
   
   $scope.trash = function() {
 	  
@@ -224,6 +225,7 @@ function dialogController($scope,$mdDialog,userservice) {
 
  				});
  	}
+ 	 $scope.getallLabels();
  	
  	$scope.deletelabel =function(label){
 		

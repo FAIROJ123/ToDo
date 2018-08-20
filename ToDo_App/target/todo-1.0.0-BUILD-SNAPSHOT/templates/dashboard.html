@@ -94,6 +94,7 @@
   </md-chips>
     </div>
     
+   
     <div layout="row" ng-if="x.collaboratedUser">
 	<div ng-repeat="collaborator in x.collaboratedUser" class="div3" ng-click="alertEvent($event,x);getallUsers();" >
 	<img style="opacity: 1;width: 97%;border-radius: 50%; height: 37px;" ng-src="{{collaborator.userProfile}}" />
@@ -230,6 +231,7 @@
 	</div>
 	
 	</div>
+	
 		<div layout="row" style=" color: rgba(0, 0, 0, .54);background-color:{{x.color}}">
 
 				 <md-menu >
@@ -302,33 +304,43 @@
 				<img src="images/baseline-archive-24px.svg" /> <md-tooltip>Archive</md-tooltip>
 				</md-button>
 
-<!-- 
-				<md-menu class="menu" style="display: inline-block"> <md-button style="margin-left: -10px;"
-					class="md-icon-button" ng-click="$mdOpenMenu()"
-					aria-label="Open some menu"> <img
-					src="images/outline-more_vert-24px.svg" /> <md-tooltip>More</md-tooltip>
-				</md-button> 
-				<md-menu-content> 
-				<md-menu-item>
-				 <md-button ng-click="isTrash(x)">Delete note</md-button>
-					 </md-menu-item> 
-					<md-menu-item>
-					
-							<md-button ng-click="showAlertlabel($event,x)">Add Label</md-button>
-					 </md-menu-item> 
-					 </md-menu-content>
-					
-					  </md-menu>
-					</div> -->
+
 					 <md-button style="margin-left: -10px;"
 					class="md-icon-button" ng-click="showAlertlabel($event,x)"
 					aria-label="Open some menu"> <img
 					src="images/outline-more_vert-24px.svg" /> <md-tooltip>More</md-tooltip>
 				</md-button> 
+				</div>
 				
+				<span ng-click="showAlert($event,x)" ng-init="checkIfUrl(x)" >
+	<div ng-repeat=" data in x.array" >
+
+		<div ng-if="data.title">
+			
+					 <div layout="row"  flex="100">
+					 	<div  flex="40" >
+							<img ng-src="{{data.image}}" height="70" width="80">
+						</div>
+						<div flex="60" layout="column" >
+					
+							<div ng-bind="data.title" flex="100"
+								style="font-size: 14px; color: black;"></div>
+						
+					
+							<div flex="100" ng-bind="data.domain" style="font-size: 11px; color: grey;"></div>
+						</div>
 					
 					 
-					</div>
+					 </div>
+				
+					
+				<!-- </div> -->
+			
+		</div>
+	</div>
+</span> 
+
+	
 						
 	
 	</md-card>

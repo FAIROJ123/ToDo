@@ -67,6 +67,16 @@ app.service('userservice', function($http, $state) {
 			
 			});	
 		}
+	    
+	    service.checkingUrl=function(url,sendingUrl){
+			return $http({
+			method:'POST',
+			url   :url,
+			headers: {
+				url: sendingUrl
+				}
+			});	
+		}
 	
 	return service;
 	

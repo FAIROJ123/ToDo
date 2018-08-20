@@ -45,6 +45,33 @@
 	<md-tooltip>{{collaborator.email}}</md-tooltip>
 	</div>
 	</div>
+	
+	<div  ng-init="checkIfUrl(note)" >
+	<div ng-repeat=" data in note.array" >
+
+		<div ng-if="data.title">
+			<a ng-href="{{data.url}}" target="_blank">
+				
+				<div layout="row"  flex="100">
+					 	<div  flex="40" >
+							<img ng-src="{{data.image}}" height="70" width="80">
+						</div>
+						<div flex="60" layout="column" >
+					
+							<div ng-bind="data.title" flex="100"
+								style="font-size: 14px; color: black;"></div>
+						
+					
+							<div flex="100" ng-bind="data.domain" style="font-size: 11px; color: grey;"></div>
+						</div>
+					
+					 
+					 </div>
+				
+			</a>
+		</div>
+	</div>
+</div> 
         <div layout="row" style="margin: -14px 0px 0px 0px;background-color:{{note.color}};" >      
             <md-button class="md-icon-button"  >
   <img src="images/baseline-touch_app-24px.svg" />

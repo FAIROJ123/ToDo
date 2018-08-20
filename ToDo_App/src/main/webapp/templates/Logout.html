@@ -1,4 +1,4 @@
-<md-card ng-show="!Shownote" style="margin-top: 67px;" >
+<md-card ng-show="!Shownote"  >
 
 <md-menu-content> 
 				<md-menu-item>
@@ -21,8 +21,8 @@
             </div>
            
            <div ng-init="getallLabels()">
- <div  layout="row" layout-align="start"  ng-repeat="label in getlabels">
-               <md-checkbox ng-checked="exists(label, selected)"  ng-click="toggle(label,selected);addlabelonNote(label)">
+ <div  layout="row" layout-align="start">
+               <md-checkbox ng-repeat="label in getlabels" ng-checked="exists(label, selected)"  ng-click="toggle(label,selected);addlabelonNote(label)">
                             {{ label.labelname }}
                         </md-checkbox> 
                

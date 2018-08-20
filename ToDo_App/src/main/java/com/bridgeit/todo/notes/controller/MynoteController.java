@@ -1,10 +1,14 @@
 package com.bridgeit.todo.notes.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.jboss.logging.Param;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
@@ -22,6 +26,8 @@ import com.bridgeit.todo.notes.model.Notes;
 import com.bridgeit.todo.notes.services.NoteServices;
 import com.bridgeit.todo.user.model.User;
 import com.bridgeit.todo.user.utility.CustomRes;
+import com.bridgeit.todo.user.utility.Scrapping;
+import com.bridgeit.todo.user.utility.WebScrapping;
 
 
 @RestController
@@ -211,10 +217,29 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
 		return new ResponseEntity<byte[]>(file,HttpStatus.OK);
 		
 	
-		
-
+}
+  
+  
+  
+@RequestMapping(value="/getUrl" ,method = RequestMethod.POST)
+  public ResponseEntity<?> getUrl(HttpServletRequest req) 
+  {
+	  System.out.println("dsfuh");
+	  String Url = req.getHeader("url");
+	  System.out.println("URL:"+Url);
+	  WebScrapping link = new WebScrapping();
+	  Scrapping data = null;
+	  
+	  try {
+		data=  link.parsePageHeaderInfo(Url);
+		  
+	  }catch (Exception e) {
+       e.printStackTrace();
 	}
-
+	 
+	 return ResponseEntity.ok(data);
+	  
+  }
   
   
 }

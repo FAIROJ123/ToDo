@@ -45,7 +45,56 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
 	}
 	}
 	
-	
+	$scope.checkIfUrl = function(note){
+
+		console.log("Note in Url:",note);
+		   var pattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
+		   var url = note.description.match(pattern);
+          var array=[];
+          
+          console.log(url);
+           if(note.size==undefined){
+              	note.size=0;
+              	note.url=[];
+              	 note.array=[];
+               }
+        	  if ((url != "" && url != undefined) && note.size<url.length) {
+           
+            for(var i=0;i<url.length;i++){
+        		note.url[i]=url[i];
+        		//var commonUrl = "http://localhost:8080/todo/";
+        		var baseurl=commonUrl+"getUrl";
+        		console.log("Baseusrl:",baseurl);
+        		userservice.checkingUrl(baseurl,url[i]).then(
+        				function successCallback(response) {
+
+        					console.log("success", response);
+        					 var responseData = response.data;
+        					 console.log("responsedata:",responseData);
+        			          if (responseData.title.length > 20) {
+        			            responseData.title = responseData.title.substr(0, 15) + '..';
+        			          }
+        			          array[note.size] = {
+        			            title: responseData.title,
+        			            url: note.url[note.size],
+        			            image: responseData.image,
+        			            domain: responseData.domain
+        			            
+        			          }
+        			          
+        			         
+
+        			          note.array[note.size] = array[note.size];
+        			          note.size = note.size + 1;
+        				          
+        				        }, function errorCallback(response) {
+        				          console.log("Error occur");
+        				        });
+        		
+        	}
+        }
+
+      };
 	
 	$scope.getallnotes =function() {
 
@@ -350,6 +399,9 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
     	    	  	}
     			  $scope.updatenote1(note); 
     		  }
+    	    
+    	    
+    	    
     	    }
     
     $scope.changeColor = function(note, value) {
@@ -403,7 +455,7 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
           templateUrl: 'templates/Logout.html',
           position: position,
           panelClass: 'menu-panel-container',
-          locals:{note : note,sc:$scope},
+          locals:{note : note,sc:$scope           },
           openFrom: $event,
           focusOnOpen: false,
           zIndex: 100,
@@ -513,7 +565,7 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
   		
   		
   		 
-   	 $scope.selected = [];
+   	 $scope.selected = note.labelslist;
 
     $scope.toggle = function (item, list) {
        var idx = list.indexOf(item);
@@ -523,11 +575,18 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
        else {
          list.push(item);
        }
+       $scope.addlabelonNote(item);
      };
 
-     $scope.exists = function (item, list) {
-       return list.indexOf(item) > -1;
-     };
+     $scope.exists = function(item, list) {
+         for (var i = 0; i < list.length; i++) {
+           var selectedobject = list[i];
+           if (selectedobject.labelname == item.labelname) {
+             return true;
+           }
+         }
+         return false;
+       };
      
      
   

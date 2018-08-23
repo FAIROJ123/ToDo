@@ -54,6 +54,8 @@
 			<md-button style="margin: -55px 0px 3px 401px;"
 				ng-click="Shownote=false;createNote();">Close</md-button>
 		</div>
+		
+		
 		</md-card>
 	</div>
 
@@ -63,31 +65,31 @@
 		<md-subheader  style="margin-left: 270px;">Pinned </md-subheader>
 		<div layout="row" layout-wrap  layout-align="center center"
 			style="width:800px; margin: 0px 0px 0px 240px;">
-			<md-card class="dashboard" ng-repeat="x in getnotes | filter:{pin:true,trash:false,archive:false}|filter:searchText"
-				style="background-color:{{x.color}};width: 220px;"
+			<md-card class="dashboard" ng-repeat="note in getnotes | filter:{pin:true,trash:false,archive:false}|filter:searchText"
+				style="background-color:{{note.color}};width: 220px;"
 				ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" >
 			<md-button class="md-icon-button" 
 				style="margin: -13px 0px 3px 192px;" 
-				ng-click="ispin(x)"> <md-icon> <img
+				ng-click="ispin(note)"> <md-icon> <img
 				style="margin: 0px 0px -25px 0px;" src="images/bluepin.svg" /></md-icon> <md-tooltip>Unpinnote</md-tooltip>
 			</md-button>
-		 <img  ng-src="{{x.imageUrl}}" style="margin-top: -29px;" ng-click="showAlert($event,x)" class="md-card-image"/>
+		 <img  ng-src="{{note.imageUrl}}" style="margin-top: -29px;" ng-click="showAlert($event,mote)" class="md-card-image"/>
 			
-			<div class="value-data" ng-click="showAlert($event,x)">{{x.title}}</div>
-			<div  class="value" ng-click="showAlert($event,x)">{{x.description}}</div>
-<div  layout="row" ng-if="x.remainder" layout-wrap layout-align="start space-around">
+			<div class="value-data" ng-click="showAlert($event,note)">{{note.title}}</div>
+			<div  class="value" ng-click="showAlert($event,note)">{{note.description}}</div>
+<div  layout="row" ng-if="note.remainder" layout-wrap layout-align="start space-around">
                     <md-chips >
-                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | dateformat}}</span>
-                        <md-button  ng-click="remove(x)" class="md-icon-button"  style="margin: 0px auto;padding: 0px;" >
+                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{note.remainder | dateformat}}</span>
+                        <md-button  ng-click="remove(note)" class="md-icon-button"  style="margin: 0px auto;padding: 0px;" >
                         <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
                         </md-button > 
                         </md-chip>
   </md-chips>
   </div>
-  <div  layout="row" ng-if="x.labelslist" layout-wrap layout-align="start space-around">             
-<md-chips   ng-repeat="label in x.labelslist">
+  <div  layout="row" ng-if="note.labelslist" layout-wrap layout-align="start space-around">             
+<md-chips   ng-repeat="label in note.labelslist">
   <md-chip  style="margin:0px auto;padding: 0px;">{{label.labelname}}
-  <md-button  class="md-icon-button" ng-click="removelabelonNote(label,x)"  style="margin: 0px auto;padding: 0px;">
+  <md-button  class="md-icon-button" ng-click="removelabelonNote(label,note)"  style="margin: 0px auto;padding: 0px;">
   <md-icon><i style="margin-top: 17px;" class="material-icons">close</i></md-icon>
   </md-button>
   </md-chip>
@@ -95,14 +97,14 @@
     </div>
     
    
-    <div layout="row" ng-if="x.collaboratedUser">
-	<div ng-repeat="collaborator in x.collaboratedUser" class="div3" ng-click="alertEvent($event,x);getallUsers();" >
+    <div layout="row" ng-if="note.collaboratedUser">
+	<div ng-repeat="collaborator in note.collaboratedUser" class="div3" ng-click="alertEvent($event,note);getallUsers();" >
 	<img style="opacity: 1;width: 97%;border-radius: 50%; height: 37px;" ng-src="{{collaborator.userProfile}}" />
 	<md-tooltip>{{collaborator.email}}</md-tooltip>
 	</div>
 	</div>
 			<div layout="row"  
-				style="background-color: white; color: rgba(0, 0, 0, .54);margin-top: 26px; background-color: {{x.color}}">
+				style="background-color: white; color: rgba(0, 0, 0, .54);margin-top: 26px; background-color: {{note.color}}">
 
 				
 				 <md-menu >
@@ -112,13 +114,13 @@
                 </md-button>
                 <md-menu-content direction="down" layout="column" flex class="md-padding">
                   <p>Reminder: </p>
-                  <md-menu-item class="pointer mdmenu" ng-click="LaterToday(x)">Later today
+                  <md-menu-item class="pointer mdmenu" ng-click="LaterToday(note)">Later today
                     <span>8.00 PM</span>
                   </md-menu-item>
-                  <md-menu-item ng-click="Tomorrow(x)" class="pointer mdmenu">Tomorrow
+                  <md-menu-item ng-click="Tomorrow(note)" class="pointer mdmenu">Tomorrow
                     <span>8.00 AM</span>
                   </md-menu-item>
-                  <md-menu-item ng-click="NextWeek(x)" class="pointer mdmenu">Next week
+                  <md-menu-item ng-click="NextWeek(note)" class="pointer mdmenu">Next week
                     <span>Mon, 8.00 AM </span>
                   </md-menu-item>
                  <md-menu>
@@ -150,7 +152,7 @@
 
 </md-card>
 
-				<md-button class="md-icon-button" style="margin-left: -10px;" ng-click="alertEvent($event,x);getallUsers();"> <img
+				<md-button class="md-icon-button" style="margin-left: -10px;" ng-click="alertEvent($event,note);getallUsers();"> <img
 					src="images/outline-person_add-24px.svg" /> <md-tooltip>Collaborator</md-tooltip>
 				</md-button>
 
@@ -159,30 +161,60 @@
 					ng-mouseenter="$mdMenu.open()"> <img
 					src="images/outline-color_lens-24px.svg" /> <md-tooltip>Change
 				color</md-tooltip> </md-button> <md-menu-content ng-mouseleave="$mdMenu.close()">
-				<md-menu-item ng-repeat="y in colors">
-				<div ng-repeat="item in y" style="padding-right: 4px;">
+				<md-menu-item ng-repeat="color in colors">
+				<div ng-repeat="item in color" style="padding-right: 4px;">
 					<div ng-style="{'background-color':item.value};"
 						style="height: 25px; width: 25px; border-radius: 150px; cursor: pointer;"
-						ng-click="changeColor(x,item.value)"></div>
+						ng-click="changeColor(note,item.value)"></div>
 				</div>
 				</md-menu-item> </md-menu-content> </md-menu>
 
 				<md-button class="md-icon-button" style="margin-left: -10px;" >
-				  <input type="file"  class="filehiding"  ng-click="addImage($event,x)">
+				  <input type="file"  class="filehiding"  ng-click="addImage($event,note)">
 				  <img src="images/outline-insert_photo-24px.svg" /> 
 				 <md-tooltip>Addimage</md-tooltip> </md-button>
 				 
-				<md-button class="md-icon-button" ng-click="isArchive(x)" style="margin-left: -10px;"> 
+				<md-button class="md-icon-button" ng-click="isArchive(note)" style="margin-left: -10px;"> 
 				<img src="images/baseline-archive-24px.svg" /> <md-tooltip>Archive</md-tooltip>
 				</md-button>
 
 
 				 <md-button style="margin-left: -10px;"
-					class="md-icon-button" ng-click="showAlertlabel($event,x)"
+					class="md-icon-button" ng-click="showAlertlabel($event,note)"
 					aria-label="Open some menu"> <img
 					src="images/outline-more_vert-24px.svg" /> <md-tooltip>More</md-tooltip>
 				</md-button> 
 			</div>
+			
+			<span ng-click="showAlert($event,note)" ng-init="checkIfUrl(note)" >
+	<div ng-repeat=" data in note.arraylist" >
+
+		<div ng-if="data.title">
+			<a ng-href="{{data.url}}" target="_blank">
+					 <div layout="row"  flex="100">
+					 	<div  flex="40" >
+							<img ng-src="{{data.image}}" height="70" width="80">
+						</div>
+						<div flex="60" layout="column" >
+					
+							<div ng-bind="data.title" flex="100"
+								style="font-size: 14px; color: black;"></div>
+						
+					
+							<div flex="100" ng-bind="data.domain" style="font-size: 11px; color: grey;"></div>
+						</div>
+						<div>
+					<img style="height: 15px;width: 15px;" src="images/baseline-done-24px.svg">
+					<md-tooltip>Goto Link</md-tooltip>
+					 </div>
+					 </div>
+				</a>
+					
+				
+			
+		</div>
+	</div>
+</span> 
 		
 		</md-card>
 	</div>
@@ -191,48 +223,48 @@
 	<md-subheader style="margin-left: 270px;">Others</md-subheader>
 <div>
 	<div layout="row" layout-wrap  layout-align="center end" style="width:800px; margin: 0px 0px 0px 240px;" >
-		<md-card style="background-color:{{x.color}};width: 220px;" class="dashboard" 
-			ng-repeat="x in getnotes | filter:{pin:false,trash:false,archive:false}|orderBy : getnotes : true :comparator|filter:searchText" >
-        <md-button   ng-click="ispin(x)" class="md-icon-button"
+		<md-card style="background-color:{{note.color}};width: 220px;" class="dashboard" 
+			ng-repeat="note in getnotes | filter:{pin:false,trash:false,archive:false}|orderBy : getnotes : true :comparator|filter:searchText" >
+        <md-button   ng-click="ispin(note)" class="md-icon-button"
 			style="margin: -13px 0px 3px 192px;" >
 		<md-icon> <img style="margin: 0px 0px -25px 0px;"
 			src="images/pin.svg" /></md-icon> <md-tooltip>pin note</md-tooltip> </md-button>
-			 <img  ng-src="{{x.imageUrl}}" style="margin-top: -29px;" ng-click="showAlert($event,x)" class="md-card-image"/>
+			 <img  ng-src="{{note.imageUrl}}" style="margin-top: -29px;" ng-click="showAlert($event,note)" class="md-card-image"/>
 
-		<div class="value-data" ng-click="showAlert($event,x)">{{x.title}}</div>
-		<div contenteditable="true" ng-bind-html="x.description" class="value" ng-click="showAlert($event,x)">{{x.description}}</div>
+		<div class="value-data" ng-click="showAlert($event,note)">{{note.title}}</div>
+		<div contenteditable="true" ng-bind-html="note.description" class="value" ng-click="showAlert($event,note)">{{note.description}}</div>
 	<div>	
  	<div ng-if="x.remainder" layout="row" layout-wrap layout-align="start space-around">
                     <md-chips >
-                      <md-chip   style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | dateformat}}</span>
-                        <md-button ng-click="remove(x)"  class="md-icon-button" style="margin: 0px auto;padding: 0px;" >
+                      <md-chip   style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{note.remainder | dateformat}}</span>
+                        <md-button ng-click="remove(note)"  class="md-icon-button" style="margin: 0px auto;padding: 0px;" >
                         <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
                         </md-button > 
                         </md-chip>
                         </md-chips>
                  </div>
- <div  layout="row" ng-if="x.labelslist" layout-wrap layout-align="start space-around"> 
-<md-chips    ng-repeat="label in x.labelslist"">
+ <div  layout="row" ng-if="note.labelslist" layout-wrap layout-align="start space-around"> 
+<md-chips    ng-repeat="label in note.labelslist"">
   <md-chip  style="margin:0px auto;padding: 0px;">
   
   {{label.labelname}}
-  <md-button  class="md-icon-button" ng-click="removelabelonNote(label,x)" style="margin: 0px auto;padding: 0px;">
+  <md-button  class="md-icon-button" ng-click="removelabelonNote(label,note)" style="margin: 0px auto;padding: 0px;">
   <md-icon><i style="margin-top: 17px;" class="material-icons">close</i></md-icon>
   </md-button>
   </md-chip>
   </md-chips>
 	</div>
 
- 	<div layout="row" ng-if="x.collaboratedUser">
-	<div ng-repeat="collaborator in x.collaboratedUser" class="div3" ng-click="alertEvent($event,x);getallUsers();">
-	<img style="opacity: 1;width: 97%;border-radius: 50%; height: 37px;" ng-src="{{collaborator.userProfile}}" />
+ 	<div layout="row" ng-if="note.collaboratedUser">
+	<div ng-repeat="collaborator in note.collaboratedUser" class="div3" ng-click="alertEvent($event,note);getallUsers();">
+	<img style="opacity: 1;width: 97%;border-radius: 50%; height: 37px;"  ng-src="{{collaborator.userProfile}}" />
 	<md-tooltip>{{collaborator.email}}</md-tooltip>
 	</div>
 	</div>
 	
 	</div>
 	
-		<div layout="row" style=" color: rgba(0, 0, 0, .54);background-color:{{x.color}}">
+		<div layout="row" style=" color: rgba(0, 0, 0, .54);background-color:{{note.color}}">
 
 				 <md-menu >
                 <md-button class="md-icon-button" ng-click="$mdMenu.open()">
@@ -241,13 +273,13 @@
                 </md-button>
                 <md-menu-content direction="down" layout="column" flex class="md-padding">
                   <p>Reminder: </p>
-                  <md-menu-item class="pointer mdmenu" ng-click="LaterToday(x)">Later today
+                  <md-menu-item class="pointer mdmenu" ng-click="LaterToday(note)">Later today
                     <span>8.00 PM</span>
                   </md-menu-item>
-                  <md-menu-item ng-click="Tomorrow(x)" class="pointer mdmenu">Tomorrow
+                  <md-menu-item ng-click="Tomorrow(note)" class="pointer mdmenu">Tomorrow
                     <span>8.00 AM</span>
                   </md-menu-item>
-                  <md-menu-item ng-click="NextWeek(x)" class="pointer mdmenu">Next week
+                  <md-menu-item ng-click="NextWeek(note)" class="pointer mdmenu">Next week
                     <span>Mon, 8.00 AM </span>
                   </md-menu-item>
                  <md-menu>
@@ -261,11 +293,11 @@
                    <span>Pickup date&time </span>
                    </md-button>
                   <div>
-                  <md-datepicker style="margin-right: -267px;background-color:white;" ng-model="x.pickerdate" md-placeholder="Enter date"></md-datepicker>
+                  <md-datepicker style="margin-right: -267px;background-color:white;" ng-model="note.pickerdate" md-placeholder="Enter date"></md-datepicker>
                    </div> 
                    <md-menu-item>
                             <div layout="row" layout-align="end end">
-                              <input type="button"  value="Save"  ng-click="pickdate(x)">
+                              <input type="button"  value="Save"  ng-click="pickdate(note)">
                             </div>
                        </md-menu-item>
                     </md-menu-item>
@@ -276,7 +308,7 @@
               </md-menu>
 
 	
-				<md-button class="md-icon-button" style="margin-left: -10px;" ng-click="alertEvent($event,x);getallUsers();"> <img
+				<md-button class="md-icon-button" style="margin-left: -10px;" ng-click="alertEvent($event,note);getallUsers();"> <img
 					src="images/outline-person_add-24px.svg" /> <md-tooltip>Collaborator</md-tooltip>
 				</md-button>
 
@@ -285,56 +317,58 @@
 					ng-mouseenter="$mdMenu.open()"> <img
 					src="images/outline-color_lens-24px.svg" /> <md-tooltip>Change
 				color</md-tooltip> </md-button> <md-menu-content ng-mouseleave="$mdMenu.close()">
-				<md-menu-item ng-repeat="y in colors">
-				<div ng-repeat="item in y" style="padding-right: 4px;">
+				<md-menu-item ng-repeat="color in colors">
+				<div  ng-repeat="item in color" style="padding-right: 4px;top:183px;">
 					<div ng-style="{'background-color':item.value};"
 						style="height: 25px; width: 25px; border-radius: 150px; cursor: pointer;"
-						ng-click="changeColor(x,item.value)"></div>
+						ng-click="changeColor(note,item.value)"></div>
 				</div>
 				</md-menu-item> 
 				</md-menu-content> 
 				</md-menu>
 
 				<md-button class="md-icon-button" style="margin-left: -10px;">
-				  <input type="file"  class="filehiding"  ng-click="addImage($event,x)">
+				  <input type="file"  class="filehiding"  ng-click="addImage($event,note)">
 				  <img src="images/outline-insert_photo-24px.svg" /> 
 				 <md-tooltip>Addimage</md-tooltip> </md-button>
 
-				<md-button class="md-icon-button" ng-click="isArchive(x)" style="margin-left: -10px;">
+				<md-button class="md-icon-button" ng-click="isArchive(note)" style="margin-left: -10px;">
 				<img src="images/baseline-archive-24px.svg" /> <md-tooltip>Archive</md-tooltip>
 				</md-button>
 
 
 					 <md-button style="margin-left: -10px;"
-					class="md-icon-button" ng-click="showAlertlabel($event,x)"
+					class="md-icon-button" ng-click="showAlertlabel($event,note)"
 					aria-label="Open some menu"> <img
 					src="images/outline-more_vert-24px.svg" /> <md-tooltip>More</md-tooltip>
 				</md-button> 
 				</div>
 				
-				<span ng-click="showAlert($event,x)" ng-init="checkIfUrl(x)" >
-	<div ng-repeat=" data in x.array" >
+				<span ng-click="showAlert($event,note)" ng-init="checkIfUrl(note)" >
+	<div ng-repeat=" data in note.arraylist" >
 
 		<div ng-if="data.title">
-			
+			<a ng-href="{{data.url}}" target="_blank">
 					 <div layout="row"  flex="100">
 					 	<div  flex="40" >
 							<img ng-src="{{data.image}}" height="70" width="80">
 						</div>
 						<div flex="60" layout="column" >
 					
-							<div ng-bind="data.title" flex="100"
+							<div class="md-truncate" ng-bind="data.title" flex="100"
 								style="font-size: 14px; color: black;"></div>
 						
 					
 							<div flex="100" ng-bind="data.domain" style="font-size: 11px; color: grey;"></div>
 						</div>
-					
-					 
+						<div>
+					<img style="height: 15px;width: 15px;margin-left: -7px;" src="images/gotolink.svg">
+					<md-tooltip>Goto Link</md-tooltip>
 					 </div>
-				
+					 </div>
+				</a>
 					
-				<!-- </div> -->
+				
 			
 		</div>
 	</div>

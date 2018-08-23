@@ -13,11 +13,7 @@
           <span flex="2" ><img style="margin-bottom: -11px;" src="images/baseline-close-24px.svg"/></span>
         </div>
         <div class="iconDiv">
-        <md-button class="md-icon-button">
-<md-icon ><img style="margin-bottom:-10px;" src="images/baseline-refresh-24px.svg" /></md-icon>
-<md-tooltip>Refresh</md-tooltip>
-</md-button>
-
+        
         <md-button class="md-icon-button" class="btn"  data-ng-click="show=true;listView()"  ng-show="!show">
 <md-icon ><img style="margin-bottom:-10px;" src="images/baseline-view_list-24px.svg" /></md-icon>
 <md-tooltip>List view</md-tooltip>
@@ -26,18 +22,10 @@
           <md-icon><img style="margin-bottom:-10px;" src="images/baseline-view_quilt-24px.svg" /></md-icon>
           <md-tooltip>Grid View</md-tooltip>
         </md-button>
-         <md-button class="md-icon-button">
-<md-icon ><img style="margin-bottom:-10px;" src="images/baseline-apps-24px.svg" /></md-icon>
-<md-tooltip>Google apps</md-tooltip>
-</md-button>
-       
-        <md-button class="md-icon-button">
-<md-icon ><img style="margin-bottom:-10px;" src="images/baseline-notification_important-24px.svg" /></md-icon>
-<md-tooltip>Notifications</md-tooltip>
-</md-button>
+      
 <div class="mycollaborator" style="margin: -49px 0px 0px 230px;" ng-click="Showcard=true"> 
 <div>
-<img style="border-radius: 50%;height: 39px; width: 37px;box-sizing: border-box;;" ng-src="{{userData.userProfile}}" /></div>
+<img style="border-radius: 50%;height: 39px; width: 37px;box-sizing: border-box;;" ng-src="{{userData.userProfile|| getInitials(userData.name)}}" alt="{{userData.name.first}}" /></div>
 <md-tooltip>Sign out</md-tooltip>
 </div>
 
@@ -49,10 +37,10 @@
 <md-card class="logout">
 <div  style="background-size: 96px 96px; border: none;vertical-align: top;height: 96px;width: 96px;">
 
-<img  class="boximage" ng-src="{{userData.userProfile}}" ng-click="showfileEvent($event)" />
+<img  class="boximage" ng-src="{{userData.userProfile|| getInitials(userData.name)}}"  alt="{{userData.name.first}}" ng-click="showfileEvent($event)" />
 </div>
-<Strong style="font-size: small;text-align: center;margin-top: -20px;">SHAIK FAIROJ</Strong>
-<span style="color: #666;text-overflow: ellipsis; overflow: hidden;  text-align: center;font-size: small">fairojcse@gmail.com</span>
+<Strong style="font-size: small;text-align: center;margin-top: -20px;">{{userData.name}}</Strong>
+<span style="color: #666;text-overflow: ellipsis; overflow: hidden;  text-align: center;font-size: small">{{userData.email}}</span>
 <div>
 <br>
 <br>

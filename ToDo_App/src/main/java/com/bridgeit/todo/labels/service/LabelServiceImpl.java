@@ -27,15 +27,18 @@ public class LabelServiceImpl implements LabelService{
 	private NoteDao notedao;
 			
 		
-		@Transactional
-		
-		public int createLabel(Label label, String token) {
+//<================================= Create Label ====================================>		
+	
+	@Transactional
+	public int createLabel(Label label, String token) {
 			int id = Jwt.parseJWT(token);
 			User user = userdao.getUserById(id);
 			label.setUser(user);
 			return labeldao.createlabel(label);
 		}
 
+	
+//<================================== GetAll Labels ===================================>	
 	
 	@Transactional
 	@Override
@@ -48,29 +51,8 @@ public class LabelServiceImpl implements LabelService{
 
 	}
 
-	/* @Transactional
-	@Override
-  public boolean deleteLabel(int labelid, String token) {
-		
-		 boolean status=false;
-		int id = Jwt.parseJWT(token);	
-		System.out.println("UserId:" + id);
+//<================================== Delete Label =====================================>
 	
-		 Label label=labeldao.getlabelById(labelid);
-		 System.out.println("Label:"+label);
-		 System.out.println("label: "+label.getUser());
-		 int userid = label.getUser().getId();
-		System.out.println("uSHJ:"+userid);
-		if (userid == id)
-		{
-			System.out.println("inside if....");
-			//label.getNotes();
-			status=labeldao.deleteLabel(label);
-			System.out.println("status:"+status);
-		 return status;
-		}
-		return status;
-	}*/
 	 @Transactional
 		@Override
 		public boolean  deleteLabel(int id, String token) 
@@ -107,6 +89,9 @@ public class LabelServiceImpl implements LabelService{
 			}
 			return true;
 		}
+	 
+	 
+//<=================================Update Label =================================>	 
 	       
 	@Transactional
 	@Override
@@ -123,6 +108,9 @@ public class LabelServiceImpl implements LabelService{
 		labeldao.update(label1);
 		return true;
 	}
+	
+//<================================ GetLabel Notes ==============================>	
+	
 	
 	@Transactional
 	@Override

@@ -4,30 +4,30 @@
 	<div ng-init="getallnotes()">
 		<div layout="row" layout-wrap layout-fill 
 			style="padding-bottom: 32px; padding-left: 310px;">
-			<md-card class="dashboard" ng-repeat="x in getnotes | filter:{trash:true}|filter:searchText"
-				style="background-color:{{x.color}};width:300px;margin-top: 60px;"
+			<md-card class="dashboard" ng-repeat="note in getnotes | filter:{trash:true}|filter:searchText"
+				style="background-color:{{note.color}};width:300px;margin-top: 60px;"
 				ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" >
 
 			<md-button class="md-icon-button" ng-show="hoverEdit"
 				style="margin: -13px 0px 3px 246px;" 
-				ng-click="ispin(x)"> <md-icon> <img
+				ng-click="ispin(note)"> <md-icon> <img
 				style="margin: 0px 0px -25px 0px;" src="images/bluepin.svg" /></md-icon> <md-tooltip>Unpinnote</md-tooltip>
 			</md-button>
-			<div class="value-data" ng-click="showAlert($event,x)">{{x.title}}</div>
-			<div  class="value" ng-click="showAlert($event,x)">{{x.description}}</div>
-<div  layout="row" ng-if="x.remainder" layout-wrap layout-align="start space-around">
+			<div class="value-data" ng-click="showAlert($event,note)">{{note.title}}</div>
+			<div  class="value" ng-click="showAlert($event,note)">{{note.description}}</div>
+<div  layout="row" ng-if="note.remainder" layout-wrap layout-align="start space-around">
                     <md-chips >
-                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{x.remainder | date : 'MMM dd,HH:mm a'}}</span>
-                        <md-button  ng-click="remove(x)" class="md-icon-button"  style="margin: 0px auto;padding: 0px;" >
+                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{note.remainder | date : 'MMM dd,HH:mm a'}}</span>
+                        <md-button  ng-click="remove(note)" class="md-icon-button"  style="margin: 0px auto;padding: 0px;" >
                         <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
                         </md-button > 
                         </md-chip>
   </md-chips>
   </div>
-  <div  layout="row" ng-if="x.labelslist" layout-wrap layout-align="start space-around">             
-<md-chips   ng-repeat="label in x.labelslist">
+  <div  layout="row" ng-if="note.labelslist" layout-wrap layout-align="start space-around">             
+<md-chips   ng-repeat="label in note.labelslist">
   <md-chip  style="margin:0px auto;padding: 0px;">{{label.labelname}}
-  <md-button  class="md-icon-button" ng-click="removelabelonNote(label,x)"  style="margin: 0px auto;padding: 0px;">
+  <md-button  class="md-icon-button" ng-click="removelabelonNote(label,note)"  style="margin: 0px auto;padding: 0px;">
   <md-icon><i style="margin-top: 17px;" class="material-icons">close</i></md-icon>
   </md-button>
   </md-chip>
@@ -41,10 +41,10 @@
           </md-button>
           <md-menu-content direction="down" layout="column" flex class="md-padding">
           <md-menu-item>
-            <md-button ng-click="deletenote(x)">Delete Forever</md-button>
+            <md-button ng-click="deletenote(note)">Delete Forever</md-button>
             </md-menu-item>
             <md-menu-item>
-            <md-button ng-click="isTrash(x);">Restore</md-button>
+            <md-button ng-click="isTrash(note);">Restore</md-button>
             </md-menu-item>
           </md-menu-content>
           </md-menu>

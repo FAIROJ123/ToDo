@@ -3,7 +3,6 @@ app.service('userservice', function($http, $state) {
 	var service = [];
 	
 	service.postmethod=function(data,url){
-		console.log("data : ",data)
 		
 		return $http({
 		method:'POST',
@@ -22,6 +21,7 @@ app.service('userservice', function($http, $state) {
 			headers:{
 				'ID':localStorage.getItem('token')
 			}
+		
 		});
 	}
 	service.labelpostmethod=function(url){
@@ -35,7 +35,6 @@ app.service('userservice', function($http, $state) {
 	}
 	
 	service.putmethod=function(data,url){
-		console.log("data : ",data)
 		return $http({
 			method:'PUT',
 			url:url,

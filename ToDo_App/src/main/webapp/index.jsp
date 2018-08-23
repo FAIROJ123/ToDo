@@ -39,5 +39,6 @@
 <script src="services/userservice.js" charset="utf-8"></script>
 
 <script src="services/labelservice.js" charset="utf-8"></script>
+<script src="services/authentication.js" charset="utf-8"></script>
 
 </html>

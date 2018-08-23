@@ -1,12 +1,10 @@
-app.controller('homeController', function($scope,$mdSidenav,$http,$state, $location,$window ,$rootScope,$mdDialog,userservice,labelservice) {
+app.controller('homeController', function($scope,$mdSidenav,$http,$state,$location,$window ,$rootScope,$mdDialog,userservice,labelservice) {
   $scope.toggleLeft = buildToggler('left');
   var commonUrl = "http://localhost:8080/todo/";
   $scope.name = "Google Keep";
   function buildToggler(componentId) {
       return function() {
         $mdSidenav(componentId).toggle();
-        console.log($mdSidenav(componentId).isOpen());
-        console.log(document.getElementById("myDiv"));
         if($mdSidenav(componentId).isOpen()){
         	document.getElementById("myDiv").style.marginLeft = "100px";
         }else{
@@ -16,6 +14,9 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $locat
       };
       
 }
+  
+ 
+  
   $scope.Logout=function(){
 	 
 	  $window.localStorage.clear();
@@ -31,7 +32,7 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $locat
 	}
   $scope.gotolabel=function(label)
   {
-	  console.log("in goto label");
+	
      $state.go('home.labelsdashboard',{label:label.labelname});
     
   };
@@ -40,14 +41,12 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $locat
   var userData = "";
   $scope.userData ="";
   function getLoginUser() {
-    console.log("Inside get all Users...");
     var url = commonUrl + 'getLoginUser';
     userservice.getmethod(url).then(function successCallback(response) {
-      console.log("success" + response.data);
       $scope.userData = response.data;
       userData= $scope.userData;
     }, function errorCallback(response) {
-      console.log("error" + response.data);
+      return response;
     })
 
     return userData;
@@ -55,8 +54,6 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $locat
 
   getLoginUser();
 
-  
-  
   $scope.getallLabels =function() {
 
 	    var url = commonUrl + "getallLabels";
@@ -64,11 +61,9 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $locat
 		userservice.getmethod(url).then(
 				function successCallback(response) {
 					$scope.getlabels=response.data;
-                  console.log("Success:",response)
 					return response.data;
 
 				}, function errorCallback(response) {
-					console.log("Error occur", response);
 					return response;
 
 				});
@@ -88,8 +83,7 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $locat
 	    
 	  }
   $scope.remainder = function() {
-	  
-	  console.log("in remainders");
+	
 	    $state.go("home.remainders");
 	   
 	    
@@ -100,22 +94,19 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $locat
   
   var notes = document.getElementsByClassName('dashboard');
   var i;
-  console.log("note in homecontroller:",notes);
+ 
  $scope.listView = function()
  {	    for (i = 0; i < notes.length; i++) {
-	    	console.log("note from dashboard:",notes);
 	      notes[i].style.width = "75%";
 	    }
 	  }
 	  $scope.gridView = function() {
-		  console.log("grid");
     for (i = 0; i < notes.length; i++) {
       notes[i].style.width = "30%";
 	    }
 	  }
 	  
   $rootScope.$on('$locationChangeStart',function(ev,state,label){
-	  console.log(state);
 	  if(state == 'http://localhost:8080/todo/#!/home/dashboard'){
 		  $scope.name = "Google Keep";
 	      $scope.CustomColor = {
@@ -175,38 +166,45 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state, $locat
 	  };
  
 function dialogController($scope,$mdDialog,userservice) {
-	console.log("in dailogController");
 	 var commonUrl = "http://localhost:8080/todo/";
  	  $scope.cancel = function() {
  	      $mdDialog.cancel();
  	      }
  	 
  	  $scope.createlabel = function() {
- 			console.log("inside label.....");
  			var label = {
  					labelname : $scope.labelname
  					
  			};
- 	         console.log("label:",label.labelname);
  			var url = commonUrl + "createlabel";
-            console.log("URL:",url);
+          
+            if(label.labelname != undefined || label.labelname != null)
+            
+             {
+            	var flag = false;
+                for (var i = 0; i < $scope.getlabels.length; i++) {
+                  var labels = $scope.getlabels[i];
+                  if ( labels.labelname === label.labelname) {
+                    flag = true;
+                  } else {}
+                }
+                if(flag == false){
  
  			userservice.postmethod(label, url).then(
  					function successCallback(response) {
-                     console.log("Inside service.....");
- 						console.log("success", response.data);
+                    
  						$scope.getallLabels();
  						return response.data;
 
  					}, function errorCallback(response) {
- 						console.log("Error occur", response);
  						return response;
  						
  					});
  	        
  		}
- 	  
- 	 
+ 	  }
+ 	  }
+            $scope.getlabels=[];
  	  
  	 $scope.getallLabels =function() {
 
@@ -216,11 +214,9 @@ function dialogController($scope,$mdDialog,userservice) {
  				function successCallback(response) {
  					
  					$scope.getlabels=response.data;
-                    console.log("Success:",response)
  					return response.data;
 
  				}, function errorCallback(response) {
- 					console.log("Error occur", response);
  					return response;
 
  				});
@@ -228,42 +224,31 @@ function dialogController($scope,$mdDialog,userservice) {
  	 $scope.getallLabels();
  	
  	$scope.deletelabel =function(label){
-		
-		 console.log("label:"+label);
 		 var labelid=label.id;
-		 console.log("labelid:"+labelid)
-		 
-		 
+		
 		 var url = commonUrl + "deletelabel/"+label.id;
 		
 		
 		labelservice.labelpostmethod(url).then(
 				function successCallback(response) {
-					
-					console.log("success", response.data);
 					$scope.getallLabels();
 					return response.data;
 
 				}, function errorCallback(response) {
-					console.log("Error occur", response);
 					return response;
 
 				});
 	}
  	
- 	$scope.updatelabel = function(label){
-		console.log("from update(): ",label);
-		console.log("in update");		
+ 	$scope.updatelabel = function(label){	
 		var url = commonUrl + "updatelabel/"+label.id;
 		userservice.putmethod(label,url).then(
 				function successCallback(response) {
-					
-					console.log("success data", response.data);
+				
 					$scope.getallLabels();
 					return response.data;
 
 				}, function errorCallback(response) {
-					console.log("Error occur", response);
 					return response;
 
 				});
@@ -272,8 +257,9 @@ function dialogController($scope,$mdDialog,userservice) {
  }
 
 
+
+
 $scope.showfileEvent=function(event,user){
-	console.log("inside event...");
 	 $mdDialog.show({
          locals:{user : user},
          controller: imageController,
@@ -286,18 +272,14 @@ $scope.showfileEvent=function(event,user){
   });
 }
 function imageController($scope,$timeout,userservice) {
-	console.log("inside ImageController");
 	 $scope.myImage = '';
 	    $scope.myCroppedImage = '';
 	    $scope.filename = "";
 	    var handleFileSelect = function(evt) {
 	      var file = evt.target.files[0];
 	      $scope.filename = evt.target.files[0].name;
-	      console.log(evt);
-	      console.log("filename:",$scope.filename);
 	      var reader = new FileReader();
 	      reader.onload = function(evt) {
-	        console.log(evt);
 	        $scope.$apply(function($scope) {
 	          $scope.myImage = evt.target.result;
 	        });
@@ -325,54 +307,38 @@ function imageController($scope,$timeout,userservice) {
 	      }
 	    
 $scope.uploadProfilePic = function functionName(myCroppedImage) {
-    console.log("In upload profile pic...............");
     var url = commonUrl + 'uploadFile';
-    console.log("MycroppedImage:",myCroppedImage);
     const file = dataURLtoFile(myCroppedImage, $scope.filename);
     console.log(file);
     var form1 = new FormData();
     form1.append("file", file);
     userservice.uploadFileToUrl( url,form1).then(function successCallback(response) {
-      console.log("response data",response.data);
       var image = response.data.msg;
-      console.log("Image inside profile method:"+image);
       $scope.updateUserpic(image);
     }, function errorCallback(response) {
-      console.log("error" + response.data);
+     return response;
     });
   }
 
-
-
-
-
-		
-
-
-
 $scope.updateUserpic = function(image){
 	
-	console.log("Image:",image);
 	var user= getLoginUser();
-	console.log("from update(): ",user);
-	console.log("in update");	
 	
 	var url = commonUrl + "updateUser";
 	user.userProfile = image;
-	console.log(url);
 	userservice.putmethod(user,url).then(
 			function successCallback(response) {
 				
-				console.log("success", response.data);
 				return response.data;
 
 			}, function errorCallback(response) {
-				console.log("Error occur", response);
 				return response;
 
 			});
 	
 }
+
+
 }
 
 });

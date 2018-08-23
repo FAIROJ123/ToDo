@@ -24,7 +24,8 @@ public class UserDaoImpl implements UserDao {
 	@Autowired
 	SessionFactory sessionFactory;
 	
-
+//<=========================== Check Login =================================>
+	
 	public boolean checkLogin(String email, String password) {
 		 
 				System.out.println("In Check login");
@@ -43,6 +44,8 @@ public class UserDaoImpl implements UserDao {
 	}
 
 
+//<================================ Save User Details =================================>	
+	
 	@Override
 	public int insert(User user) {
 	
@@ -56,6 +59,8 @@ public class UserDaoImpl implements UserDao {
      return result;
 	}
 
+	
+//<========================================= GetUser ById ==================================>	
 
 	@Override
 	public User getUserById(int id) {
@@ -67,6 +72,8 @@ public class UserDaoImpl implements UserDao {
 	    }
 
 
+//<========================================= Update User ==================================>	
+	
 	@Override
 	public boolean update(User user) {
 		
@@ -74,7 +81,8 @@ public class UserDaoImpl implements UserDao {
 		return true;
 	}
 
-
+//<======================================== User Exist ====================================>
+	
 	@Override
 	public boolean isExist(String email) {
 		System.out.println("sUdhshfc");
@@ -86,6 +94,8 @@ public class UserDaoImpl implements UserDao {
 	}
 
 
+//<====================================== Get User By Email ==================================>
+	
 	@Override
 	public User getUserByEmail(String email) {
 		Criteria criteria = sessionFactory.openSession().createCriteria(User.class).add(Restrictions.eq("email", email));
@@ -93,6 +103,7 @@ public class UserDaoImpl implements UserDao {
 	        return user;
 	}
 
+//<====================================== Get All Users =============================>	
 	@Override
 	public List<User> getallusers() {
 		Session session=sessionFactory.getCurrentSession();

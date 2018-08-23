@@ -19,6 +19,9 @@ public class NoteDaoImpl implements NoteDao {
 	@Autowired
 	SessionFactory sessionFactory;
 
+	
+//<============================= Create Note ===============================>
+	
 	@Override
 	public int insert(Notes note) {
        
@@ -28,6 +31,8 @@ public class NoteDaoImpl implements NoteDao {
 		return result;
 
 	}
+	
+//<==================================== Update Note ===============================>	
 
 	@Override
 	public void update(Notes note){
@@ -36,11 +41,19 @@ public class NoteDaoImpl implements NoteDao {
 		session.merge(note);
 		
 	}
+	
+	
+//<=================================== Get Label ById ================================>	
+	
 	@Override
 	public Label getlabelById(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		return session.get(Label.class, id);
 	}
+	
+	
+//<============================== Get Note ById ======================================>	
+	
 	@Override
 	public Notes getNoteById(int id) {
 	
@@ -48,6 +61,9 @@ public class NoteDaoImpl implements NoteDao {
 		 Notes note =  (Notes) criteria.uniqueResult();
 	        return note ;
 	}
+	
+	
+//<=========================================== Get All Notes ===============================>	
 
 	@Override
 	public List<Notes> getAllNotes(User user) {
@@ -55,6 +71,8 @@ public class NoteDaoImpl implements NoteDao {
 		List<Notes> list=criteria.list();
 		return  list;
 	}
+	
+//<================================== Delete Note =======================================>	
 
 	@Override
 	public void deleteNote(Notes note) {
@@ -65,10 +83,4 @@ public class NoteDaoImpl implements NoteDao {
 		
 	}
 
-	
-
-	
-
-	
-	
 }

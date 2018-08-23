@@ -27,13 +27,17 @@ public class LabeldaoImpl implements Labeldao {
 	@Autowired
 	private NoteDao notedao;
 
-
+//<======================= Create Label ======================>
+	
+	
 	@Override
 	public int createlabel(Label label) {
 		int result = (Integer) sessionFactory.getCurrentSession().save(label);
 		return result;
 
 	}
+	
+//<==========================GetAll Labels ===========================>	
 
 	@Override
 	public List<Label> getallLabels(User user) {
@@ -41,12 +45,18 @@ public class LabeldaoImpl implements Labeldao {
 		List<Label> list = criteria.list();
 		return list;
 	}
+	
+//<========================= GetLAbel ById ===========================>	
+	
 
 	@Override
 	public Label getlabelById(int id) {
 		Session session = sessionFactory.getCurrentSession();
 		return session.get(Label.class, id);
 	}
+	
+	
+//<================================== User Exist ============================>	
 
 	@Override
 	public int isUserExist(Label label) {
@@ -59,37 +69,33 @@ public class LabeldaoImpl implements Labeldao {
 
 		return count;
 	}
+	
+//<================================== Update Label ====================================>	
 
 	@Override
 	public void update(Label label) {
-//		System.out.println("Inside UPDATE::" + label.getId());
-//
+
 	Session session = sessionFactory.getCurrentSession();
 		session.update(label);
-		// System.out.println("Inside UPDATE::"+label.getId());
-		//String  hql="update Label where id:"
-
+	
 	}
+	
+//<===================================== Delete Label ====================================>	
 
 	@Override
 	public boolean deleteLabel(Label label) {
 		
-		
-		System.out.println("inside delete...");
-	
-	
 		String Query = "delete from Label where id=:Label_id";
 		Query q1 = sessionFactory.getCurrentSession().createQuery(Query);
 		q1.setParameter("Label_id", label.getId());
 		int finalresult = q1.executeUpdate();
 		System.out.println("result:"+finalresult);
 		return true;
-		/*Session session = sessionFactory.getCurrentSession();
-		session.delete(label);
-		return true;
-*/
+		
 	}
-	
+
+
+//<============================== Delete Label ====================================>
 
 	@Override
 	public boolean deleteLabelfromNote(Label label) {

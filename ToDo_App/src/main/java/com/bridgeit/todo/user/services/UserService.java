@@ -24,12 +24,9 @@ public class UserService {
 	@Autowired
 	RedisUtil redisutil;
 
-	/*
-	 * public UserDao getUserdao() { return userdao; }
-	 * 
-	 * public void setUserdao(UserDao userdao) { this.userdao = userdao; }
-	 */
-
+//<============================== Registration ==================================>
+	
+	
 	@Transactional
 	public int register(User user, String url) {
 		
@@ -47,6 +44,8 @@ public class UserService {
 		return id;
 
 	}
+	
+//<================================== Check Login ===================================>	
 
 	@Transactional
 	public String checkLogin(String email, String password) {
@@ -60,6 +59,8 @@ public class UserService {
 		return null;
 	}
 
+//<======================================= Verify user ===============================>	
+	
 	@Transactional
 	public boolean verify(String token) {
 		int id = Jwt.parseJWT(token);
@@ -73,8 +74,7 @@ public class UserService {
 		if (token.equals(radistoken)) {
 			userdao.update(user);
 			String key = id + "";
-			// redisutil.deleteUser(key);
-			// System.out.println("deleted successfully :");
+			
 			System.out.println("Tokentaking from redis : " + radistoken);
 		}
 
@@ -82,6 +82,8 @@ public class UserService {
 
 	}
 
+//<========================================= Forget Password ==============================>	
+	
 	@Transactional
 	public boolean forgetPassword(String email, String url) {
 		User user = userdao.getUserByEmail(email);
@@ -101,6 +103,8 @@ public class UserService {
 		return true;
 	}
 
+//<======================================= Reset Password ===================================>	
+	
 	@Transactional
 	public boolean createPasswordResetToken(String password, String token) {
 
@@ -111,25 +115,32 @@ public class UserService {
 
 	}
 	
-public boolean isExist(String email) {
+	
+//<=================================== User IsExist ===============================>
+	
+	@Transactional	
+ public boolean isExist(String email) {
 	boolean flag=false;
 	flag=userdao.isExist(email);
 	return flag;
 	
 }
 
+//<=================================== Update User ================================>	
+	
 @Transactional
 public boolean updateUser(User user, String token) {
 	
 	int id = Jwt.parseJWT(token);
 	User user2 = userdao.getUserById(id);
-	/*if(user.getId()!=user2.getId()) {
-		return false;
-	}*/
+	
 	user2.setUserProfile(user.getUserProfile());
 	return userdao.update(user2);
 
 	}
+
+//<================================ Get Login User ==============================>
+
 @Transactional
 public User getLoginUser(String token) {
 	
@@ -137,6 +148,8 @@ public User getLoginUser(String token) {
 	User user2 = userdao.getUserById(id);
 	return user2;
 }
+
+//<======================================== Get All Users ===========================>
 
 @Transactional
 public List<User> getAllUsers() {

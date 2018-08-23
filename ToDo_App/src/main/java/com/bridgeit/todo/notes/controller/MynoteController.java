@@ -1,30 +1,22 @@
 package com.bridgeit.todo.notes.controller;
 
-import java.io.IOException;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.jboss.logging.Param;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.bridgeit.todo.labels.service.LabelService;
 import com.bridgeit.todo.notes.model.Notes;
 import com.bridgeit.todo.notes.services.NoteServices;
-import com.bridgeit.todo.user.model.User;
 import com.bridgeit.todo.user.utility.CustomRes;
 import com.bridgeit.todo.user.utility.Scrapping;
 import com.bridgeit.todo.user.utility.WebScrapping;
@@ -39,6 +31,9 @@ public class MynoteController {
   
   @Autowired
   private LabelService labelservice;
+  
+  
+ //<================================== Create Note =======================================> 
   
   @RequestMapping(value="/createNote" ,method = RequestMethod.POST)
   public ResponseEntity<?>createNote(@RequestBody Notes note,HttpServletRequest req)
@@ -58,6 +53,9 @@ public class MynoteController {
 	  
   }
   
+  
+ //<===================================== Update Note ========================================> 
+  
   @RequestMapping(value="/updateNote" ,method = RequestMethod.PUT)
   public ResponseEntity<?> updateNote( @RequestBody Notes note,HttpServletRequest req)
   {
@@ -76,6 +74,10 @@ public class MynoteController {
 	  
   }
   
+  
+ //<================================== GetAll Notes ========================================>
+  
+  
   @RequestMapping(value="/getallnotes" ,method = RequestMethod.GET)
   public ResponseEntity<List<Notes>> getAllNotes(HttpServletRequest req)
   {
@@ -87,6 +89,9 @@ public class MynoteController {
 	 return new ResponseEntity<List<Notes>>( list,HttpStatus.CREATED); 
 	  
   }
+  
+  
+ //<================================ Delete Note ========================================> 
   
   @RequestMapping(value="/deleteNote/{id}",method=RequestMethod.POST)
   public ResponseEntity<?> deleteNote(@PathVariable("id") int id,Notes note,HttpServletRequest req)
@@ -101,8 +106,11 @@ public class MynoteController {
   } 
   
   
+  
+//<============================= Add Label On Note =======================================>  
+  
   @RequestMapping(value = "/noteandlabel/{id}/{id1}", method = RequestMethod.PUT)
-	public ResponseEntity<?> updateRelationNoteLabe(@RequestParam("ac") int action,@PathVariable("id") int noteid,
+	public ResponseEntity<?> updateRelationNoteLabe( @PathVariable("id") int noteid,
 			@PathVariable("id1") int labelid) {
 		System.out.println("noteId : " + noteid);
 		System.out.println("labelId : " + labelid);
@@ -114,6 +122,10 @@ public class MynoteController {
 		return new ResponseEntity<CustomRes>(res, HttpStatus.OK);
 
 	}
+  
+  
+ //<================================ Delete Label On Note ==================================> 
+  
   @RequestMapping(value = "/labeldeleteOnNote/{id}/{id1}", method = RequestMethod.POST)
 	public ResponseEntity<?> deletelabel( @PathVariable("id") int noteid,
 			@PathVariable("id1") int labelid) {
@@ -130,7 +142,9 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
 
 	}
 
+ 
   
+ //<========================================= Add Collaborator On Note ============================> 
   
   @RequestMapping(value = "/addCollaboratorOnNote/{id}/{id1}", method = RequestMethod.POST)
  	public ResponseEntity<?> addCollaboratorOnNote(@PathVariable("id") int userid,
@@ -145,6 +159,9 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
  		return new ResponseEntity<CustomRes>(res, HttpStatus.OK);
 
  	}
+  
+  
+ //<================================ Remove Collaborator On Note ===============================> 
   
   @RequestMapping(value = "/removeCollaboratorOnNote/{id}/{id1}", method = RequestMethod.POST)
 	public ResponseEntity<?> deleteCollaborator(@PathVariable("id") int userid,
@@ -162,7 +179,8 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
 
 	}
   
-  
+ 
+//<=================================GetAll Collaborators ===============================>  
   
   
   @RequestMapping(value="/getAllCollaboratedNotes" ,method = RequestMethod.GET)
@@ -177,6 +195,8 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
 	  
   }
   
+  
+//<==================================== UploadFile ================================>  
   
   @RequestMapping(value = "/uploadFile", method = RequestMethod.POST)
 	public ResponseEntity<?> uploadFile(@RequestBody MultipartFile file)
@@ -199,6 +219,9 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
   	}
 	}
  
+  
+ //<================================== Get Image ===============================> 
+  
   @RequestMapping(value = "/image/{name:.+}", method = RequestMethod.GET)
 	public ResponseEntity<?> showFile(@PathVariable("name") String name) 
 	{
@@ -219,7 +242,7 @@ return new ResponseEntity<CustomRes>( HttpStatus.NOT_ACCEPTABLE);
 	
 }
   
-  
+//<====================================== GetUrl ==================================>  
   
 @RequestMapping(value="/getUrl" ,method = RequestMethod.POST)
   public ResponseEntity<?> getUrl(HttpServletRequest req) 

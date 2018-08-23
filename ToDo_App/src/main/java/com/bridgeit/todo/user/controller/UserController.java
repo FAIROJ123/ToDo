@@ -32,7 +32,7 @@ public class UserController {
 	@Autowired
 	public UserService userservice;
 	
-	
+//<============================== Registration ==========================================>	
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, consumes = "application/json", produces = "application/json")
 	public ResponseEntity<?> registration(@Valid @RequestBody User user, HttpServletRequest rq) {
@@ -60,8 +60,8 @@ public class UserController {
 
 	}
                               
-	                     //Login
-	//-------------------------------------------------------------------------------------------------\
+	                   
+//<========================================= LogIn =========================================>	
 	
 	@RequestMapping(value = "/login", method = RequestMethod.POST,consumes = "application/json", produces = "application/json")
 	public ResponseEntity<?> login(@RequestBody User user) {
@@ -85,8 +85,7 @@ public class UserController {
 
 	}
 
-	//ActiveUser
-	//-----------------------------------------------------------------------------------------------------
+//<============================================ Active User ==========================================>	
 	
 	@RequestMapping(value = "/activeuser/{token:.+}", method = RequestMethod.GET)
 	public ResponseEntity<String> activeUser(@PathVariable("token") String token,HttpServletRequest rq,HttpServletResponse response) throws IOException {
@@ -104,9 +103,7 @@ public class UserController {
 
 	}
 	
-	//forgetpassword
-	//-------------------------------------------------------------------------------------------
-	
+//<====================================== Forget Password ==========================================>	
 
 	@RequestMapping(value = "/forgetpassword", method = RequestMethod.POST)
 	public ResponseEntity<?> forgetpassword(@RequestBody ForgotPasswordModel passwordModel, HttpServletRequest rq) {
@@ -127,9 +124,8 @@ public class UserController {
 
 	}
 	
-	//reset password
-//==================================================================================================
-  
+//<======================================= Reset Password ======================================>
+	
 	@RequestMapping(value="/resetpassword/{token:.+}", method=RequestMethod.POST)	
     public ResponseEntity<?>  resetpassword(@PathVariable("token") String token, @RequestBody ResetModel model,HttpServletRequest rq,HttpServletResponse response) throws IOException
     {
@@ -144,6 +140,8 @@ public class UserController {
 		return new ResponseEntity<CustomRes>(res, HttpStatus.ACCEPTED);
 	  
     }
+
+//<=================================== Reset ========================================>	
 	
 	@RequestMapping(value = "/reset/{token:.+}", method = RequestMethod.GET)
 	public ResponseEntity<String> reset(@PathVariable("token") String token,HttpServletRequest rq,HttpServletResponse response) throws IOException {
@@ -159,6 +157,7 @@ public class UserController {
 		
 	}
 	
+//<==================================== Get Login User ==================================>	
 	
 	@RequestMapping(value="/getLoginUser" ,method = RequestMethod.GET)
 	  public ResponseEntity<?> getLoginUser( HttpServletRequest req)
@@ -174,7 +173,7 @@ public class UserController {
 		  
 	  }
 	
-
+//<========================================= Update User =======================================>
 	
 	@RequestMapping(value="/updateUser" ,method = RequestMethod.PUT)
 	  public ResponseEntity<?> updateUser(@RequestBody User user,HttpServletRequest req)
@@ -193,6 +192,8 @@ public class UserController {
 		  return new ResponseEntity<String>( "Note is not Updated ",HttpStatus.NOT_FOUND);
 		  
 	  }
+
+//<====================================== Get All Users =======================================>	
 	
 	@RequestMapping(value="/getallUsers" ,method = RequestMethod.GET)
 	  public ResponseEntity<List<User>> getAllUsers(HttpServletRequest req)

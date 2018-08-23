@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -17,8 +16,6 @@ import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.bridgeit.todo.collaborator.dao.Collaboratordao;
-import com.bridgeit.todo.collaborator.model.Collaborator;
 import com.bridgeit.todo.labels.dao.Labeldao;
 import com.bridgeit.todo.labels.model.Label;
 import com.bridgeit.todo.notes.dao.NoteDao;
@@ -45,16 +42,15 @@ public class NoteServices {
 	private Labeldao labeldao;
 	
 	
-	@Autowired
-	private Collaboratordao collaboratordao;
-
-	
 	@Value("${image.path}")
 	private String path;
 
 	@Value("${response.path}")
 	private String responsePath;
 
+	
+//<======================================= Create Note ===================================>	
+	
 	@Transactional
 	public int createNote(Notes note, String token) {
 		int id = Jwt.parseJWT(token);
@@ -66,6 +62,9 @@ public class NoteServices {
 		return id;
 
 	}
+	
+	
+//<================================= Update Note ================================>	
 
 	@Transactional
 	public boolean updateNote(Notes note, String token) {
@@ -82,6 +81,8 @@ public class NoteServices {
 		return true;
 
 	}
+	
+//<==================================== Get All Notes =============================>	
 
 	@Transactional
 	public List<Notes> getAllNotes(String token) {
@@ -94,6 +95,9 @@ public class NoteServices {
 		return listofNote;
 
 	}
+	
+	
+//<===================================== Delete Notes ==============================>	
 
 	@Transactional
 	public void deleteNote(int noteid, String token) {
@@ -101,7 +105,8 @@ public class NoteServices {
 		System.out.println("Token:" + token);
 		int id = Jwt.parseJWT(token);
 		System.out.println("UserId:" + id);
-
+        User user=userdao.getUserById(id);
+        System.out.println("User:"+user);
 		Notes note2 = notedao.getNoteById(noteid);
 		System.out.println("Note2: " + note2.getUser());
 		int userid = note2.getUser().getId();
@@ -111,10 +116,12 @@ public class NoteServices {
 			notedao.deleteNote(note2);
 
 		}
-		
-	}
+	
+}
 
 
+//<================================ Add Label On Note ==================================>	
+	
 	@Transactional
 	public void noteandlabel(int noteid, int labelid) {
 		System.out.println("Entering in to the note label service");
@@ -129,6 +136,8 @@ public class NoteServices {
 		notedao.update(note);
 	}
 
+//<================================== Delete Note ==================================>	
+	
 	@Transactional
 	public boolean labeldelete(int noteid, int labelid) {
 		System.out.println("Entering in to the delete label service");
@@ -140,6 +149,7 @@ public class NoteServices {
 
 	}
 	
+//<========================================= Delete Label =================================>
 	
 	 @Transactional
   public boolean deleteLabel(int labelid, String token) {
@@ -163,6 +173,9 @@ public class NoteServices {
 		return status;
 	}
 
+//<==================================== Add Collaborator On Note ==============================>	 
+	 
+	 
 	@Transactional
 	public void addCollaboratorOnNote(int userid,int noteid) {
 		
@@ -185,6 +198,8 @@ public class NoteServices {
 		notedao.update(note);
 
 }
+
+//<================================== Remove Collaborator On Note ===========================>	
 	
 	@Transactional
 	public boolean removeCollaboratorOnNote(int userid, int noteid) {
@@ -219,6 +234,9 @@ public class NoteServices {
 	}
 	
 	
+//<================================== Get All Collaborators ==============================>	
+	
+	
 	@Transactional
 	public List<Notes> getAllCollaboratedNotes(String token) {
 		System.out.println(token);
@@ -231,6 +249,8 @@ public class NoteServices {
 
 	}
 
+//<================================== Image Uploading =================================>	
+	
 	@Transactional
 	public String serverImage(MultipartFile file) {
 
@@ -249,6 +269,8 @@ public class NoteServices {
 
 		return responsePath+file.getOriginalFilename();
 	}
+	
+//<================================= Getting Upload Image ==================================>	
 
 	@Transactional
 	public byte[] gettingImage(String name) 

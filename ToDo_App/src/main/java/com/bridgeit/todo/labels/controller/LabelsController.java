@@ -29,8 +29,10 @@ public class LabelsController {
 	  @Autowired
 	  private NoteServices noteservices;
 	
+//<=========================================Create Label================================>
 	
-	@RequestMapping(value="/createlabel" ,method = RequestMethod.POST)
+	  
+	  @RequestMapping(value="/createlabel" ,method = RequestMethod.POST)
 	  public ResponseEntity<?> createlabel(@RequestBody Label label,HttpServletRequest req)
 	  {
 		System.out.println("inside backend");
@@ -46,6 +48,9 @@ public class LabelsController {
 			return new ResponseEntity<String>( "Label creation is Failed.",HttpStatus.NOT_FOUND);
 		  
 	  }
+	  
+	  
+//<========================= Update Label ======================================>	  
 	
 	@RequestMapping(value="/updatelabel/{id}" ,method = RequestMethod.PUT)
 	  public ResponseEntity<?> updatelabel( @RequestBody Label label,@PathVariable("id") int id,HttpServletRequest req)
@@ -65,6 +70,8 @@ public class LabelsController {
 		  
 	  }
 	
+//<=============================== GetAll Labels ======================================>	
+	
 	@RequestMapping(value="/getallLabels" ,method = RequestMethod.GET)
 	  public ResponseEntity<List<Label>> getAllLabels(HttpServletRequest req)
 	  {
@@ -73,6 +80,9 @@ public class LabelsController {
 		 return new ResponseEntity<List<Label>>( list,HttpStatus.CREATED); 
 		  
 	  }
+	
+//<=================================== LabelNote ========================================>
+	
 	
 	@RequestMapping(value = "/labelnote/{id}", method = RequestMethod.GET)
 	public ResponseEntity<List<Notes>> listAllLabelNotes(@RequestBody Label label,@PathVariable("id") int id,HttpServletRequest req)
@@ -84,7 +94,9 @@ public class LabelsController {
 			return new ResponseEntity<List<Notes>>(notes, HttpStatus.OK); 
 			
 	}
+
 	
+//<================================Delete Label ============================================>	
 	
 	 @RequestMapping(value="/deletelabel/{id}",method=RequestMethod.POST)
 	  public ResponseEntity<?> deleteNote(@PathVariable("id") int id,HttpServletRequest req)

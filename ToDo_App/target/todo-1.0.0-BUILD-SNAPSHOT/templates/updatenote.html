@@ -1,7 +1,7 @@
 <div class="updateNote" style="width:600px;background-color:{{note.color}};overflow: hidden;">
   <div ng-init="getallnotes()" style="flex-wrap: wrap;padding: 24px 10px;" >
 
- <md-button  class="md-icon-button" style="margin: 0px 0px -33px 537px"; ng-click="ispin(x)" >
+ <md-button  class="md-icon-button" style="margin: 0px 0px -33px 537px"; ng-click="ispin(note)" >
     <md-icon ><img style="margin-top: 11px;" src="images/bluepin.svg" /></md-icon>
     <md-tooltip>pin note</md-tooltip>
     </md-button>
@@ -23,7 +23,7 @@
        <div  layout="row" ng-if="note.remainder" layout-wrap layout-align="start space-around">
                     <md-chips >
                       <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{note.remainder | dateformat}}</span>
-                        <md-button  ng-click="remove(x)" class="md-icon-button"  style="margin: 0px auto;padding: 0px;" >
+                        <md-button  ng-click="remove(note)" class="md-icon-button"  style="margin: 0px auto;padding: 0px;" >
                         <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
                         </md-button > 
                         </md-chip>
@@ -46,19 +46,19 @@
 	</div>
 	</div>
 	
-	<div  ng-init="checkIfUrl(note)" >
-	<div ng-repeat=" data in note.array" >
+	<div  ng-init="checkIfUrl(note)" class="imageurl">
+	<div ng-repeat=" data in note.arraylist" >
 
 		<div ng-if="data.title">
 			<a ng-href="{{data.url}}" target="_blank">
 				
 				<div layout="row"  flex="100">
-					 	<div  flex="40" >
-							<img ng-src="{{data.image}}" height="70" width="80">
+					 	<div  flex="10" >
+							<img style="height: 55px;" ng-src="{{data.image}}" height="70" width="80">
 						</div>
-						<div flex="60" layout="column" >
+						<div flex="90" layout="column" >
 					
-							<div ng-bind="data.title" flex="100"
+							<div class="md-truncate" ng-bind="data.title" flex="100"
 								style="font-size: 14px; color: black;"></div>
 						
 					
@@ -69,8 +69,25 @@
 					 </div>
 				
 			</a>
+			
 		</div>
+		
 	</div>
+	<md-menu>
+	 <md-button  class="md-icon-button" ng-click="$mdMenu.open()" style="margin: -80px 0px 0px 493px;">
+                <img  src="images/outline-more_vert-24px.svg"/>
+                  <md-tooltip>Link preview options</md-tooltip>
+                </md-button>
+	<md-menu-content> 
+				<md-menu-item>
+				 <md-button ng-click="removingUrl(note)">Remove</md-button>
+					 </md-menu-item> 
+					<md-menu-item >
+					
+							<md-button ng-click="">Copy url</md-button>
+					 </md-menu-item> 
+					 </md-menu-content>
+	</md-menu>
 </div> 
         <div layout="row" style="margin: -14px 0px 0px 0px;background-color:{{note.color}};" >      
             <md-button class="md-icon-button"  >
@@ -89,8 +106,8 @@
 					ng-mouseenter="$mdMenu.open()"> <img
 					src="images/outline-color_lens-24px.svg" /> <md-tooltip>Change
 				color</md-tooltip> </md-button> <md-menu-content ng-mouseleave="$mdMenu.close()">
-				<md-menu-item ng-repeat="y in colors">
-				<div ng-repeat="item in y" style="padding-right: 4px;">
+				<md-menu-item ng-repeat="color in colors">
+				<div ng-repeat="item in color" style="padding-right: 4px;">
 					<div ng-style="{'background-color':item.value};"
 						style="height: 25px; width: 25px; border-radius: 150px; cursor: pointer;"
 						ng-click="changeColor(note,item.value)"></div>
@@ -126,8 +143,9 @@
 <md-button  style="margin:35px 0px 0px 168px" ng-click="cancel();updatenote1(note);">Close</md-button>
 </div>
 
-    <!-- </md-card>  -->
-
+   
 
   </div>
 </div>
+
+

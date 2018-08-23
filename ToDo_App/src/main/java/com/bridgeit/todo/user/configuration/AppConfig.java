@@ -23,10 +23,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
-
-import com.bridgeit.todo.collaborator.model.Collaborator;
 import com.bridgeit.todo.labels.model.Label;
-import com.bridgeit.todo.notes.dao.NoteDao;
 import com.bridgeit.todo.notes.model.Notes;
 import com.bridgeit.todo.user.model.User;
 

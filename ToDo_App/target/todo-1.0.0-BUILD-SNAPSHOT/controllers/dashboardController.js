@@ -7,8 +7,7 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
 	  $scope.hoverOut = function(ev) {
 	    this.hoverEdit = false;
 	  };
-	
-	
+
 	  
 	  
 	  var path=$location.path();
@@ -55,8 +54,7 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
 		   var pattern = /(http|ftp|https):\/\/[\w-]+(\.[\w-]+)+([\w.,@?^=%&amp;:\/~+#-]*[\w@?^=%&amp;\/~+#-])?/gi;
 		   var url = note.description.match(pattern);
           var arraylist=[];
-          
-          console.log(url);
+         
            if(note.size==undefined){
               	note.size=0;
               	note.url=[];
@@ -72,9 +70,8 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
         				function successCallback(response) {
 
         					 var responseData = response.data;
-        			          /*if (responseData.title.length > 20) {
-        			            responseData.title = responseData.title.substr(0, 15) + '..';
-        			          }*/
+        					 note.scrapping=response.data;
+        					 console.log(note.scrapping);
         			          arraylist[note.size] = {
         			            title: responseData.title,
         			            url: note.url[note.size],
@@ -84,7 +81,8 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
         			          }
         			          note.arraylist[note.size] = arraylist[note.size];
         			          note.size = note.size + 1;
-        				          
+        			         
+        				        
         				        }, function errorCallback(response) {
         				        	return response;
 
@@ -120,7 +118,7 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
 	
 		 var url = commonUrl + "deleteNote/"+note.id;
 		
-		
+		 note.scrapping
 		userservice.notepostmethod(url).then(
 				function successCallback(response) {
 				
@@ -268,7 +266,6 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
 	
 	$scope.updatenote = function(note){	
 		var url = commonUrl + "updateNote";
-		console.log(url);
 		userservice.putmethod(note,url).then(
 				function successCallback(response) {
 					return response.data;
@@ -340,6 +337,23 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
     	  		
     	  	}
     	    };
+    	    
+    	    
+    	    
+    	    $scope.removeUrl = function(note){
+        console.log("Inside remove url.........",note);
+        if(note.scrapping){
+        	
+        	note.scrapping="";
+        	note.arraylist="";
+        	note.url="";
+        }
+        
+
+        }
+
+    	     
+    	    
     	    $scope.removeImage=function(note){
     			  if(note.imageUrl){
     				  note.imageUrl="";
@@ -368,7 +382,8 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
     	    
     	    
     	    
-    	    }
+    	    
+}
     
     $scope.changeColor = function(note, value) {
 		  console.log("Note" + note);
@@ -410,7 +425,7 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
           openFrom: $event,
           focusOnOpen: false,
           zIndex: 100,
-          //propagateContainerEvents: true,
+          propagateContainerEvents: true,
           targetEvent: $event,
           clickOutsideToClose:true
         };
@@ -479,27 +494,23 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
    	 }
    	 $scope.getallLabels();
    	$scope.isTrash=function(){
-   		
 		if(note.trash==false){
-			
-			console.log(note)
+			note.trash=true;
 		
 		}
 		else{
 			note.trash=false;
 		}
-		$scope.updatenote1 = function(note){
-	  			
+		$scope.updatenote1 = function(note){	
 	  		var url = commonUrl + "updateNote";
 	  		userservice.putmethod(note,url).then(
 	  				function successCallback(response) {
-	  				
+	  					
 	  					sc.getallnotes();
 	  					
 	  					return response.data;
 
 	  				}, function errorCallback(response) {
-	  					
 	  					return response;
 
 	  				});
@@ -512,14 +523,14 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
   		$scope.addlabelonNote=function(label){
   			
  		  var index=note.labelslist.findIndex(x => x.labelname===label.labelname);
- 		  var ac = 1;
+ 		
 		 if (index > -1) {
        	  note.labelslist.splice(index, 1);
-       	  ac = 0;
+       
          }
          else {
        	  note.labelslist.push(label);
-       	  ac = 1;
+       	  
          }
 		
 			 var commonUrl = "http://localhost:8080/todo/";
@@ -555,17 +566,36 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
   		
   		 
 }
+  		
   		 $scope.selected = note.labelslist;
-  		 $scope.toggle = function (item, list) {
-  	       var idx = list.indexOf(item);
+  		/* $scope.toggle = function (item, list) {
+  		  var idx = list.indexOf(item);
   	       if (idx > -1) {
   	         list.splice(idx, 1);
+  	   
   	       } 
   	       else {
   	         list.push(item);
+  	       $scope.addlabelonNote(item);
   	       }
-  	      
-  	     };
+  	     };*/
+  		 
+  		 
+  		 $scope.toggle = function(label, list) {
+  		     var flag = true;
+  		     for (var i = 0; i < list.length; i++) {
+  		       var selectedItem = list[i];
+  		       if (selectedItem.labelname == label.labelname) {
+  		         list.splice(i, 1);
+  		       $scope.removelabelonNote( label,note);
+  		         flag = false;
+  		       }
+  		     }
+  		     if (flag) {
+  		       list.push(label);
+  		     $scope.addlabelonNote(label);
+  		     }
+  		   };
 
   	     $scope.exists = function(item, list) {
   	         for (var i = 0; i < list.length; i++) {
@@ -600,7 +630,7 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
    $scope.reminders =["Today, 8:00 PM","Tomorrow, 8:00 AM","Next Week, Mon,8:00 AM "];
    
    	$scope.LaterToday=function(note){
-   	
+   	console.log("inside today.");
    		var noteDate=new Date();
    		
    		if(noteDate .getHours()>20 && noteDate.getHours()<8)
@@ -786,7 +816,7 @@ $scope.getLoginUser=function(){
 
 $scope.getLoginUser();
 
-$scope.getCollaborators={};
+$scope.getCollaborators=[];
 $scope.getAllCollaborators =function() {
 
 	  var commonUrl = "http://localhost:8080/todo/";

@@ -1,6 +1,5 @@
 package com.bridgeit.todo.user.services;
 
-import java.util.Date;
 import java.util.List;
 
 import org.mindrot.jbcrypt.BCrypt;
@@ -8,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.bridgeit.todo.notes.model.Notes;
 import com.bridgeit.todo.user.dao.UserDao;
 import com.bridgeit.todo.user.model.User;
 import com.bridgeit.todo.user.utility.Email;

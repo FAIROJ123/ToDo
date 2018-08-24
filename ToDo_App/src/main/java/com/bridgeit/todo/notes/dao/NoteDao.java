@@ -15,6 +15,6 @@ public interface NoteDao {
 	public Notes getNoteById(int id);
 	public void deleteNote(Notes note);
 	public Label getlabelById(int id);
-	
+	public boolean isExist(int id);
 
 }

@@ -32,7 +32,7 @@
 	user-select: none;
     opacity: 1;
     left: 608.5px;
-    top: 178px;
+    top: 300px;
 }
 .value-data{
 	
@@ -176,4 +176,7 @@ margin: 0 6px;
     cursor: pointer;
     
     margin: 15px;
+}
+#color-menu > div{
+	top : 110px;
 }

@@ -71,8 +71,10 @@ public class NoteServices {
 		int id = Jwt.parseJWT(token);
 		User user = userdao.getUserById(id);
 
-		Notes note1 = notedao.getNoteById(note.getId());
-		if (user.getId() != note1.getUser().getId()) {
+		int noteId = note.getId();
+		
+		if(!isExist(noteId))
+		{
 			return false;
 		}
 		note.setUpdatedDateAt(new Date());
@@ -291,7 +293,15 @@ public class NoteServices {
 		return null;
 	}
 
+//<=================================== Note Exist ========================================>
 	
+
+	 public boolean isExist(int id) {
+		boolean flag=false;
+		flag=notedao.isExist(id);
+		return flag;
+		
+	}
 	
 	
 }

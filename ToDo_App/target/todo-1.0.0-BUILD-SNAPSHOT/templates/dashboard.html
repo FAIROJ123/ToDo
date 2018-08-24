@@ -62,10 +62,10 @@
 
 
 	<div ng-init="getallnotes()" >
-		<md-subheader  style="margin-left: 270px;">Pinned </md-subheader>
+		<md-subheader  style="margin-left: 270px;" ng-if="pinned.length > 0">Pinned </md-subheader>
 		<div layout="row" layout-wrap  layout-align="center center"
 			style="width:800px; margin: 0px 0px 0px 240px;">
-			<md-card class="dashboard" ng-repeat="note in getnotes | filter:{pin:true,trash:false,archive:false}|filter:searchText"
+			<md-card class="dashboard" ng-repeat="note in getnotes | filter:{pin:true,trash:false,archive:false}|filter:searchText as pinned" 
 				style="background-color:{{note.color}};width: 220px;"
 				ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" >
 			<md-button class="md-icon-button" 
@@ -160,7 +160,7 @@
 					aria-label="Open menu with custom trigger" class="md-icon-button"
 					ng-mouseenter="$mdMenu.open()"> <img
 					src="images/outline-color_lens-24px.svg" /> <md-tooltip>Change
-				color</md-tooltip> </md-button> <md-menu-content ng-mouseleave="$mdMenu.close()">
+				color</md-tooltip> </md-button> <md-menu-content>
 				<md-menu-item ng-repeat="color in colors">
 				<div ng-repeat="item in color" style="padding-right: 4px;">
 					<div ng-style="{'background-color':item.value};"
@@ -197,15 +197,15 @@
 						</div>
 						<div flex="60" layout="column" >
 					
-							<div ng-bind="data.title" flex="100"
+							<div class="md-truncate" ng-bind="data.title" flex="100"
 								style="font-size: 14px; color: black;"></div>
 						
 					
 							<div flex="100" ng-bind="data.domain" style="font-size: 11px; color: grey;"></div>
 						</div>
 						<div>
-					<img style="height: 15px;width: 15px;" src="images/baseline-done-24px.svg">
-					<md-tooltip>Goto Link</md-tooltip>
+					<img style="height: 15px;width: 15px;margin-left: -7px;" src="images/gotolink.svg">
+                                           					<md-tooltip>Goto Link</md-tooltip>
 					 </div>
 					 </div>
 				</a>
@@ -234,7 +234,7 @@
 		<div class="value-data" ng-click="showAlert($event,note)">{{note.title}}</div>
 		<div contenteditable="true" ng-bind-html="note.description" class="value" ng-click="showAlert($event,note)">{{note.description}}</div>
 	<div>	
- 	<div ng-if="x.remainder" layout="row" layout-wrap layout-align="start space-around">
+ 	<div ng-if="note.remainder" layout="row" layout-wrap layout-align="start space-around">
                     <md-chips >
                       <md-chip   style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{note.remainder | dateformat}}</span>
                         <md-button ng-click="remove(note)"  class="md-icon-button" style="margin: 0px auto;padding: 0px;" >
@@ -311,12 +311,13 @@
 				<md-button class="md-icon-button" style="margin-left: -10px;" ng-click="alertEvent($event,note);getallUsers();"> <img
 					src="images/outline-person_add-24px.svg" /> <md-tooltip>Collaborator</md-tooltip>
 				</md-button>
+			
 
-				<md-menu class="menu"> <md-button style="margin-left: -10px;"
+				 <md-menu> <md-button style="margin-left: -10px;"
 					aria-label="Open menu with custom trigger" class="md-icon-button"
 					ng-mouseenter="$mdMenu.open()"> <img
 					src="images/outline-color_lens-24px.svg" /> <md-tooltip>Change
-				color</md-tooltip> </md-button> <md-menu-content ng-mouseleave="$mdMenu.close()">
+				color</md-tooltip> </md-button> <md-menu-content>
 				<md-menu-item ng-repeat="color in colors">
 				<div  ng-repeat="item in color" style="padding-right: 4px;top:183px;">
 					<div ng-style="{'background-color':item.value};"
@@ -325,7 +326,7 @@
 				</div>
 				</md-menu-item> 
 				</md-menu-content> 
-				</md-menu>
+				</md-menu >
 
 				<md-button class="md-icon-button" style="margin-left: -10px;">
 				  <input type="file"  class="filehiding"  ng-click="addImage($event,note)">

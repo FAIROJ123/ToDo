@@ -2,6 +2,7 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state,$locati
   $scope.toggleLeft = buildToggler('left');
   var commonUrl = "http://localhost:8080/todo/";
   $scope.name = "Google Keep";
+  
   function buildToggler(componentId) {
       return function() {
         $mdSidenav(componentId).toggle();

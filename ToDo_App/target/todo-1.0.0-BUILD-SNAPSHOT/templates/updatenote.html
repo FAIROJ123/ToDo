@@ -46,17 +46,17 @@
 	</div>
 	</div>
 	
-	<div  ng-init="checkIfUrl(note)" class="imageurl">
+	<div ng-if="note.arraylist" ng-init="checkIfUrl(note)" class="imageurl">
 	<div ng-repeat=" data in note.arraylist" >
 
 		<div ng-if="data.title">
 			<a ng-href="{{data.url}}" target="_blank">
 				
 				<div layout="row"  flex="100">
-					 	<div  flex="10" >
+					 	<div  flex="20" >
 							<img style="height: 55px;" ng-src="{{data.image}}" height="70" width="80">
 						</div>
-						<div flex="90" layout="column" >
+						<div flex="80" layout="column" >
 					
 							<div class="md-truncate" ng-bind="data.title" flex="100"
 								style="font-size: 14px; color: black;"></div>
@@ -70,9 +70,7 @@
 				
 			</a>
 			
-		</div>
 		
-	</div>
 	<md-menu>
 	 <md-button  class="md-icon-button" ng-click="$mdMenu.open()" style="margin: -80px 0px 0px 493px;">
                 <img  src="images/outline-more_vert-24px.svg"/>
@@ -80,7 +78,7 @@
                 </md-button>
 	<md-menu-content> 
 				<md-menu-item>
-				 <md-button ng-click="removingUrl(note)">Remove</md-button>
+				 <md-button ng-click="removeUrl(note)">Remove</md-button>
 					 </md-menu-item> 
 					<md-menu-item >
 					
@@ -89,6 +87,9 @@
 					 </md-menu-content>
 	</md-menu>
 </div> 
+</div>
+		
+	</div>
         <div layout="row" style="margin: -14px 0px 0px 0px;background-color:{{note.color}};" >      
             <md-button class="md-icon-button"  >
   <img src="images/baseline-touch_app-24px.svg" />

@@ -83,4 +83,16 @@ public class NoteDaoImpl implements NoteDao {
 		
 	}
 
+//<========================================= Note Exist =================================>
+	
+	@Override
+	public boolean isExist(int id) {
+		
+		Criteria criteria = sessionFactory.openSession().createCriteria(Notes.class).add(Restrictions.eq("id",id));
+		  
+	     Notes note = (Notes) criteria.uniqueResult();
+		
+		return note!=null?true:false;
+	}
+	
 }

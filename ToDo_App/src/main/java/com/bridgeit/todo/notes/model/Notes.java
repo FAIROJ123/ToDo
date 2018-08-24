@@ -73,7 +73,7 @@ public class Notes {
 	@LazyCollection(LazyCollectionOption.FALSE)
 	private List<User> collaboratedUser;
 	
-	
+	private String scrapping;
 	
 	private String imageUrl;
 	
@@ -188,6 +188,16 @@ public class Notes {
 	public void setImageUrl(String imageUrl) {
 		this.imageUrl = imageUrl;
 	}
+
+	public String getScrapping() {
+		return scrapping;
+	}
+
+	public void setScrapping(String scrapping) {
+		this.scrapping = scrapping;
+	}
+
+	
 
 	
 	

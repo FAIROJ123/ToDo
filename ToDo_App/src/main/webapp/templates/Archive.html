@@ -4,34 +4,46 @@
 		<div layout="row" layout-wrap layout-fill 
 			style="padding-bottom: 32px; padding-left: 310px;">
 			<md-card class="dashboard" ng-repeat="note in getnotes | filter:{pin:false,archive:true,trash:false}|filter:searchText"
-				style="background-color:{{note.color}};width:300px;margin-top: 60px;"
-				ng-mouseover="hoverIn($event)" ng-mouseleave="hoverOut($event)" >
+				style="background-color:{{note.color}};width:300px;margin-top: 60px;" >
 
-			<md-button class="md-icon-button" ng-show="hoverEdit"
+			<md-button class="md-icon-button" 
 				style="margin: -13px 0px 3px 246px;" 
 				ng-click="ispin(note)"> <md-icon> <img
 				style="margin: 0px 0px -25px 0px;" src="images/bluepin.svg" /></md-icon> <md-tooltip>Unpinnote</md-tooltip>
 			</md-button>
+						 <img  ng-src="{{note.imageUrl}}" style="margin-top: -29px;" ng-click="showAlert($event,note)" class="md-card-image"/>
+			
 			<div class="value-data" ng-click="showAlert($event,note)">{{note.title}}</div>
 			<div  class="value" ng-click="showAlert($event,note)">{{note.description}}</div>
-<div  layout="row" ng-if="note.remainder" layout-wrap layout-align="start space-around">
+<div ng-if="note.remainder" layout="row" layout-wrap layout-align="start space-around">
                     <md-chips >
-                      <md-chip style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{note.remainder | date : 'MMM dd,HH:mm a'}}</span>
-                        <md-button  ng-click="remove(note)" class="md-icon-button"  style="margin: 0px auto;padding: 0px;" >
+                      <md-chip   style="margin: 0px auto;padding: 0px"><span style="margin-left: 5px;">{{note.remainder | dateformat}}</span>
+                        <md-button ng-click="remove(note)"  class="md-icon-button" style="margin: 0px auto;padding: 0px;" >
                         <md-icon><i  style="margin-top: 17px;"class="material-icons">close</i></md-icon>
                         </md-button > 
                         </md-chip>
-  </md-chips>
-  </div>
-  <div  layout="row" ng-if="note.labelslist" layout-wrap layout-align="start space-around">             
-<md-chips   ng-repeat="label in note.labelslist">
-  <md-chip  style="margin:0px auto;padding: 0px;">{{label.labelname}}
-  <md-button  class="md-icon-button" ng-click="removelabelonNote(label,note)"  style="margin: 0px auto;padding: 0px;">
+                        </md-chips>
+                 </div>
+ <div  layout="row" ng-if="note.labelslist" layout-wrap layout-align="start space-around"> 
+<md-chips    ng-repeat="label in note.labelslist"">
+  <md-chip  style="margin:0px auto;padding: 0px;">
+  
+  {{label.labelname}}
+  <md-button  class="md-icon-button" ng-click="removelabelonNote(label,note)" style="margin: 0px auto;padding: 0px;">
   <md-icon><i style="margin-top: 17px;" class="material-icons">close</i></md-icon>
   </md-button>
   </md-chip>
   </md-chips>
-    </div>
+	</div>
+
+ 	<div layout="row" ng-if="note.collaboratedUser">
+	<div ng-repeat="collaborator in note.collaboratedUser" class="div3" ng-click="alertEvent($event,note);getallUsers();">
+	<img style="opacity: 1;width: 97%;border-radius: 50%; height: 37px;"  ng-src="{{collaborator.userProfile}}" />
+	<md-tooltip>{{collaborator.email}}</md-tooltip>
+	</div>
+	</div>
+	
+	
 			<div layout="row"  
 				style="background-color: white; color: rgba(0, 0, 0, .54);margin-top: 26px; background-color: {{note.color}}">
 
@@ -119,5 +131,38 @@
 					  </md-menu>
 			</div>
 		
-		</md-card>
+		
+		
+		
+		
+				<span ng-click="showAlert($event,note)" ng-init="checkIfUrl(note)" >
+	<div ng-repeat=" data in note.arraylist" >
+
+		<div ng-if="data.title">
+			<a ng-href="{{data.url}}" target="_blank">
+					 <div layout="row"  flex="100">
+					 	<div  flex="40" >
+							<img ng-src="{{data.image}}" height="70" width="80">
+						</div>
+						<div flex="60" layout="column" >
+					
+							<div class="md-truncate" ng-bind="data.title" flex="100"
+								style="font-size: 14px; color: black;"></div>
+						
+					
+							<div flex="100" ng-bind="data.domain" style="font-size: 11px; color: grey;"></div>
+						</div>
+						<div>
+					<img style="height: 15px;width: 15px;margin-left: -7px;" src="images/gotolink.svg">
+					<md-tooltip>Goto Link</md-tooltip>
+					 </div>
+					 </div>
+				</a>
+					
+				
+			
+		</div>
+	</div>
+</span> 
+</md-card>
 	</div>

@@ -3,6 +3,12 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state,$locati
   var commonUrl = "http://localhost:8080/todo/";
   $scope.name = "Google Keep";
   
+  window.onpopstate = function (e) {
+		window.history.forward(1);
+ };
+
+  
+  
   function buildToggler(componentId) {
       return function() {
         $mdSidenav(componentId).toggle();
@@ -15,13 +21,16 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state,$locati
       };
       
 }
-  
- 
+ if(localStorage.getItem('token')===null){
+	 $state.go('login');
+ }
   
   $scope.Logout=function(){
 	 
 	  $window.localStorage.clear();
+	  
 	  $state.go('login');
+	  
 	  history.pushState(null, null, 'login');
 	  $window.addEventListener('popstate', function(event) {
 
@@ -108,6 +117,8 @@ app.controller('homeController', function($scope,$mdSidenav,$http,$state,$locati
 	  }
 	  
   $rootScope.$on('$locationChangeStart',function(ev,state,label){
+	  
+	  
 	  if(state == 'http://localhost:8080/todo/#!/home/dashboard'){
 		  $scope.name = "Google Keep";
 	      $scope.CustomColor = {

@@ -15,8 +15,8 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
  	  $scope.parameter=path.split('/')[3];
  	 
 	  
- 	window.onpopstate = function () {
-         history.go(1);
+ 	window.onpopstate = function (e) {
+ 		window.history.forward(1);
      };
 	  
 	var commonUrl = "http://localhost:8080/todo/";
@@ -68,10 +68,8 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
         		
         		userservice.checkingUrl(baseurl,url[i]).then(
         				function successCallback(response) {
-
+        					console.log("Response",response);
         					 var responseData = response.data;
-        					 note.scrapping=response.data;
-        					 console.log(note.scrapping);
         			          arraylist[note.size] = {
         			            title: responseData.title,
         			            url: note.url[note.size],
@@ -81,7 +79,7 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
         			          }
         			          note.arraylist[note.size] = arraylist[note.size];
         			          note.size = note.size + 1;
-        			         
+        			          $scope.updatenote(note);
         				        
         				        }, function errorCallback(response) {
         				        	return response;
@@ -118,7 +116,6 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
 	
 		 var url = commonUrl + "deleteNote/"+note.id;
 		
-		 note.scrapping
 		userservice.notepostmethod(url).then(
 				function successCallback(response) {
 				
@@ -342,9 +339,8 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
     	    
     	    $scope.removeUrl = function(note){
         console.log("Inside remove url.........",note);
-        if(note.scrapping){
+        if(note.arraylist){
         	
-        	note.scrapping="";
         	note.arraylist="";
         	note.url="";
         }
@@ -520,93 +516,57 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
 		
 	}
    	
-  		$scope.addlabelonNote=function(label){
-  			
- 		  var index=note.labelslist.findIndex(x => x.labelname===label.labelname);
- 		
-		 if (index > -1) {
-       	  note.labelslist.splice(index, 1);
-       
-         }
-         else {
-       	  note.labelslist.push(label);
-       	  
-         }
-		
-			 var commonUrl = "http://localhost:8080/todo/";
-  			 var url = commonUrl + "noteandlabel/"+note.id+"/"+label.id;
-  			labelservice.labelputmethod(url).then(
-  					function successCallback(response) {
-  						
-  						 $scope.getallLabels();
-  						return response;
-  						
-
-  					}, function errorCallback(response) {
-  						
-  						return response;
-
-  					});
-  			$scope.updatenote1 = function(note){
-  		  			
-  		  		var url = commonUrl + "updateNote";
-  		  		userservice.putmethod(note,url).then(
-  		  				function successCallback(response) {
-  		  					sc.getallnotes();
-  		  					
-  		  					return response.data;
-
-  		  				}, function errorCallback(response) {
-  		  					return response;
-
-  		  				});
-  		  		
-  		  	}
-  		  $scope.updatenote1(note); 
   		
-  		 
-}
-  		
-  		 $scope.selected = note.labelslist;
-  		/* $scope.toggle = function (item, list) {
-  		  var idx = list.indexOf(item);
-  	       if (idx > -1) {
-  	         list.splice(idx, 1);
-  	   
-  	       } 
-  	       else {
-  	         list.push(item);
-  	       $scope.addlabelonNote(item);
-  	       }
-  	     };*/
-  		 
-  		 
-  		 $scope.toggle = function(label, list) {
-  		     var flag = true;
-  		     for (var i = 0; i < list.length; i++) {
-  		       var selectedItem = list[i];
-  		       if (selectedItem.labelname == label.labelname) {
-  		         list.splice(i, 1);
-  		       $scope.removelabelonNote( label,note);
-  		         flag = false;
-  		       }
-  		     }
-  		     if (flag) {
-  		       list.push(label);
-  		     $scope.addlabelonNote(label);
-  		     }
-  		   };
-
-  	     $scope.exists = function(item, list) {
-  	         for (var i = 0; i < list.length; i++) {
-  	           var selectedobject = list[i];
-  	           if (selectedobject.labelname == item.labelname) {
-  	             return true;
-  	           }
-  	         }
-  	         return false;
-  	       };
   	     
+    $scope.selected = note.labelslist;
+    $scope.exists = function(item, list) {
+	         for (var i = 0; i < list.length; i++) {
+	           var selectedobject = list[i];
+	           if (selectedobject.labelname == item.labelname) {
+	             return true;
+	           }
+	         }
+	         return false;
+	       };
+
+      $scope.toggle = function(item, list) {
+        var idx = list.indexOf(item);
+        if (idx > -1) {
+          list.splice(idx, 1);
+          //$scope.removelabelonNote( item,note);
+        } else {
+          list.push(item);
+        }
+        $scope.addlabelonNote(note, item);
+      };
+
+      
+      $scope.addlabelonNote = function(note, label) {
+
+        console.log("in add method" + note.noteid);
+        console.log("In addlabel" +label.id);
+        var commonUrl = "http://localhost:8080/todo/";
+			 var url = commonUrl + "noteandlabel/"+note.id+"/"+label.id;
+			 labelservice.labelputmethod( url).then(function successCallback(response) {}, function errorCallback(response) {
+          console.log("error" + response.data);
+        })
+      }
+      $scope.removelabelonNote=function(label,note){
+			
+		   var url = commonUrl + "labeldeleteOnNote/"+note.id+"/"+label.id;
+			
+			labelservice.labelpostmethod(url).then(
+					function successCallback(response) {
+					
+						return response;
+
+					}, function errorCallback(response) {
+						return response;
+
+					});
+		}
+   	
+   	
    }
    
    var userData = "";

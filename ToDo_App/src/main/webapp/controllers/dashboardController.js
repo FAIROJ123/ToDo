@@ -15,8 +15,8 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
  	  $scope.parameter=path.split('/')[3];
  	 
 	  
- 	window.onpopstate = function () {
-         history.go(1);
+ 	window.onpopstate = function (e) {
+ 		window.history.forward(1);
      };
 	  
 	var commonUrl = "http://localhost:8080/todo/";
@@ -68,10 +68,8 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
         		
         		userservice.checkingUrl(baseurl,url[i]).then(
         				function successCallback(response) {
-
+        					console.log("Response",response);
         					 var responseData = response.data;
-        					 note.scrapping=response.data;
-        					 console.log(note.scrapping);
         			          arraylist[note.size] = {
         			            title: responseData.title,
         			            url: note.url[note.size],
@@ -341,9 +339,8 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
     	    
     	    $scope.removeUrl = function(note){
         console.log("Inside remove url.........",note);
-        if(note.scrapping){
+        if(note.arraylist){
         	
-        	note.scrapping="";
         	note.arraylist="";
         	note.url="";
         }
@@ -536,7 +533,7 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
         var idx = list.indexOf(item);
         if (idx > -1) {
           list.splice(idx, 1);
-          $scope.removelabelonNote( label,note);
+          //$scope.removelabelonNote( item,note);
         } else {
           list.push(item);
         }
@@ -554,7 +551,20 @@ app.controller('dashboardController', function($scope, $state,$mdPanel, userserv
           console.log("error" + response.data);
         })
       }
-   	
+      $scope.removelabelonNote=function(label,note){
+			
+		   var url = commonUrl + "labeldeleteOnNote/"+note.id+"/"+label.id;
+			
+			labelservice.labelpostmethod(url).then(
+					function successCallback(response) {
+					
+						return response;
+
+					}, function errorCallback(response) {
+						return response;
+
+					});
+		}
    	
    	
    }
